@@ -1,13 +1,19 @@
 package simulation
 
 sealed trait MovementState
-case class Standing() extends MovementState
-case class Walking() extends MovementState
-case class Running() extends MovementState
+case object Standing extends MovementState
+case object Walking extends MovementState
+case object Running extends MovementState
 
 
-class MovementStateMachine {
+object MovementStateMachine {
 
+  val stateStack : List[MovementState] = List(Standing)
 
+  def currentState = stateStack.last
+
+  def enterState() = ???
+
+  def exitState() = ???
 
 }
