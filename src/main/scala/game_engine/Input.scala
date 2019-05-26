@@ -18,11 +18,7 @@ object Input {
               case _ =>
             }
 
-          case GLFW_RELEASE =>
-            key match {
-              case GLFW_KEY_A => releasedA()
-              case _ =>
-            }
+          case GLFW_RELEASE => releasedKey()
 
           case _ =>  // GLFW_REPEAT
         }
