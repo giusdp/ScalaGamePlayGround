@@ -7,6 +7,7 @@ sealed trait MovementState{
   def exit()
   def inputChanged(key : Int)
 }
+
 case object Standing extends MovementState {
   override def enter(): Unit = println("Entered standing state")
 
@@ -17,6 +18,7 @@ case object Standing extends MovementState {
     case _ =>
   }
 }
+
 case object Walking extends MovementState {
   override def enter(): Unit = println("Entered walking state")
 
