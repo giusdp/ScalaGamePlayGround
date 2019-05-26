@@ -2,16 +2,15 @@ package simulation
 
 object MovementStateMachine {
 
-  var currentState: MovementState = Standing
+  var stackStates : List[MovementState] = List(Standing)
 
-  def update(key : Int): Unit =  currentState.inputChanged(key)
+  def currentState: MovementState = stackStates.last
 
-  def changeState(newState : MovementState): Unit = {
-    currentState.exit()
-    currentState = newState
-    currentState.enter()
-  }
+  def update(key : Int): Unit = currentState.inputChanged(key)
 
+  def popState(): Unit = stackStates = stackStates.init
+
+  def pushState(newState : MovementState): Unit = stackStates = stackStates ++ List(newState)
 
 
 }
