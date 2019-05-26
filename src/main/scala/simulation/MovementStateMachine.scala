@@ -7,4 +7,6 @@ object MovementStateMachine {
 
   def currentState: MovementState = stateStack.last
 
+  def update(key : Int): Unit =  currentState.inputChanged(key)
+
 }
