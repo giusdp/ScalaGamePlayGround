@@ -1,7 +1,8 @@
 package game_engine
 
 import org.lwjgl.glfw.GLFW._
-import org.lwjgl.glfw.{GLFWKeyCallback, GLFWKeyCallbackI}
+import org.lwjgl.glfw.GLFWKeyCallbackI
+import simulation.InputAdapter._
 
 object Input {
 
@@ -13,13 +14,13 @@ object Input {
           case GLFW_PRESS =>
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
-              case GLFW_KEY_A => println("A pressed")
+              case GLFW_KEY_A => pressedA()
               case _ =>
             }
 
           case GLFW_RELEASE =>
             key match {
-              case GLFW_KEY_A => println("A released")
+              case GLFW_KEY_A => releasedA()
               case _ =>
             }
 
