@@ -17,6 +17,7 @@ case object Standing extends MovementState {
 
 case object Walking extends MovementState {
   override def inputChanged(key : Int): Unit = key match {
+    case GLFW_KEY_A | GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_D => MovementStateMachine.pushState(Walking)
     case GLFW_RELEASE => MovementStateMachine.popState()
     case _ =>
   }

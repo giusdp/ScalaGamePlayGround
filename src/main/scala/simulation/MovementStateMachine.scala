@@ -6,7 +6,10 @@ object MovementStateMachine {
 
   def currentState: MovementState = stackStates.last
 
-  def update(key : Int): Unit = currentState.inputChanged(key)
+  def update(key : Int): Unit = {
+    currentState.inputChanged(key)
+    //println(currentState)
+  }
 
   def popState(): Unit = stackStates = stackStates.init
 
