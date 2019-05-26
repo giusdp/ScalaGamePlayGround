@@ -1,5 +1,8 @@
 package simulation
 
-class InputAdapter {
+object InputAdapter {
+
+  def pressedA(): Unit = println("A pressed")
+  def releasedA(): Unit = println("A released")
 
 }
