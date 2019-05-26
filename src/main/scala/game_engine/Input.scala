@@ -3,8 +3,7 @@ package game_engine
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.{GLFWKeyCallback, GLFWKeyCallbackI}
 
-object InputReceiver {
-
+object Input {
 
   def setupCallbacks(window: Long): GLFWKeyCallback = {
     val fn : GLFWKeyCallbackI =

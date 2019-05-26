@@ -1,4 +1,4 @@
-import game_engine.InputReceiver
+import game_engine.Input
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil._
@@ -20,7 +20,7 @@ object GameLauncher {
     val window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
-    InputReceiver.setupCallbacks(window)
+    Input.setupCallbacks(window)
 
     game_loop(window)
 
@@ -28,7 +28,7 @@ object GameLauncher {
 
   @tailrec
   def game_loop(window: Long): Unit = {
-    InputReceiver.tickInput()
+    Input.tickInput()
 
     if (glfwWindowShouldClose(window)) return
 
