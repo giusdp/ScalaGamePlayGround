@@ -15,6 +15,10 @@ object Input {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
               case GLFW_KEY_A => pressedA()
+              case GLFW_KEY_D => pressedD()
+              case GLFW_KEY_W => pressedW()
+              case GLFW_KEY_S => pressedS()
+              case GLFW_KEY_LEFT_SHIFT => pressedShift()
               case _ =>
             }
 
