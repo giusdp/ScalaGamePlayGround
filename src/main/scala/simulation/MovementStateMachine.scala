@@ -1,12 +1,17 @@
 package simulation
 
-
 object MovementStateMachine {
 
-  val stateStack : List[MovementState] = List(Standing)
-
-  def currentState: MovementState = stateStack.last
+  var currentState: MovementState = Standing
 
   def update(key : Int): Unit =  currentState.inputChanged(key)
+
+  def changeState(newState : MovementState): Unit = {
+    currentState.exit()
+    currentState = newState
+    currentState.enter()
+  }
+
+
 
 }
