@@ -5,10 +5,26 @@ import org.lwjgl.glfw.{GLFWKeyCallback, GLFWKeyCallbackI}
 
 object Input {
 
-  def setupCallbacks(window: Long): GLFWKeyCallback = {
+  def setupCallbacks(window: Long): Unit = {
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, scancode: Int, action: Int, mods: Int) =>
-        glfwSetWindowShouldClose(window, true)
+        action match {
+
+          case GLFW_PRESS =>
+            key match {
+              case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
+              case GLFW_KEY_A => println("A pressed")
+              case _ =>
+            }
+
+          case GLFW_RELEASE =>
+            key match {
+              case GLFW_KEY_A => println("A released")
+              case _ =>
+            }
+
+          case _ =>  // GLFW_REPEAT
+        }
 
     glfwSetKeyCallback(window, fn)
   }
