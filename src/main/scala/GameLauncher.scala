@@ -1,9 +1,4 @@
-import game_engine.{Engine, Input}
-import org.lwjgl.glfw.GLFW._
-import org.lwjgl.glfw.GLFWErrorCallback
-import org.lwjgl.system.MemoryUtil._
-
-import scala.annotation.tailrec
+import game_engine.Engine
 
 
 object GameLauncher {
