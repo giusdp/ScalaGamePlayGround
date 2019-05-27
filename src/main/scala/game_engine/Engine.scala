@@ -3,7 +3,7 @@ package game_engine
 import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwInit, glfwWindowShouldClose}
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil.NULL
-import state_system.{PositionCom, SpawnedEntities}
+import state_system.{InputCom, PositionCom, SpawnedEntities}
 
 import scala.annotation.tailrec
 
@@ -24,6 +24,7 @@ object Engine {
     Input.setupCallbacks(window)
 
     SpawnedEntities.entities.head.addComponent(PositionCom(0, 0)) // TODO: togliere da qui e generare components con file yaml e un data manager
+    SpawnedEntities.entities.head.addComponent(InputCom()) // TODO: togliere da qui e generare components con file yaml e un data manager
     game_loop(window)
   }
 
@@ -31,7 +32,7 @@ object Engine {
   def game_loop(window: Long): Unit = {
     Input.tickInput()
 
-
+    val inputReceivableEntities = SpawnedEntities.getInputReceivableEntities
 
     if (! glfwWindowShouldClose(window))
       game_loop(window)
