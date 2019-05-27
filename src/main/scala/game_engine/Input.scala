@@ -2,7 +2,7 @@ package game_engine
 
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-import simulation.InputAdapter._
+import simulation.MovementStateMachine
 
 object Input {
 
@@ -14,15 +14,11 @@ object Input {
           case GLFW_PRESS =>
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
-              case GLFW_KEY_A => pressedA()
-              case GLFW_KEY_D => pressedD()
-              case GLFW_KEY_W => pressedW()
-              case GLFW_KEY_S => pressedS()
-              case GLFW_KEY_LEFT_SHIFT => pressedShift()
-              case _ =>
+
+              case _ => MovementStateMachine.update(key)
             }
 
-          case GLFW_RELEASE => releasedKey()
+          case GLFW_RELEASE => MovementStateMachine.update(GLFW_RELEASE)
 
           case _ =>  // GLFW_REPEAT
         }
