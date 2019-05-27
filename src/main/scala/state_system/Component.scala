@@ -1,9 +1,7 @@
 package state_system
 
-trait Component{
-  def update()
-}
+sealed trait Component
 
-case class PositionCom(var x: Int, var y: Int) extends Component {
-  override def update(): Unit = ???
-}
+final case class PositionCom(var x: Int, var y: Int) extends Component
+
+final case class InputCom() extends Component
