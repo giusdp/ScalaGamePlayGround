@@ -6,7 +6,7 @@ import simulation.MovementStateMachine
 
 object Input {
 
-  def setupCallbacks(window: Long): Unit = {
+  def setupCallbacks(window: Long, stateMachine: MovementStateMachine): Unit = {
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, scancode: Int, action: Int, mods: Int) =>
         action match {
@@ -15,10 +15,10 @@ object Input {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
 
-              case _ => MovementStateMachine.update(key)
+              case _ => stateMachine.update(key)
             }
 
-          case GLFW_RELEASE => MovementStateMachine.update(GLFW_RELEASE)
+          case GLFW_RELEASE => stateMachine.update(GLFW_RELEASE)
 
           case _ =>  // GLFW_REPEAT
         }
