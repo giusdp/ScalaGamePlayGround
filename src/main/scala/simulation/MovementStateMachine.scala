@@ -1,19 +1,19 @@
 package simulation
 
-object MovementStateMachine {
+class MovementStateMachine {
 
   var stackStates : List[MovementState] = List(Standing)
 
   def currentState: MovementState = stackStates.last
 
   def update(key : Int): Unit = {
-    currentState.inputChanged(key)
+    currentState.inputChanged(this, key)
     //println(currentState)
   }
 
-  def popState(): Unit = stackStates = stackStates.init
+  def popState(): Unit = stackStates = stackStates.tail
 
-  def pushState(newState : MovementState): Unit = stackStates = stackStates ++ List(newState)
+  def pushState(newState : MovementState): Unit = stackStates = newState :: stackStates
 
 
 }
