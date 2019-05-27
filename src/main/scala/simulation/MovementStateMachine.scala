@@ -4,11 +4,11 @@ class MovementStateMachine {
 
   var stackStates : List[MovementState] = List(Standing)
 
-  def currentState: MovementState = stackStates.last
+  def currentState: MovementState = stackStates.head
 
   def update(key : Int): Unit = {
     currentState.inputChanged(this, key)
-    //println(currentState)
+    println(currentState)
   }
 
   def popState(): Unit = stackStates = stackStates.tail
