@@ -1,4 +1,4 @@
-package state_system
+package game_object_system
 
 class Entity(val ID : Int) {
 
