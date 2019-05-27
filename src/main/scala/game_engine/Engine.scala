@@ -23,13 +23,15 @@ object Engine {
 
     Input.setupCallbacks(window)
 
-    SpawnedEntities.player.addComponent(PositionCom(0, 0)) // TODO: togliere da qui e generare components con file yaml e un data manager
+    SpawnedEntities.entities.head.addComponent(PositionCom(0, 0)) // TODO: togliere da qui e generare components con file yaml e un data manager
     game_loop(window)
   }
 
   @tailrec
   def game_loop(window: Long): Unit = {
     Input.tickInput()
+
+
 
     if (! glfwWindowShouldClose(window))
       game_loop(window)
