@@ -1,5 +1,8 @@
 package state_system
 
-class SpawnedEntities {
+object SpawnedEntities {
 
+  var entities : List[Entity] = List()
+
+  val player : Entity = Entity()
 }
