@@ -13,4 +13,10 @@ object SpawnedEntities {
   def getAllOfThisComponents[A <: Component]: List[A] =
     filterEntitiesByComponent[A].map(e => getComponent[A](e.components))
 
+  def getFirstOfThisComponent[A <: Component]: Option[A] =
+   getAllOfThisComponents[A] match {
+    case x :: _ => Some(x)
+    case _ => None
+  }
+
 }
