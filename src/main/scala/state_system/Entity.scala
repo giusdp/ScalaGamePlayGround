@@ -1,10 +1,8 @@
 package state_system
 
-class Entity {
+class Entity(val ID : Int) {
 
-  val ID : Int = Entity.genID()
-
-  var components : List[Component] = _
+  var components : List[Component] = List()
 
   def addComponent(c : Component): Unit = components = components ++ List(c)
 
@@ -19,5 +17,9 @@ object Entity {
   def genID(): Int = {
     lastID += 1
     lastID
+  }
+
+  def apply(): Entity = {
+    new Entity(genID())
   }
 }
