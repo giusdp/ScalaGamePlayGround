@@ -1,27 +1,21 @@
-name := "untitled"
+name := "SGExp"
 
 version := "0.1"
 
 scalaVersion := "2.12.8"
 
-scalacOptions += "-Ypartial-unification"
+// https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
 
-libraryDependencies += "org.typelevel" %% "cats-core" % "1.3.0"
-libraryDependencies += "org.typelevel" %% "cats-effect" % "1.3.0"
-
-libraryDependencies ++= Seq(
-  "net.debasishg" %% "redisclient" % "3.9"
-)
 
 libraryDependencies ++= {
   val version = "3.2.0"
-  val os = "linux" // TODO: Change to "linux" or "macos" if necessary
+  val os = "linux" 
 
   Seq(
     "lwjgl",
     "lwjgl-glfw",
     "lwjgl-opengl"
-    // TODO: Add more modules here
   ).flatMap {
     module => {
       Seq(
