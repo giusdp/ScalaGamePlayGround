@@ -24,7 +24,7 @@ object Engine {
 
     // TODO: togliere da qui e generare components con file yaml e un data manager
     var player = ECHandler.spawnEntity()
-    ECHandler.addComponent(player, MovableCom(1))
+    ECHandler.addComponent(player, MovableCom(10))
     ECHandler.addComponent(player, PositionCom(0,0))
 
     ECHandler.getThisComponentOfE[MovableCom](player) match {

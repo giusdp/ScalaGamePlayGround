@@ -8,7 +8,6 @@ object Simulation {
   def update(): Unit = {
     ECHandler.entitiesWithThisComponent[MovableCom].foreach(updatePosOfE)
 
-
   }
 
   def updatePosOfE(e: Entity): Unit = {
