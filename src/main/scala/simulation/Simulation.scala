@@ -1,11 +1,11 @@
 package simulation
 
-import game_object_system.{MovableCom, EntityManager}
+import game_object_system.{MovableCom, ECHandler}
 
-object World {
+object Simulation {
 
-//  def update(): Unit = {
-//    EntityManager.getAllOfThisComponents[MovableCom].foreach(c => c.state_machine.currentState)
-//  }
+  def update(): Unit = {
+
+  }
 
 }
