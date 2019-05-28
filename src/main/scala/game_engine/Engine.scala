@@ -42,7 +42,7 @@ object Engine {
 
     Input.tickInput()
 
-    //World.update()
+    Simulation.update()
 
     if (! glfwWindowShouldClose(window))
       game_loop(window)

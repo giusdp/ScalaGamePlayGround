@@ -15,10 +15,10 @@ object Input {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
 
-              case _ => stateMachine.update(key)
+              case _ => stateMachine.inputChanged(key)
             }
 
-          case GLFW_RELEASE => stateMachine.update(GLFW_RELEASE)
+          case GLFW_RELEASE => stateMachine.inputChanged(GLFW_RELEASE)
 
           case _ =>  // GLFW_REPEAT
         }

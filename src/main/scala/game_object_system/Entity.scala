@@ -1,6 +1,6 @@
 package game_object_system
 
-class Entity(val ID: Int){
+class Entity(){
   var components : List[Component] = List()
 
   def addComponent(c : Component): Unit = components = c :: components
@@ -8,12 +8,12 @@ class Entity(val ID: Int){
 }
 
 object Entity {
-  private var lastID = 0
-  def genID(): Int = {
-    lastID += 1
-    lastID
-  }
+//  private var lastID = 0
+//  def genID(): Int = {
+//    lastID += 1
+//    lastID
+//  }
 
-  def apply(): Entity = new Entity(genID())
+  def apply(): Entity = new Entity()
 
 }
