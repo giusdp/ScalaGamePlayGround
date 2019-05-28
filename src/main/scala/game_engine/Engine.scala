@@ -1,9 +1,10 @@
 package game_engine
 
+import game_object_system.{EntityManager, MovableCom, PositionCom}
 import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwInit, glfwWindowShouldClose}
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil.NULL
-import game_object_system.{Entity, InputCom, PositionCom, SpawnedEntities}
+import simulation.World
 
 import scala.annotation.tailrec
 
@@ -22,11 +23,11 @@ object Engine {
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     // TODO: togliere da qui e generare components con file yaml e un data manager
-    SpawnedEntities.entities = SpawnedEntities.entities ++ List(Entity())
-    SpawnedEntities.entities.head.addComponent(InputCom())
-    SpawnedEntities.entities.head.addComponent(PositionCom(0,0))
+    var player = EntityManager.spawnEntity()
+    EntityManager.addComponent(player, MovableCom(1))
+    EntityManager.addComponent(player, PositionCom(0,0))
 
-    SpawnedEntities.getFirstOfThisComponent[InputCom] match {
+    EntityManager.getThisComponentOfE[MovableCom](player) match {
       case Some(c) => Input.setupCallbacks(window, c.state_machine)
       case _ =>
     }
@@ -38,8 +39,10 @@ object Engine {
 
   @tailrec
   def game_loop(window: Long): Unit = {
+
     Input.tickInput()
 
+    //World.update()
 
     if (! glfwWindowShouldClose(window))
       game_loop(window)
