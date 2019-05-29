@@ -19,7 +19,7 @@ object Input {
 
   def setupCallbacks(window: Long, stateMachine: MovementStateMachine): Unit = {
     val fn : GLFWKeyCallbackI =
-      (window: Long, key: Int, scancode: Int, action: Int, mods: Int) =>
+      (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
 
           case GLFW_PRESS =>
