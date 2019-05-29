@@ -1,10 +1,21 @@
 package game_engine
 
+import game_object_system.{ECHandler, InputCom, MovableCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
 import simulation.MovementStateMachine
 
 object Input {
+
+  def registerInput(window : Long): Unit = {
+    ECHandler.entitiesWithThisComponent[InputCom] match {
+      case e :: _ => ECHandler.getThisComponentOfE[MovableCom](e) match {
+        case Some(c) => Input.setupCallbacks(window, c.state_machine)
+        case _ =>
+      }
+      case _ =>
+    }
+  }
 
   def setupCallbacks(window: Long, stateMachine: MovementStateMachine): Unit = {
     val fn : GLFWKeyCallbackI =

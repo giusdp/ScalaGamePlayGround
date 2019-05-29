@@ -1,6 +1,6 @@
 package game_engine
 
-import game_object_system.{ECHandler, MovableCom, PositionCom}
+import game_object_system.{ECHandler, InputCom, MovableCom, PositionCom}
 import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwInit, glfwWindowShouldClose}
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil.NULL
@@ -24,13 +24,11 @@ object Engine {
 
     // TODO: togliere da qui e generare components con file yaml e un data manager
     var player = ECHandler.spawnEntity()
-    ECHandler.addComponent(player, MovableCom(10))
     ECHandler.addComponent(player, PositionCom(0,0))
+    ECHandler.addComponent(player, MovableCom(10))
+    ECHandler.addComponent(player, InputCom())
 
-    ECHandler.getThisComponentOfE[MovableCom](player) match {
-      case Some(c) => Input.setupCallbacks(window, c.state_machine)
-      case _ =>
-    }
+    Input.registerInput(window)
 
     // TODO: togliere da qui e generare components con file yaml e un data manager
 

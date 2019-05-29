@@ -13,7 +13,14 @@ object ECHandler {
     e
   }
 
-  def addComponent(e : Entity, c : Component): Unit = e.addComponent(c)
+  def addComponent(e : Entity, c : Component): Unit = c match  {
+    case c : MovableCom if hasThisComponent[PositionCom](e) => e.addComponent(c)
+    case c : InputCom if hasThisComponent[MovableCom](e) => e.addComponent(c)
+    case _ => e.addComponent(c)
+  }
+
+  def hasThisComponent[T : ClassTag](e : Entity) : Boolean =
+    getThisComponentOfE[T](e).isDefined
 
   def entitiesWithThisComponent[T : ClassTag] : List[Entity] =
     entities.filter(getThisComponentOfE[T](_).isDefined)
