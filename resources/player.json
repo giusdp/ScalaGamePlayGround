@@ -1,0 +1,5 @@
+player: #player
+  - position
+  - movable
+  - input
+  # - other components

@@ -14,7 +14,7 @@ class MovementStateMachine {
 //    println(currentState)
   }
 
-  def updatePos(pos : PositionCom, vel: Int): Unit = currentState match {
+  def updatePos(pos : PositionCom, vel: Float): Unit = currentState match {
     case state : Walking =>
       pos.addToX(vel * state.dir._1)
       pos.addToY(vel * state.dir._2)
