@@ -1,5 +1,6 @@
 package game_engine
 
+import datamanager.EntityLoader
 import game_object_system.{ECHandler, InputCom, MovableCom, PositionCom}
 import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwInit, glfwWindowShouldClose}
 import org.lwjgl.glfw.GLFWErrorCallback
@@ -22,15 +23,8 @@ object Engine {
     val window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
-    // TODO: togliere da qui e generare components con file yaml e un data manager
-    var player = ECHandler.spawnEntity()
-    ECHandler.addComponent(player, PositionCom(0,0))
-    ECHandler.addComponent(player, MovableCom(10))
-    ECHandler.addComponent(player, InputCom())
-
+    EntityLoader.createEntitiesFromJSON("player.json")
     Input.registerInput(window)
-
-    // TODO: togliere da qui e generare components con file yaml e un data manager
 
     game_loop(window)
   }
