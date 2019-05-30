@@ -1,5 +1,13 @@
-player: #player
-  - position
-  - movable
-  - input
-  # - other components
+{
+  "player": {
+    "position" : {
+      "x" : 0,
+      "y" : 0
+    },
+    "movable" : {
+      "velX" : 10,
+      "velY" : 10
+    } ,
+    "input" : {}
+  }
+}

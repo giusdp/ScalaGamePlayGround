@@ -7,6 +7,7 @@ scalaVersion := "2.12.8"
 // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
 
+libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
 
 libraryDependencies ++= {
   val version = "3.2.0"
