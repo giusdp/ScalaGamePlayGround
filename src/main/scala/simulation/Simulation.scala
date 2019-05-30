@@ -19,7 +19,6 @@ object Simulation {
         val p = ECHandler.getPositionCom(e)
         p match {
           case Some(pos) => move.movePos(pos)
-            println(pos.x + " " + pos.y)
           case None =>
         }
 
