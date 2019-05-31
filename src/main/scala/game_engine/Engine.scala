@@ -1,8 +1,9 @@
 package game_engine
 
 import datamanager.EntityLoader
-import game_object_system.{ECHandler, InputCom, MovableCom, PositionCom}
-import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwInit, glfwWindowShouldClose}
+import game_engine.graphics.Renderer
+import org.lwjgl.glfw.Callbacks._
+import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryUtil.NULL
 import simulation.Simulation
@@ -27,6 +28,14 @@ object Engine {
     Input.registerInput(window)
 
     game_loop(window)
+
+    // Free the window callbacks and destroy the window
+    glfwFreeCallbacks(window)
+    glfwDestroyWindow(window)
+
+    // Terminate GLFW and free the error callback
+    glfwTerminate()
+    glfwSetErrorCallback(null).free()
   }
 
   @tailrec
@@ -35,6 +44,8 @@ object Engine {
     Input.tickInput()
 
     Simulation.update()
+
+    Renderer.renderFrame()
 
     if (! glfwWindowShouldClose(window))
       game_loop(window)
