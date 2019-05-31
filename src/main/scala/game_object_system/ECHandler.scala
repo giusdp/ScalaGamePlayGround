@@ -5,7 +5,8 @@ object ECHandler {
 
   var entities : List[Entity] = List()
 
-//  var entityComponentMap : Map[Int, List[Component]] = Map()
+  var renderableEntities : List[Entity] = List()
+  var movableEntities : List[Entity] = List()
 
   def spawnEntity() : Entity = {
     val e = Entity()
@@ -14,7 +15,8 @@ object ECHandler {
   }
 
   def addComponent(e : Entity, c : Component): Unit = c match  {
-    case c : MovableCom if hasThisComponent[PositionCom](e) => e.addComponent(c)
+    case c : GraphicsCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; renderableEntities = e :: renderableEntities
+    case c : MovableCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; movableEntities = e :: movableEntities
     case c : InputCom if hasThisComponent[MovableCom](e) => e.addComponent(c)
     case _ => e.addComponent(c)
   }

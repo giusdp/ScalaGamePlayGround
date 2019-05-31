@@ -8,6 +8,7 @@
       "velX" : 10,
       "velY" : 10
     } ,
-    "input" : {}
+    "input" : {},
+    "graphics" : {}
   }
 }

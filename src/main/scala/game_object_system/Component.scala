@@ -17,3 +17,5 @@ case class MovableCom(var velX: Double, velY: Double) extends Component {
 }
 
 case class InputCom() extends Component
+
+case class GraphicsCom() extends Component

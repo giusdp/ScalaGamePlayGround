@@ -6,7 +6,7 @@ import game_object_system.{ECHandler, Entity, MovableCom}
 object Simulation {
 
   def update(): Unit = {
-    ECHandler.entitiesWithThisComponent[MovableCom].foreach(updatePosOfE)
+    ECHandler.movableEntities.foreach(updatePosOfE)
 
   }
 

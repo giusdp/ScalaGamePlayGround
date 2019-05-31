@@ -38,6 +38,7 @@ object EntityLoader {
     case "position" => PositionCom(c._2("x").toString.toDouble, c._2("y").toString.toDouble)
     case "movable" => MovableCom(c._2("velX").toString.toDouble, c._2("velX").toString.toDouble)
     case "input" => InputCom()
+    case "graphics" => GraphicsCom()
     case _ => EmptyCom()
   }
 
