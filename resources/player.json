@@ -9,6 +9,6 @@
       "velY" : 0.1
     } ,
     "input" : {},
-    "graphics" : {}
+    "renderable" : {}
   }
 }

@@ -8,6 +8,16 @@ import org.json4s.native.JsonMethods._
 
 object EntityLoader {
 
+  /** Heart of the json map to single component transformation. Each described component in the json file is
+    * opportunely converted in the associated component. For new components added this method has to be properly extended. */
+  def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
+    case "position" => PositionCom(c._2("x").toString.toDouble, c._2("y").toString.toDouble)
+    case "movable" => MovableCom(c._2("velX").toString.toDouble, c._2("velX").toString.toDouble)
+    case "input" => InputCom()
+    case "renderable" => RenderableCom()
+    case _ => EmptyCom()
+  }
+
   def createEntitiesFromJSON(filename: String): List[Entity] = parseEntitiesJSON(filename).map(buildEntity)
 
   def buildEntity(cs : List[Component]): Entity = {
@@ -32,15 +42,6 @@ object EntityLoader {
     cmap.map(asComponent).toList
   }
 
-  /** Heart of the json map to single component transformation. Each described component in the json file is
-    * opportunely converted in the associated component. For new components added this method has to be properly extended. */
-  def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
-    case "position" => PositionCom(c._2("x").toString.toDouble, c._2("y").toString.toDouble)
-    case "movable" => MovableCom(c._2("velX").toString.toDouble, c._2("velX").toString.toDouble)
-    case "input" => InputCom()
-    case "graphics" => GraphicsCom()
-    case _ => EmptyCom()
-  }
 
   def jsonStrToMap(jsonStr: String): Map[String, Any] = {
     implicit val formats: DefaultFormats.type = org.json4s.DefaultFormats

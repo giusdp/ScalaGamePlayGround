@@ -15,7 +15,7 @@ object ECHandler {
   }
 
   def addComponent(e : Entity, c : Component): Unit = c match  {
-    case c : GraphicsCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; renderableEntities = e :: renderableEntities
+    case c : RenderableCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; renderableEntities = e :: renderableEntities
     case c : MovableCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; movableEntities = e :: movableEntities
     case c : InputCom if hasThisComponent[MovableCom](e) => e.addComponent(c)
     case _ => e.addComponent(c)
