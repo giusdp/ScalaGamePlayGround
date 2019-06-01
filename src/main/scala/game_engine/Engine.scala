@@ -26,7 +26,7 @@ object Engine {
     if ( !glfwInit() )
       throw new IllegalStateException("Unable to initialize GLFW")
 
-    val window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL)
+    val window = glfwCreateWindow(1024, 720, "Hello World!", NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     try {
@@ -58,11 +58,14 @@ object Engine {
     // Make the window visible
     glfwShowWindow(window)
 
+    /** Initialization done, loading entities */
     EntityLoader.createEntitiesFromJSON("player.json")
     Input.registerInput(window)
 
+    /** Game started. */
     game_loop(window)
 
+    /** Cleaning before exiting */
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)
