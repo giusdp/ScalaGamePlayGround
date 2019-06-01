@@ -18,7 +18,7 @@ object EntityLoader {
     case _ => EmptyCom()
   }
 
-  def createEntitiesFromJSON(filename: String): List[Entity] = parseEntitiesJSON(filename).map(buildEntity)
+  def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
 
   def buildEntity(cs : List[Component]): Entity = {
     val e = ECHandler.spawnEntity()
@@ -26,9 +26,8 @@ object EntityLoader {
     e
   }
 
-  def parseEntitiesJSON(filename: String): List[List[Component]] = {
-    val r = new Resource(filename)
-    using(r)(prepareComponents)
+  def parseJSON(filename: String): List[List[Component]] = {
+    Resource.using(Resource(filename))(prepareComponents)
   }
 
   def prepareComponents(r: ResourceLoadResult) : List[List[Component]]  = r match {
@@ -48,48 +47,4 @@ object EntityLoader {
     parse(jsonStr).extract[Map[String, Any]]
   }
 
-  /** Creates the component list for an entity with the components specified in the input list
-    * cs: List with the names of the components and the parameters */
-  def createComponentList[T](cs: List[(String, List[T])]): List[Component] = cs.map(p => makeComponent(p._1, p._2))
-
-
-  def makeComponent[T](name: String, args: List[T]): Component = name match {
-    case "position" => PositionCom(args.head.asInstanceOf[Double], args(1).asInstanceOf[Double])
-    case "movable" => MovableCom(args.head.asInstanceOf[Double], args(1).asInstanceOf[Double])
-    case "input" => InputCom()
-    case _ => EmptyCom()
-  }
-
-  def using[A](r: Resource)(f: ResourceLoadResult => A): A =
-    try {
-      f(r.load())
-    }
-    finally {
-      r.dispose()
-    }
-
-}
-
-sealed trait ResourceLoadResult
-case class Result(res : BufferedSource) extends ResourceLoadResult
-case class Error(msg : String) extends ResourceLoadResult
-
-
-class Resource(fn : String) {
-
-  var bs : BufferedSource = _
-
-  def load(): ResourceLoadResult = {
-    try {
-      bs = Source.fromFile("resources/" + fn)
-      Result(bs)
-    }
-    catch {
-      case e : Exception => Error(e.getMessage)
-    }
-  }
-
-  def dispose(): Unit = {
-    if (bs != null) bs.close()
-  }
 }
