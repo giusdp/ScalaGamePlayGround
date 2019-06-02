@@ -11,7 +11,7 @@ libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
 
 libraryDependencies ++= {
   val version = "3.2.0"
-  val os = "linux" 
+  val os = "linux"
 
   Seq(
     "lwjgl",

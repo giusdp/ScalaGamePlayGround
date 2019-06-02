@@ -2,7 +2,7 @@ package game_engine
 
 import java.nio._
 
-import datamanager.EntityLoader
+import datamanager.{EntityLoader, ShaderLoader}
 import game_engine.graphics.Renderer
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
@@ -57,13 +57,22 @@ object Engine {
 
     // Make the window visible
     glfwShowWindow(window)
+    GL.createCapabilities
+
 
     /** Initialization done, loading entities */
+    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
+    var shader = 0
+    optionShader match {
+      case Some(v) => shader = v
+      case None => shader = 0
+    }
+    val renderer = new Renderer(shader)
     EntityLoader.createEntitiesFromJSON("player.json")
     Input.registerInput(window)
 
     /** Game started. */
-    game_loop(window)
+    game_loop(window, renderer)
 
     /** Cleaning before exiting */
     // Free the window callbacks and destroy the window
@@ -76,16 +85,15 @@ object Engine {
   }
 
   @tailrec
-  def game_loop(window: Long): Unit = {
-    GL.createCapabilities
+  def game_loop(window: Long, renderer : Renderer): Unit = {
     Input.tickInput()
 
     Simulation.update()
 
-    Renderer.renderFrame(window)
+    renderer.renderFrame(window)
 
     if (! glfwWindowShouldClose(window))
-      game_loop(window)
+      game_loop(window, renderer)
 
   }
 
