@@ -9,10 +9,11 @@ object EntityLoader {
   /** Heart of the json map to single component transformation. Each described component in the json file is
     * opportunely converted in the associated component. For new components added this method has to be properly extended. */
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
-    case "position" => PositionCom(c._2("x").toString.toDouble, c._2("y").toString.toDouble)
-    case "movable" => MovableCom(c._2("velX").toString.toDouble, c._2("velX").toString.toDouble)
+    case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat)
+    case "movable" => MovableCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
     case "input" => InputCom()
     case "renderable" => RenderableCom()
+    case "model" => ModelCom()
     case _ => EmptyCom()
   }
 

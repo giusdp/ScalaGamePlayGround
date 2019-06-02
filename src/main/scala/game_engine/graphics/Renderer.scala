@@ -23,7 +23,7 @@ class Renderer(shader : Int) {
     glfwSwapBuffers(window); // swap the color buffers
   }
 
-  def renderEntity(e: Entity) = {
+  def renderEntity(e: Entity): Unit = {
     //var r = ECHandler.getThisComponentOfE[RenderableCom](e)
     ECHandler.getThisComponentOfE[PositionCom](e) match {
       case Some(pos) =>
