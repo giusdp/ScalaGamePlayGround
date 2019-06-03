@@ -4,6 +4,7 @@ import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
 import game_engine.graphics.Renderer
+import game_object_system.ECHandler
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -57,17 +58,17 @@ object Engine {
 
     // Make the window visible
     glfwShowWindow(window)
-    GL.createCapabilities
+    GL.createCapabilities()
 
 
     /** Initialization done, loading entities */
-    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
-    var shader = 0
-    optionShader match {
-      case Some(v) => shader = v
-      case None => shader = 0
-    }
-    val renderer = new Renderer(shader)
+//    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
+//    var shader = 0
+//    optionShader match {
+//      case Some(v) => shader = v
+//      case None => shader = 0
+//    }
+    val renderer = new Renderer(0)
     EntityLoader.createEntitiesFromJSON("player.json")
     Input.registerInput(window)
 

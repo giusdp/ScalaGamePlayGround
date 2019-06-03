@@ -1,8 +1,8 @@
 package game_engine.graphics
-import game_object_system.{ECHandler, Entity, PositionCom}
+import game_object_system.{ECHandler, Entity, ModelCom, PositionCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.GL20
+import org.lwjgl.opengl.{GL11, GL20}
 
 class Renderer(shader : Int) {
 
@@ -25,11 +25,33 @@ class Renderer(shader : Int) {
 
   def renderEntity(e: Entity): Unit = {
     //var r = ECHandler.getThisComponentOfE[RenderableCom](e)
-    ECHandler.getThisComponentOfE[PositionCom](e) match {
-      case Some(pos) =>
-      case None =>
-    }
+    posAndThenModel(e, ECHandler.getThisComponentOfE[PositionCom](e))
 
   }
+
+  private def posAndThenModel(e: Entity, pos : Option[PositionCom]): Unit = pos match {
+    case Some(p) => modelAndThenRender(p, ECHandler.getThisComponentOfE[ModelCom](e))
+    case None =>
+  }
+
+  private def modelAndThenRender(p : PositionCom, model : Option[ModelCom]): Unit = model match {
+    case Some(m) => renderModel(m)
+    case None =>
+  }
+
+  def renderModel(model : ModelCom): Unit = {
+    // Bind to the VAO that has all the information about the quad vertices
+    model.bind()
+    model.enableVBO()
+
+    // Draw the vertices
+    GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.vertexCount)
+
+    // Put everything back to default (deselect)
+    model.disableVBO()
+    model.unBind()
+  }
+
+
 
 }
