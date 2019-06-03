@@ -7,9 +7,9 @@
     "movable" : {
       "velX" : 0.1,
       "velY" : 0.1
-    } ,
+    },
     "input" : {},
-    "renderable" : {},
-    "model": {}
+    "model": {},
+    "renderable" : {}
   }
 }
