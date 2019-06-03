@@ -62,20 +62,20 @@ object Engine {
 
 
     /** Initialization done, loading entities */
-//    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
-//    var shader = 0
-//    optionShader match {
-//      case Some(v) => shader = v
-//      case None => shader = 0
-//    }
-    val renderer = new Renderer(0)
     EntityLoader.createEntitiesFromJSON("player.json")
     Input.registerInput(window)
+    val renderer = new Renderer()
+    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
+    optionShader match {
+      case Some(s) => renderer.setShader(s)
+      case None =>
+    }
 
     /** Game started. */
     game_loop(window, renderer)
 
     /** Cleaning before exiting */
+    renderer.dispose()
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)

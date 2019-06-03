@@ -1,12 +1,13 @@
 package datamanager
 
-import org.lwjgl.opengl.GL11.GL_FALSE
+import game_object_system.{Shader, StaticShader}
+import org.lwjgl.opengl.GL11.{GL_TRUE, GL_FALSE}
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL20.{GL_FRAGMENT_SHADER, GL_VERTEX_SHADER}
 
 object ShaderLoader {
 
-  def loadShaderProgram(vertexFileName : String, fragmentFileName : String) : Option[Int] = {
+  def loadShaderProgram(vertexFileName : String, fragmentFileName : String) : Option[Shader] = {
     val vertexCode = Resource.using(Resource(vertexFileName))(getShaderCode)
     val vertexShader = loadShader(vertexCode, GL_VERTEX_SHADER)
     if (vertexShader == 0) None
@@ -20,13 +21,22 @@ object ShaderLoader {
     GL20.glAttachShader(program, fragmentShader)
     GL20.glLinkProgram(program)
     GL20.glValidateProgram(program)
+    if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) == GL_TRUE){
+      Console.err.println(GL20.glGetProgramInfoLog(program))
+      GL20.glDeleteProgram(program)
+      None
+    }
 
-    Some(program)
+    GL20.glDetachShader(program, vertexShader)
+    GL20.glDetachShader(program, fragmentShader)
+    GL20.glDeleteShader(vertexShader)
+    GL20.glDeleteShader(fragmentShader)
+    Some(StaticShader(program))
   }
 
   private def getShaderCode(r: ResourceLoadResult) : Option[String] = r match {
     case Result(res) => Some(res.mkString)
-    case Error(msg) => println(msg) ; None
+    case Error(msg) => Console.err.println(msg) ; None
   }
 
   private def loadShader(s : Option[String], shaderType: Int) : Int = s match {

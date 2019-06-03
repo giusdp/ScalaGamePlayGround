@@ -1,14 +1,13 @@
 package game_engine.graphics
-import game_object_system.{ECHandler, Entity, ModelCom, PositionCom}
+import game_object_system.{ECHandler, Entity, ModelCom, PositionCom, Shader}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.{GL11, GL20}
 
-class Renderer(shader : Int) {
+class Renderer {
 
-  def useShader(): Unit = {
-    GL20.glUseProgram(shader)
-  }
+  var shader : Shader = _
+  def setShader(s : Shader) = shader = s
 
   def renderFrame(window : Long): Unit = {
 
@@ -53,5 +52,6 @@ class Renderer(shader : Int) {
   }
 
 
+  def dispose(): Unit = if (shader != null) shader.dispose()
 
 }
