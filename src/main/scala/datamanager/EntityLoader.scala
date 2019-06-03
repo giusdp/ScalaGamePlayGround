@@ -45,7 +45,7 @@ object EntityLoader {
   private def prepareComponents(r: ResourceLoadResult) : List[List[Component]]  = r match {
     case Result(res) =>
       jsonStrToMap(res.mkString).map(componentMapToLists).toList
-    case Error(msg) => println(msg) ; List()
+    case Error(msg) => Console.err.println(msg) ; List()
   }
 
   private def componentMapToLists(e : (String, Any)) : List[Component] = {
