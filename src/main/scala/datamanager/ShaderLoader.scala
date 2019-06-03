@@ -1,7 +1,7 @@
 package datamanager
 
-import game_object_system.{Shader, StaticShader}
-import org.lwjgl.opengl.GL11.{GL_TRUE, GL_FALSE}
+import game_object_system.Shader
+import org.lwjgl.opengl.GL11.{GL_FALSE, GL_TRUE}
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL20.{GL_FRAGMENT_SHADER, GL_VERTEX_SHADER}
 
@@ -31,7 +31,7 @@ object ShaderLoader {
     GL20.glDetachShader(program, fragmentShader)
     GL20.glDeleteShader(vertexShader)
     GL20.glDeleteShader(fragmentShader)
-    Some(StaticShader(program))
+    Some(Shader(program))
   }
 
   private def getShaderCode(r: ResourceLoadResult) : Option[String] = r match {
@@ -47,10 +47,10 @@ object ShaderLoader {
 
       if (GL20.glGetShaderi(id, GL20.GL_COMPILE_STATUS) == GL_FALSE) {
         shaderType match {
-          case GL_VERTEX_SHADER => println("Failed to compile vertex shader! ")
-          case GL_FRAGMENT_SHADER => println("Failed to compile fragment shader! ")
+          case GL_VERTEX_SHADER => Console.err.println("Failed to compile vertex shader! ")
+          case GL_FRAGMENT_SHADER => Console.err.println("Failed to compile fragment shader! ")
         }
-        println(GL20.glGetShaderInfoLog(id))
+        Console.err.println(GL20.glGetShaderInfoLog(id))
       }
 
       id
