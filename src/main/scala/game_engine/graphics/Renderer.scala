@@ -11,12 +11,11 @@ class Renderer {
 
   def renderFrame(window : Long): Unit = {
 
-    // glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
+    glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
     // set the color of the quad (R,G,B,A)// set the color of the quad (R,G,B,A)
 
-    glColor3f(0.5f, 0.5f, 1.0f)
     ECHandler.renderableEntities.foreach(renderEntity)
 
     glfwSwapBuffers(window); // swap the color buffers
@@ -41,13 +40,13 @@ class Renderer {
   def renderModel(model : ModelCom): Unit = {
     // Bind to the VAO that has all the information about the quad vertices
     model.bind()
-    model.enableVBO()
+    model.enableVertexAttribute()
 
     // Draw the vertices
     GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.vertexCount)
 
     // Put everything back to default (deselect)
-    model.disableVBO()
+    model.disableVertexAttribute()
     model.unBind()
   }
 

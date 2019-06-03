@@ -6,8 +6,8 @@ import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
 trait Model{
   def bind()
   def unBind()
-  def enableVBO()
-  def disableVBO()
+  def enableVertexAttribute()
+  def disableVertexAttribute()
   def setup()
   def dispose()
 }
@@ -15,7 +15,8 @@ trait Model{
 case class ModelCom() extends Component with Model {
 
   var vao: Int = _
-  var vbo : Int = _
+  var vbo: Int = _
+  val vertexAttributeIndex : Int = 0
 
   def bind(): Unit = GL30.glBindVertexArray(vao)
   def unBind(): Unit = GL30.glBindVertexArray(0)
@@ -36,7 +37,7 @@ case class ModelCom() extends Component with Model {
     vao = GL30.glGenVertexArrays()
     bind()
 
-    vbo = GL15.glGenBuffers()
+    val vbo = GL15.glGenBuffers()
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo)
 
     val buffer = BufferUtils.createFloatBuffer(model.length)
@@ -44,14 +45,15 @@ case class ModelCom() extends Component with Model {
     buffer.flip()
 
     GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW)
-    GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0)
+    GL20.glVertexAttribPointer(vertexAttributeIndex, 3, GL11.GL_FLOAT, false, 0, 0)
+
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
 
     unBind()
   }
 
   override def dispose(): Unit = {
-    disableVBO()
+    disableVertexAttribute()
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
     // Delete the VBO
     GL15.glDeleteBuffers(vbo)
@@ -61,9 +63,9 @@ case class ModelCom() extends Component with Model {
     GL30.glDeleteVertexArrays(vao)
   }
 
-  override def enableVBO(): Unit = GL20.glEnableVertexAttribArray(vbo)
+  override def enableVertexAttribute(): Unit = GL20.glEnableVertexAttribArray(vertexAttributeIndex)
 
-  override def disableVBO(): Unit = GL20.glDisableVertexAttribArray(0)
+  override def disableVertexAttribute(): Unit = GL20.glDisableVertexAttribArray(vertexAttributeIndex)
 
 }
 
