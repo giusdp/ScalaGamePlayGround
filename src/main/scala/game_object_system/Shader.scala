@@ -2,24 +2,16 @@ package game_object_system
 
 import org.lwjgl.opengl.GL20
 
-trait Shader{
-  def useShader()
-  def stopShader()
-  def dispose()
-}
-case class StaticShader(program : Int) extends Shader {
+class Shader(program : Int) {
 
-  override def useShader(): Unit = GL20.glUseProgram(program)
-
-  override def stopShader(): Unit = GL20.glUseProgram(0)
-
-  override def dispose(): Unit = {
-    stopShader()
+  def dispose(): Unit = {
     GL20.glDeleteProgram(program)
   }
 
+  def getProgram: Int = program
+
 }
 
-object StaticShader {
-  def apply(program: Int): StaticShader = new StaticShader(program)
+object Shader {
+  def apply(program: Int): Shader = new Shader(program)
 }
