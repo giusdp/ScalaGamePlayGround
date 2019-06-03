@@ -21,7 +21,7 @@ object EntityLoader {
 
   private def buildEntity(cs : List[Component]): Entity = {
     val e = ECHandler.spawnEntity()
-    cs.foreach(ECHandler.addComponent(e, _))
+    cs.sorted.foreach(ECHandler.addComponent(e, _))
     e
   }
 

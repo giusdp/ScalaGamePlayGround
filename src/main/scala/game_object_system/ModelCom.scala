@@ -65,7 +65,6 @@ case class ModelCom() extends Component with Model {
 
   override def disableVBO(): Unit = GL20.glDisableVertexAttribArray(0)
 
-  override def compare(that: Component): Int = 0
 }
 
 object ModelCom {
