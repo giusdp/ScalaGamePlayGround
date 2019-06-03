@@ -6,6 +6,19 @@ import org.json4s.native.JsonMethods._
 
 object EntityLoader {
 
+  val vertices = Array(
+    // Left bottom triangle
+    -0.5f, 0.5f, 0f,
+    -0.5f, -0.5f, 0f,
+    0.5f, -0.5f, 0f,
+    0.5f, 0.5f, 0f,
+  )
+
+  val indices = Array(
+    0,1,3,
+    3,1,2
+  )
+
   /** Heart of the json map to single component transformation. Each described component in the json file is
     * opportunely converted in the associated component. For new components added this method has to be properly extended. */
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
@@ -13,7 +26,7 @@ object EntityLoader {
     case "movable" => MovableCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
     case "input" => InputCom()
     case "renderable" => RenderableCom()
-    case "model" => ModelCom()
+    case "model" => SpriteLoader.loadSprite(vertices, indices)
     case _ => EmptyCom()
   }
 

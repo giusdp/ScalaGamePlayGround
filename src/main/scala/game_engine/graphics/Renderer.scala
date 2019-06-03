@@ -2,7 +2,7 @@ package game_engine.graphics
 import game_object_system.{ECHandler, Entity, ModelCom, PositionCom, Shader}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.{GL11, GL20}
+import org.lwjgl.opengl.{GL11, GL20, GL30}
 
 class Renderer {
 
@@ -39,15 +39,15 @@ class Renderer {
 
   def renderModel(model : ModelCom): Unit = {
     // Bind to the VAO that has all the information about the quad vertices
-    model.bind()
-    model.enableVertexAttribute()
+    GL30.glBindVertexArray(model.vao)
+    GL20.glEnableVertexAttribArray(0)
 
     // Draw the vertices
-    GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.vertexCount)
+    GL11.glDrawElements(GL11.GL_TRIANGLES, model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
     // Put everything back to default (deselect)
-    model.disableVertexAttribute()
-    model.unBind()
+    GL20.glDisableVertexAttribArray(0)
+    GL30.glBindVertexArray(0)
   }
 
 

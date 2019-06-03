@@ -14,6 +14,13 @@ object ECHandler {
     e
   }
 
+  def disposeEntities(): Unit = {
+    renderableEntities.foreach(e => getThisComponentOfE[ModelCom](e) match {
+      case Some(m) => m.dispose()
+      case None =>
+    })
+  }
+
   def addComponent(e : Entity, c : Component): Unit = c match  {
     case c : RenderableCom =>
       if (hasThisComponent[PositionCom](e) && hasThisComponent[ModelCom](e)) {

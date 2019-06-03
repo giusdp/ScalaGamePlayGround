@@ -76,6 +76,7 @@ object Engine {
 
     /** Cleaning before exiting */
     renderer.dispose()
+    ECHandler.disposeEntities()
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)
