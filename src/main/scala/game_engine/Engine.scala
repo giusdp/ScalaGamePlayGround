@@ -48,7 +48,7 @@ object Engine {
       stackPop()
     }
     catch  {
-      case e : Exception => println("Error handling window properties when starting engine: " + e.getMessage)
+      case e : Exception => Console.err.println("Error handling window properties when starting engine: " + e.getMessage)
     }
 
     // Make the OpenGL context current
