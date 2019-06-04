@@ -1,9 +1,9 @@
 package game_engine.graphics
-import game_object_system.graphics_objects.{Model, Shader, SpriteCom}
+import game_object_system.graphics_objects.{Shader, SpriteCom}
 import game_object_system.{ECHandler, Entity, PositionCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.{GL11, GL20, GL30}
+import org.lwjgl.opengl.{GL11, GL13, GL30}
 
 class Renderer(shader : Shader) {
 
@@ -31,11 +31,11 @@ class Renderer(shader : Shader) {
     }
     def render(sprite : SpriteCom): Unit = {
       GL30.glBindVertexArray(sprite.model.vao)
-//      GL20.glEnableVertexAttribArray(0)
+      GL13.glActiveTexture(0)
+      GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
-//      GL20.glDisableVertexAttribArray(0)
       GL30.glBindVertexArray(0)
     }
 
