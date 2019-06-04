@@ -29,10 +29,10 @@ class Renderer(shader : Shader) {
       case None =>
     }
     def render(model : ModelCom): Unit = {
-      GL30.glBindVertexArray(model.getVAO)
+      GL30.glBindVertexArray(model.vao)
 //      GL20.glEnableVertexAttribArray(0)
 
-      GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVCount, GL11.GL_UNSIGNED_INT, 0)
+      GL11.glDrawElements(GL11.GL_TRIANGLES, model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
 //      GL20.glDisableVertexAttribArray(0)
       GL30.glBindVertexArray(0)
