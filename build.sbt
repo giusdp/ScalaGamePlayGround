@@ -9,6 +9,10 @@ libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
 
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
 
+// https://mvnrepository.com/artifact/org.l33tlabs.twl/pngdecoder
+libraryDependencies += "org.l33tlabs.twl" % "pngdecoder" % "1.0"
+
+
 libraryDependencies ++= {
   val version = "3.2.0"
   val os = "linux"
