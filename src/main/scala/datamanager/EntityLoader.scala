@@ -1,7 +1,7 @@
 package datamanager
 
 import game_object_system._
-import game_object_system.graphics_objects.Quad
+import game_object_system.graphics_objects.{Quad, SpriteCom}
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -14,15 +14,20 @@ object EntityLoader {
     case "movable" => MovableCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
     case "input" => InputCom()
     case "renderable" => RenderableCom()
-    case "model" => SpriteLoader.loadSprite(Quad(), "resources/eddie.png")
+    case "sprite" => extractSprite(c._2)
     case _ => EmptyCom()
+  }
+
+  def extractSprite(info : Map[String, Any]) : Component = info("shape").toString match {
+    case "quad" => SpriteLoader.loadQuadSprite(info("texture").toString).getOrElse(EmptyCom())
+    case _ => Console.err.println("Shape extraction error when reading file entity json.") ; EmptyCom()
   }
 
   def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
 
   private def buildEntity(cs : List[Component]): Entity = {
     val e = ECHandler.spawnEntity()
-    cs.sorted.foreach(ECHandler.addComponent(e, _))
+    cs.filter(!_.isInstanceOf[EmptyCom]).sorted.foreach(ECHandler.addComponent(e, _)) // sort for number of com needed and remove all useless emptycom
     e
   }
 

@@ -9,7 +9,10 @@
       "velY" : 0.1
     },
     "input" : {},
-    "model": {},
+    "sprite": {
+      "shape" : "quad",
+      "texture" : "resources/eddie.png"
+    },
     "renderable" : {}
   }
 }
