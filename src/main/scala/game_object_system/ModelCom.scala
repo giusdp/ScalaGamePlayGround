@@ -3,10 +3,7 @@ package game_object_system
 import org.lwjgl.opengl.{GL15, GL20, GL30}
 
 
-class ModelCom(vao : Int, vbos : List[Int], vCount : Int) extends Component {
-  def getVAO: Int = vao
-
-  def getVCount: Int = vCount
+class ModelCom(val vao : Int, vbos : List[Int], val vCount : Int) extends Component {
 
   def dispose(): Unit = {
 

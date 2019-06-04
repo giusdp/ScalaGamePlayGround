@@ -18,11 +18,9 @@ case class PositionCom(var x: Float, var y: Float) extends Component{
 
 }
 
-case class MovableCom(var velX: Float, velY: Float) extends Component {
+case class MovableCom(var velX: Float, var velY: Float) extends Component {
   override val priority = 1
-  var state_machine = new MovementStateMachine()
-  def movePos(pos: PositionCom): Unit = state_machine.updatePos(pos, (velX, velY))
-
+  val state_machine = new MovementStateMachine()
 }
 
 case class InputCom() extends Component {
