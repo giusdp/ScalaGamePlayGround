@@ -75,7 +75,7 @@ object Engine {
 
         /** Cleaning before exiting */
         renderer.dispose()
-      case None =>
+      case None => Console.err.println("Failed to create shader, aborted.")
     }
 
     ECHandler.disposeEntities()
