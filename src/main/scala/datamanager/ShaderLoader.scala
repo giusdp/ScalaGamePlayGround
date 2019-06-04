@@ -8,6 +8,8 @@ import org.lwjgl.opengl.GL20.{GL_FRAGMENT_SHADER, GL_VERTEX_SHADER}
 object ShaderLoader {
 
   def loadShaderProgram(vertexFileName : String, fragmentFileName : String) : Option[Shader] = {
+    val program = GL20.glCreateProgram()
+
     val vertexCode = Resource.using(Resource(vertexFileName))(getShaderCode)
     val vertexShader = loadShader(vertexCode, GL_VERTEX_SHADER)
     if (vertexShader == 0) None
@@ -16,36 +18,48 @@ object ShaderLoader {
     val fragmentShader = loadShader(fragmentCode, GL_FRAGMENT_SHADER)
     if (fragmentShader == 0) None
 
-    val program = GL20.glCreateProgram()
     GL20.glAttachShader(program, vertexShader)
     GL20.glAttachShader(program, fragmentShader)
+
     GL20.glLinkProgram(program)
-    if (GL20.glGetProgrami(program, GL20.GL_LINK_STATUS) == GL_FALSE){
-      Console.err.println(GL20.glGetProgramInfoLog(program))
-      GL20.glDeleteShader(vertexShader)
-      GL20.glDeleteShader(fragmentShader)
-      GL20.glDeleteProgram(program)
+
+    if (areThereErrors(program, GL20.GL_LINK_STATUS)) {
       None
     }
-
-    GL20.glValidateProgram(program)
-    if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) == GL_TRUE){
-      Console.err.println(GL20.glGetProgramInfoLog(program))
-      GL20.glDeleteShader(vertexShader)
-      GL20.glDeleteShader(fragmentShader)
-      GL20.glDeleteProgram(program)
-      None
+    else {
+      GL20.glValidateProgram(program)
+      if (areThereErrors(program, GL20.GL_VALIDATE_STATUS)) {
+        None
+      }
+      else {
+        GL20.glDetachShader(program, vertexShader)
+        GL20.glDetachShader(program, fragmentShader)
+        GL20.glDeleteShader(vertexShader)
+        GL20.glDeleteShader(fragmentShader)
+        Some(Shader(program))
+      }
     }
 
-    GL20.glDetachShader(program, vertexShader)
-    GL20.glDetachShader(program, fragmentShader)
-//    GL20.glDeleteShader(vertexShader)
-//    GL20.glDeleteShader(fragmentShader)
-    Some(Shader(program))
+  }
+
+  private def areThereErrors(program : Int, flag : Int ):Boolean = {
+    if (GL20.glGetProgrami(program, flag) == GL_FALSE) {
+
+      flag match {
+        case GL20.GL_LINK_STATUS => Console.err.println("Failed to link shader program!")
+        case GL20.GL_VALIDATE_STATUS => Console.err.println("Failed to validate shader program!")
+      }
+      Console.err.println(GL20.glGetProgramInfoLog(program))
+
+      true
+    }
+    else {
+      false
+    }
   }
 
   private def getShaderCode(r: ResourceLoadResult) : Option[String] = r match {
-    case Result(res) => Some(res.mkString)
+    case Result(res) => Some(res.mkString + "\n")
     case Error(msg) => Console.err.println(msg) ; None
   }
 

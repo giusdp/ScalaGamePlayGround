@@ -7,33 +7,36 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
 
 object SpriteLoader {
+  val VERTEX_LOCATION = 0
+  val TEXTURE_LOCATION = 1
+//  val VERTEX_LOCATION = 0
 
-  def loadSprite(vertices: Array[Float], indices : Array[Int]) = {
+  def loadSprite(vertices: Array[Float], indices : Array[Int]): ModelCom = {
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
 
-    val vbos = List(bindIndicesBuffer(indices), bindVertexBuffer(vertices))
+    val vbos = List(bindVertexBuffer(vertices), bindIndicesBuffer(indices))
 
     GL30.glBindVertexArray(0)
     ModelCom(vao, vbos, indices.length)
   }
 
-  private def bindVertexBuffer(vertices : Array[Float]) = {
-    val vertVBO = GL15.glGenBuffers()
-    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertVBO)
-    val vBuffer = mkFloatBuffer(vertices)
-    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW)
-    GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0)
-    vertVBO
+  private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, data)
+
+  private def bindAttributeBuffer(index : Int, data : Array[Float]) = {
+    val vbo = GL15.glGenBuffers()
+    GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo)
+    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, mkFloatBuffer(data), GL15.GL_STATIC_DRAW)
+    GL20.glVertexAttribPointer(index, 3, GL11.GL_FLOAT, false, 0, 0)
+    GL20.glEnableVertexAttribArray(index)
+    vbo
   }
 
   private def bindIndicesBuffer(indices : Array[Int])  = {
-    val indVBO = GL15.glGenBuffers()
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indVBO)
-    val iBuffer = mkIntBuffer(indices)
-    GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, iBuffer, GL15.GL_STATIC_DRAW)
-    GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0)
-    indVBO
+    val vbo = GL15.glGenBuffers()
+    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vbo)
+    GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, mkIntBuffer(indices), GL15.GL_STATIC_DRAW)
+    vbo
   }
 
   private def mkFloatBuffer(data: Array[Float]): FloatBuffer = {
