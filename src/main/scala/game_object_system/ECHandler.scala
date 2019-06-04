@@ -1,5 +1,5 @@
 package game_object_system
-import game_object_system.graphics_objects.{Model, SpriteCom}
+import game_object_system.graphics_objects.SpriteCom
 
 import scala.reflect.{ClassTag, classTag}
 
@@ -17,8 +17,8 @@ object ECHandler {
   }
 
   def disposeEntities(): Unit = {
-    renderableEntities.foreach(e => getThisComponentOfE[Model](e) match {
-      case Some(m) => m.dispose()
+    renderableEntities.foreach(e => getThisComponentOfE[SpriteCom](e) match {
+      case Some(s) => s.dispose()
       case None =>
     })
   }
