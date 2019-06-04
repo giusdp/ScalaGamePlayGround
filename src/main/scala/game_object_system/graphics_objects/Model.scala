@@ -1,9 +1,9 @@
-package game_object_system
+package game_object_system.graphics_objects
 
-import org.lwjgl.opengl.{GL15, GL20, GL30}
+import org.lwjgl.opengl.{GL15, GL30}
 
 
-class ModelCom(val vao : Int, vbos : List[Int], val vCount : Int) extends Component {
+class Model(val vao : Int, vbos : List[Int], val vCount : Int){
 
   def dispose(): Unit = {
 
@@ -19,8 +19,8 @@ class ModelCom(val vao : Int, vbos : List[Int], val vCount : Int) extends Compon
 
 }
 
-object ModelCom {
+object Model {
 
-  def apply(vao: Int, vbos: List[Int], vCount: Int): ModelCom = new ModelCom(vao, vbos, vCount)
+  def apply(vao: Int, vbos: List[Int], vCount: Int): Model = new Model(vao, vbos, vCount)
 
 }
