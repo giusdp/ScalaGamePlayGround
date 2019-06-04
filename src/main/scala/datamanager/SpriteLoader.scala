@@ -2,7 +2,7 @@ package datamanager
 
 import java.nio.{FloatBuffer, IntBuffer}
 
-import game_object_system.ModelCom
+import game_object_system.graphics_objects.{Model, SpriteCom, Texture}
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
 
@@ -11,14 +11,14 @@ object SpriteLoader {
   val TEXTURE_LOCATION = 1
 //  val VERTEX_LOCATION = 0
 
-  def loadSprite(vertices: Array[Float], indices : Array[Int]): ModelCom = {
+  def loadSprite(vertices: Array[Float], indices : Array[Int]): SpriteCom = {
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
 
     val vbos = List(bindVertexBuffer(vertices), bindIndicesBuffer(indices))
 
     GL30.glBindVertexArray(0)
-    ModelCom(vao, vbos, indices.length)
+    SpriteCom(Model(vao, vbos, indices.length), Texture(0))
   }
 
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, data)
