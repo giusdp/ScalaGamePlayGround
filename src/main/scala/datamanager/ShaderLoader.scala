@@ -20,17 +20,27 @@ object ShaderLoader {
     GL20.glAttachShader(program, vertexShader)
     GL20.glAttachShader(program, fragmentShader)
     GL20.glLinkProgram(program)
+    if (GL20.glGetProgrami(program, GL20.GL_LINK_STATUS) == GL_FALSE){
+      Console.err.println(GL20.glGetProgramInfoLog(program))
+      GL20.glDeleteShader(vertexShader)
+      GL20.glDeleteShader(fragmentShader)
+      GL20.glDeleteProgram(program)
+      None
+    }
+
     GL20.glValidateProgram(program)
     if (GL20.glGetProgrami(program, GL20.GL_VALIDATE_STATUS) == GL_TRUE){
       Console.err.println(GL20.glGetProgramInfoLog(program))
+      GL20.glDeleteShader(vertexShader)
+      GL20.glDeleteShader(fragmentShader)
       GL20.glDeleteProgram(program)
       None
     }
 
     GL20.glDetachShader(program, vertexShader)
     GL20.glDetachShader(program, fragmentShader)
-    GL20.glDeleteShader(vertexShader)
-    GL20.glDeleteShader(fragmentShader)
+//    GL20.glDeleteShader(vertexShader)
+//    GL20.glDeleteShader(fragmentShader)
     Some(Shader(program))
   }
 
