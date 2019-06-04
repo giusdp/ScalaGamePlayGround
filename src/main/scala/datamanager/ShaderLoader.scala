@@ -1,6 +1,6 @@
 package datamanager
 
-import game_object_system.Shader
+import game_object_system.graphics_objects.Shader
 import org.lwjgl.opengl.GL11.{GL_FALSE, GL_TRUE}
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL20.{GL_FRAGMENT_SHADER, GL_VERTEX_SHADER}

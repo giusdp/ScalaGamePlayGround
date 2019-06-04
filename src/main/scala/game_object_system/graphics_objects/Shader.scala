@@ -1,4 +1,4 @@
-package game_object_system
+package game_object_system.graphics_objects
 
 import org.lwjgl.opengl.GL20
 

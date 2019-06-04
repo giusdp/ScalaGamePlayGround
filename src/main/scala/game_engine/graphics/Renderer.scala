@@ -1,5 +1,6 @@
 package game_engine.graphics
-import game_object_system.{ECHandler, Entity, ModelCom, PositionCom, Shader}
+import game_object_system.graphics_objects.Shader
+import game_object_system.{ECHandler, Entity, ModelCom, PositionCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.{GL11, GL20, GL30}
