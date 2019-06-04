@@ -8,7 +8,9 @@ class Shader(program : Int) {
     GL20.glDeleteProgram(program)
   }
 
-  def getProgram: Int = program
+  def use(): Unit = GL20.glUseProgram(program)
+
+  def stop(): Unit = GL20.glUseProgram(0)
 
 }
 
