@@ -1,4 +1,6 @@
 package game_object_system
+import game_object_system.graphics_objects.{Model, SpriteCom}
+
 import scala.reflect.{ClassTag, classTag}
 
 object ECHandler {
@@ -15,7 +17,7 @@ object ECHandler {
   }
 
   def disposeEntities(): Unit = {
-    renderableEntities.foreach(e => getThisComponentOfE[ModelCom](e) match {
+    renderableEntities.foreach(e => getThisComponentOfE[Model](e) match {
       case Some(m) => m.dispose()
       case None =>
     })
@@ -23,7 +25,7 @@ object ECHandler {
 
   def addComponent(e : Entity, c : Component): Unit = c match  {
     case c : RenderableCom =>
-      if (hasThisComponent[PositionCom](e) && hasThisComponent[ModelCom](e)) {
+      if (hasThisComponent[PositionCom](e) && hasThisComponent[SpriteCom](e)) {
         e.addComponent(c)
         renderableEntities = e :: renderableEntities
       }
