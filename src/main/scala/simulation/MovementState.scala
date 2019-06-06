@@ -12,6 +12,7 @@ object d extends Enumeration{
 sealed abstract class MovementState(dir : (Float, Float)){
   def inputChanged(stateMachine: MovementStateMachine, key : Int)
   def getNewDir(newDir : (Float, Float)): (Float, Float) = (dir._1 + newDir._1, dir._2 + newDir._2)
+  def getDir: (Float, Float) = dir
 }
 
 case class Standing() extends MovementState((0,0)) {

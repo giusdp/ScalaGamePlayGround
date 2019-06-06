@@ -11,7 +11,7 @@ class MovementStateMachine {
 
   def inputChanged(key : Int): Unit = {
     currentState.inputChanged(this, key)
-//    println(currentState)
+    println(currentState)
   }
 
   def updatePos(pos : PositionCom, vel: (Float, Float)): Unit = currentState match {
@@ -20,10 +20,11 @@ class MovementStateMachine {
       pos.addToY(vel._2 * state.dir._2)
     case _ =>
   }
+  def currentDirection: (Float, Float) = currentState.getDir
 
   def popState(): Unit = stackStates = stackStates.tail
 
   def pushState(newState : MovementState): Unit = stackStates = newState :: stackStates
 
-
+  def isStill: Boolean = currentState.isInstanceOf[Standing]
 }

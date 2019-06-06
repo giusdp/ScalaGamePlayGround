@@ -1,5 +1,6 @@
 package game_object_system
 
+import org.joml.Matrix4f
 import simulation.MovementStateMachine
 
 // Ordered is used to order components based on the number of other components required
@@ -13,6 +14,7 @@ trait Component extends Ordered[Component]{
 case class EmptyCom() extends Component
 
 case class PositionCom(var x: Float, var y: Float) extends Component{
+  val model_matrix: Matrix4f = new Matrix4f().identity()
   def addToX(nx : Float): Unit = x += nx
   def addToY(ny : Float): Unit = y += ny
 

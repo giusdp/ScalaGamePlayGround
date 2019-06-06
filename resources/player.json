@@ -5,8 +5,8 @@
       "y" : 0
     },
     "movable" : {
-      "velX" : 0.1,
-      "velY" : 0.1
+      "velX" : 0.0001,
+      "velY" : 0.0001
     },
     "input" : {},
     "sprite": {

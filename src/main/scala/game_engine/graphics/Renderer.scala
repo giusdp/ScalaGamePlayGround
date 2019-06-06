@@ -1,11 +1,19 @@
 package game_engine.graphics
 import game_object_system.graphics_objects.{Shader, SpriteCom}
 import game_object_system.{ECHandler, Entity, PositionCom}
+import org.joml.Matrix4f
+import org.lwjgl.BufferUtils
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
-import org.lwjgl.opengl.{GL11, GL13, GL30}
+import org.lwjgl.opengl.{GL11, GL13, GL20, GL30}
+
+import java.nio.FloatBuffer
 
 class Renderer(shader : Shader) {
+  val MVP_LOCATION = 5
+
+
+  val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
   def renderFrame(window : Long): Unit = {
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
@@ -19,27 +27,25 @@ class Renderer(shader : Shader) {
   }
 
   def renderEntity(e: Entity): Unit = {
-    //var r = ECHandler.getThisComponentOfE[RenderableCom](e)
 
-    def extractPosition(op : Option[PositionCom]): Unit = op match {
-      case Some(_) => extractSprite(ECHandler.getThisComponentOfE[SpriteCom](e))
-      case None =>
-    }
-    def extractSprite(om : Option[SpriteCom]): Unit = om match {
-      case Some(m) => render(m)
-      case None =>
-    }
-    def render(sprite : SpriteCom): Unit = {
+    def render(p: PositionCom, sprite : SpriteCom): Unit = {
       GL30.glBindVertexArray(sprite.model.vao)
       GL13.glActiveTexture(0)
       GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
+      shader.setMVP(p.model_matrix.get(fb))
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
       GL30.glBindVertexArray(0)
     }
 
-    extractPosition(ECHandler.getThisComponentOfE[PositionCom](e))
+    ECHandler.getPositionCom(e) match {
+      case Some(p) => ECHandler.getSpriteCom(e) match {
+        case Some(s) => render(p, s)
+        case None =>
+      }
+      case None =>
+    }
   }
 
   def dispose(): Unit = shader.dispose()
