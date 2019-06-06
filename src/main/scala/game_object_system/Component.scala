@@ -14,7 +14,7 @@ trait Component extends Ordered[Component]{
 case class EmptyCom() extends Component
 
 case class PositionCom(var x: Float, var y: Float) extends Component{
-  val model_matrix: Matrix4f = new Matrix4f().identity()
+  val model_matrix: Matrix4f = new Matrix4f()
   def addToX(nx : Float): Unit = x += nx
   def addToY(ny : Float): Unit = y += ny
 
