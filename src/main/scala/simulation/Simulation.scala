@@ -23,8 +23,8 @@ object Simulation {
 
 
   def updatePosition(p : PositionCom, m: MovableCom) : Unit = {
-    p.addToX(m.state_machine.currentDirection._1 * m.velX)
-    p.addToY(m.state_machine.currentDirection._2 * m.velY)
+    p.addToX(m.state_machine.direction._1 * m.velX)
+    p.addToY(m.state_machine.direction._2 * m.velY)
 
     p.model_matrix.identity().translate(p.x, p.y, 0)
   }

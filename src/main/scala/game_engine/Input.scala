@@ -3,7 +3,7 @@ package game_engine
 import game_object_system.{ECHandler, InputCom, MovableCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-import simulation.MovementStateMachine
+import simulation.MovementHandler
 
 object Input {
 
@@ -17,7 +17,7 @@ object Input {
     }
   }
 
-  def setupCallbacks(window: Long, stateMachine: MovementStateMachine): Unit = {
+  def setupCallbacks(window: Long, stateMachine: MovementHandler): Unit = {
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
@@ -26,11 +26,10 @@ object Input {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
 
-              case _ => stateMachine.inputChanged(key)
+              case _ => stateMachine.pressedKey(key)
             }
 
-          case GLFW_RELEASE => stateMachine.inputChanged(GLFW_RELEASE)
-
+          case GLFW_RELEASE => stateMachine.releasedKey(key)
           case _ =>  // GLFW_REPEAT
         }
 

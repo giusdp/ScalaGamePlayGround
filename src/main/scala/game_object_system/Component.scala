@@ -1,7 +1,7 @@
 package game_object_system
 
 import org.joml.Matrix4f
-import simulation.MovementStateMachine
+import simulation.MovementHandler
 
 // Ordered is used to order components based on the number of other components required
 trait Component extends Ordered[Component]{
@@ -22,7 +22,7 @@ case class PositionCom(var x: Float, var y: Float) extends Component{
 
 case class MovableCom(var velX: Float, var velY: Float) extends Component {
   override val priority = 1
-  val state_machine = new MovementStateMachine()
+  val state_machine = new MovementHandler()
 }
 
 case class InputCom() extends Component {
