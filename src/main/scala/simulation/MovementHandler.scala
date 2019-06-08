@@ -1,7 +1,6 @@
 package simulation
 
 import org.lwjgl.glfw.GLFW.{GLFW_KEY_A, GLFW_KEY_D, GLFW_KEY_S, GLFW_KEY_W}
-import scala.math.sqrt
 
 
 object d extends Enumeration{
