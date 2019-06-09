@@ -15,10 +15,10 @@ case class Rect(x : Float, y : Float, w : Float, h : Float) extends Shape {
   )
 
   override val vertices = Array(
-    x, y, 0f,
-    x, y-h, 0f,
-    x+w, y-h, 0f,
-    x+w, y, 0f,
+    x - (w/2), y + (h/2), 0f,
+    x - (w/2) , y - (h/2), 0f,
+    x + (w/2), y - (h/2), 0f,
+    x + (w/2), y + (h/2), 0f,
   )
 
   override val tex_coords: Array[Float] = Array(

@@ -33,4 +33,4 @@ case class RenderableCom() extends Component {
   override val priority = 2
 }
 
-case class Camera() extends Component
+case class CameraCenter() extends Component

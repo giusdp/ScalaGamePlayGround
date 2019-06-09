@@ -1,6 +1,7 @@
 package simulation
 
-import game_object_system.{ECHandler, Entity, MovableCom, PositionCom}
+import game_object_system.graphics_objects.Camera
+import game_object_system.{CameraCenter, ECHandler, Entity, MovableCom, PositionCom}
 
 
 object Simulation {
@@ -15,7 +16,11 @@ object Simulation {
       ECHandler.getMovableCom(e) match {
       case Some(move) =>
         ECHandler.getPositionCom(e) match {
-            case Some(pos) => updatePosition(pos, move)
+            case Some(pos) =>
+              updatePosition(pos, move)
+              if (ECHandler.hasThisComponent[CameraCenter](e)){
+                Camera.updateCamera(pos.x, pos.y)
+              }
             case None =>
           }
       case None =>

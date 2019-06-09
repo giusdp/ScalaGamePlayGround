@@ -12,6 +12,7 @@
     "sprite": {
       "texture" : "resources/playerimg.png"
     },
+    "camera_center" : {},
     "renderable" : {}
   }
 }

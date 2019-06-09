@@ -14,6 +14,7 @@ object EntityLoader {
     case "input" => InputCom()
     case "renderable" => RenderableCom()
     case "sprite" => extractSprite(c._2)
+    case "camera_center" => CameraCenter()
     case _ => EmptyCom()
   }
 
