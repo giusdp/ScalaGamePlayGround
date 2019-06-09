@@ -16,6 +16,12 @@ import simulation.Simulation
 
 import scala.annotation.tailrec
 
+object ScreenConstants {
+  var WIDTH : Float = 1024
+  var HEIGHT : Float= 720
+  var TITLE = "SGExp"
+}
+
 object Engine {
 
   def run(): Unit = {
@@ -27,7 +33,7 @@ object Engine {
     if ( !glfwInit() )
       throw new IllegalStateException("Unable to initialize GLFW")
 
-    val window = glfwCreateWindow(1024, 720, "Hello World!", NULL, NULL)
+    val window = glfwCreateWindow(ScreenConstants.WIDTH.asInstanceOf[Int], ScreenConstants.HEIGHT.asInstanceOf[Int], ScreenConstants.TITLE, NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     try {
