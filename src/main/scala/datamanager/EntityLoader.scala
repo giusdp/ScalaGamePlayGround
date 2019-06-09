@@ -1,7 +1,6 @@
 package datamanager
 
 import game_object_system._
-import game_object_system.graphics_objects.{Quad, SpriteCom}
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -18,10 +17,8 @@ object EntityLoader {
     case _ => EmptyCom()
   }
 
-  def extractSprite(info : Map[String, Any]) : Component = info("shape").toString match {
-    case "quad" => SpriteLoader.loadQuadSprite(info("texture").toString).getOrElse(EmptyCom())
-    case _ => Console.err.println("Shape extraction error when reading file entity json.") ; EmptyCom()
-  }
+  def extractSprite(info : Map[String, Any]) : Component =
+    SpriteLoader.loadSprite(0, 0, info("texture").toString).getOrElse(EmptyCom())
 
   def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
 
@@ -37,13 +34,13 @@ object EntityLoader {
 
   private def prepareComponents(r: ResourceLoadResult) : List[List[Component]]  = r match {
     case Result(res) =>
-      jsonStrToMap(res.mkString).map(componentMapToLists).toList
+      jsonStrToMap(res.mkString).map(componentMapToLists _) .toList
     case Error(msg) => Console.err.println(msg) ; List()
   }
 
   private def componentMapToLists(e : (String, Any)) : List[Component] = {
     val cmap = e._2.asInstanceOf[Map[String, Map[String, Any]]]
-    cmap.map(asComponent).toList
+    cmap.map(asComponent _).toList
   }
 
 

@@ -1,14 +1,13 @@
 package datamanager
 
-import game_object_system.graphics_objects.{Quad, Shape, SpriteCom}
+import game_object_system.graphics_objects.{Rect, SpriteCom}
 
 object SpriteLoader {
 
-  def loadQuadSprite(imgFileName : String): Option[SpriteCom] = loadSprite(Quad(), imgFileName)
-
-  def loadSprite(s : Shape, imgFileName : String): Option[SpriteCom] =
+  def loadSprite(x: Float, y : Float, imgFileName : String): Option[SpriteCom] =
     TextureLoader.loadTexture(imgFileName) match {
-      case Some(t) =>  Some(SpriteCom(ModelLoader.loadModel(s), t))
+      case Some(t) =>  Some(SpriteCom(ModelLoader.loadModel(Rect(x, y, t.w, t.h)), t))
       case None => None
-    }
+  }
+
 }
