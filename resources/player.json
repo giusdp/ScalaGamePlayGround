@@ -5,13 +5,12 @@
       "y" : 0
     },
     "movable" : {
-      "velX" : 0.01,
-      "velY" : 0.01
+      "velX" : 1,
+      "velY" : 1
     },
     "input" : {},
     "sprite": {
-      "shape" : "quad",
-      "texture" : "resources/eddie.png"
+      "texture" : "resources/playerimg.png"
     },
     "renderable" : {}
   }
