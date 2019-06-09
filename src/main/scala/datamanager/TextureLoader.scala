@@ -36,8 +36,8 @@ object TextureLoader {
       GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1)
 
       //set the texture parameters, can be GL_LINEAR or GL_NEAREST
-      GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR)
-      GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR)
+      GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST)
+      GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST)
 
       //upload texture
       GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, decoder.getWidth, decoder.getHeight,
@@ -46,7 +46,7 @@ object TextureLoader {
       // Generate Mip Map
       GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D)
 
-      Some(Texture(id))
+      Some(Texture(id, decoder.getWidth, decoder.getHeight))
     }
     catch {
       case e : Exception => Console.err.println("Error while loading texture: " + fileName) ; None

@@ -8,18 +8,17 @@ trait Shape {
   val tex_coords : Array[Float] = Array()
 }
 
-case class Quad() extends Shape {
+case class Rect(x : Float, y : Float, w : Float, h : Float) extends Shape {
   override val indices: Array[Int] = Array(
     0,1,3,
     3,1,2
   )
 
   override val vertices = Array(
-    // Left bottom triangle
-    -0.5f, 0.5f, 0f,
-    -0.5f, -0.5f, 0f,
-    0.5f, -0.5f, 0f,
-    0.5f, 0.5f, 0f,
+    x, y, 0f,
+    x, y-h, 0f,
+    x+w, y-h, 0f,
+    x+w, y, 0f,
   )
 
   override val tex_coords: Array[Float] = Array(
