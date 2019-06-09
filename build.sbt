@@ -2,7 +2,7 @@ name := "SGExp"
 
 version := "0.1"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.0"
 
 // https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
