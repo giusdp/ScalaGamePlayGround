@@ -2,8 +2,8 @@ package game_engine.graphics
 import java.nio.FloatBuffer
 
 import game_engine.ScreenConstants
-import game_object_system.graphics_objects.{Camera, Shader, SpriteCom}
-import game_object_system.{ECHandler, Entity, PositionCom}
+import game_object_system.graphics_objects.{Camera, Shader}
+import game_object_system.{ECHandler, Entity, PositionCom, RenderableCom}
 import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.glfw.GLFW._
@@ -31,7 +31,8 @@ class Renderer(shader : Shader) {
 
   def renderEntity(e: Entity): Unit = {
 
-    def render(p: PositionCom, sprite : SpriteCom): Unit = {
+    def render(p: PositionCom, renderable: RenderableCom): Unit = {
+      val sprite = renderable.sprite
       GL30.glBindVertexArray(sprite.model.vao)
       GL13.glActiveTexture(0)
 
