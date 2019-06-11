@@ -4,6 +4,7 @@ import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
 import game_engine.graphics.Renderer
+import game_object_system.ECHandler
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -14,6 +15,12 @@ import org.lwjgl.system._
 import simulation.Simulation
 
 import scala.annotation.tailrec
+
+object ScreenConstants {
+  var WIDTH : Float = 1024
+  var HEIGHT : Float= 720
+  var TITLE = "SGExp"
+}
 
 object Engine {
 
@@ -26,7 +33,7 @@ object Engine {
     if ( !glfwInit() )
       throw new IllegalStateException("Unable to initialize GLFW")
 
-    val window = glfwCreateWindow(1024, 720, "Hello World!", NULL, NULL)
+    val window = glfwCreateWindow(ScreenConstants.WIDTH.asInstanceOf[Int], ScreenConstants.HEIGHT.asInstanceOf[Int], ScreenConstants.TITLE, NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     try {
@@ -47,7 +54,7 @@ object Engine {
       stackPop()
     }
     catch  {
-      case e : Exception => println("Error handling window properties when starting engine: " + e.getMessage)
+      case e : Exception => Console.err.println("Error handling window properties when starting engine: " + e.getMessage)
     }
 
     // Make the OpenGL context current
@@ -57,24 +64,27 @@ object Engine {
 
     // Make the window visible
     glfwShowWindow(window)
-    GL.createCapabilities
+    GL.createCapabilities()
 
 
     /** Initialization done, loading entities */
+    val player = EntityLoader.createEntitiesFromJSON("player.json").head
+    Input.registerInput(window, player)
+
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
-    var shader = 0
     optionShader match {
-      case Some(v) => shader = v
-      case None => shader = 0
+      case Some(s) =>
+        val renderer = new Renderer(s)
+
+        /** Game started. */
+        game_loop(window, renderer)
+
+        /** Cleaning before exiting */
+        renderer.dispose()
+      case None => Console.err.println("Failed to create shader, aborted.")
     }
-    val renderer = new Renderer(shader)
-    EntityLoader.createEntitiesFromJSON("player.json")
-    Input.registerInput(window)
 
-    /** Game started. */
-    game_loop(window, renderer)
-
-    /** Cleaning before exiting */
+    ECHandler.disposeEntities()
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)

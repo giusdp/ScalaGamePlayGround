@@ -5,10 +5,12 @@
       "y" : 0
     },
     "movable" : {
-      "velX" : 0.1,
-      "velY" : 0.1
-    } ,
-    "input" : {},
-    "renderable" : {}
+      "velX" : 1,
+      "velY" : 1
+    },
+    "camera_center" : {},
+    "renderable" :  {
+      "sprite" : "resources/playerimg.png"
+    }
   }
 }

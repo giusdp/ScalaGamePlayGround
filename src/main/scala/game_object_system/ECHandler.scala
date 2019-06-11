@@ -14,10 +14,23 @@ object ECHandler {
     e
   }
 
+  def disposeEntities(): Unit = {
+    renderableEntities.foreach(e => getThisComponentOfE[RenderableCom](e) match {
+      case Some(r) => r.sprite.dispose()
+      case None =>
+    })
+  }
+
   def addComponent(e : Entity, c : Component): Unit = c match  {
-    case c : RenderableCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; renderableEntities = e :: renderableEntities
-    case c : MovableCom if hasThisComponent[PositionCom](e) => e.addComponent(c) ; movableEntities = e :: movableEntities
-    case c : InputCom if hasThisComponent[MovableCom](e) => e.addComponent(c)
+    case c : RenderableCom =>
+      if (hasThisComponent[PositionCom](e)) {
+        e.addComponent(c)
+        renderableEntities = e :: renderableEntities
+      }
+    case c : MovableCom  => if (hasThisComponent[PositionCom](e)){
+      e.addComponent(c)
+      movableEntities = e :: movableEntities
+    }
     case _ => e.addComponent(c)
   }
 
@@ -27,21 +40,21 @@ object ECHandler {
   def entitiesWithThisComponent[T : ClassTag] : List[Entity] =
     entities.filter(getThisComponentOfE[T](_).isDefined)
 
-  def getPositionCom(e: Entity): Option[PositionCom] = getThisComponentOfE[PositionCom](e)
-  def getMovableCom(e: Entity): Option[MovableCom] = getThisComponentOfE[MovableCom](e)
 
   /** Input: A parameterized Component type t and an entity e.
     * Output: Option with the first component of type t of e. */
   def getThisComponentOfE[T : ClassTag](e : Entity) : Option[T] =
-    e.components match {
-      case cs if cs.nonEmpty => getThisComponentFromList[T](cs)
-      case _ => None
-    }
+  e.components match {
+    case cs if cs.nonEmpty => getThisComponentFromList[T](cs)
+    case _ => None
+  }
 
   /** Input: A parameterized Component type t and a list of compoenents cs.
     * Output: Option with the first component of type t in cs. */
   def getThisComponentFromList[T : ClassTag](cs : List[Component]) : Option[T] =
-    cs collectFirst {case a : T if classTag[T].runtimeClass.isInstance(a) => a}
+  cs collectFirst {case a : T if classTag[T].runtimeClass.isInstance(a) => a}
 
-
+  def getPositionCom(e: Entity): Option[PositionCom] = getThisComponentOfE[PositionCom](e)
+  def getMovableCom(e: Entity): Option[MovableCom] = getThisComponentOfE[MovableCom](e)
+  def getRenderableCom(e : Entity): Option[RenderableCom] = getThisComponentOfE[RenderableCom](e)
 }

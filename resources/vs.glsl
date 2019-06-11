@@ -1,9 +1,13 @@
-#version 400 core
+#version 420 core
+layout (location = 0) in vec3 pos;
+layout (location = 1) in vec2 tex;
 
-in vec3 position;
-out vec3 color;
+out vec2 tex_coords;
+
+uniform mat4 mvp;
 
 void main(void){
-    gl_Position = vec4(position, 1.0);
-    color = vec3(position.x + 0.5, 1.0, position.y+0.5);
+    gl_Position = mvp * vec4(pos, 1.0);
+    tex_coords = tex;
 }
+

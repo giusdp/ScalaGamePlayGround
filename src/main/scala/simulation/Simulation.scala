@@ -1,29 +1,37 @@
 package simulation
 
-import game_object_system.{ECHandler, Entity, MovableCom}
+import game_object_system.graphics_objects.Camera
+import game_object_system.{CameraCenter, ECHandler, Entity, MovableCom, PositionCom}
 
 
 object Simulation {
 
   def update(): Unit = {
-    ECHandler.movableEntities.foreach(updatePosOfE)
-
+    updateAllPositions()
   }
 
-  def updatePosOfE(e: Entity): Unit = {
-    val m = ECHandler.getMovableCom(e)
-    m match {
+  def updateAllPositions(): Unit = ECHandler.movableEntities.foreach(updatePosOfE)
 
-
+  def updatePosOfE(e: Entity): Unit =
+      ECHandler.getMovableCom(e) match {
       case Some(move) =>
-        val p = ECHandler.getPositionCom(e)
-        p match {
-          case Some(pos) => move.movePos(pos)
-          case None =>
-        }
-
+        ECHandler.getPositionCom(e) match {
+            case Some(pos) =>
+              updatePosition(pos, move)
+              if (ECHandler.hasThisComponent[CameraCenter](e)){
+                Camera.updateCamera(pos.x, pos.y)
+              }
+            case None =>
+          }
       case None =>
     }
+
+
+  def updatePosition(p : PositionCom, m: MovableCom) : Unit = {
+    p.addToX(m.state_machine.direction._1 * m.velX)
+    p.addToY(m.state_machine.direction._2 * m.velY)
+
+    p.model_matrix.identity().translate(p.x, p.y, 0)
   }
 
 }
