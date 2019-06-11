@@ -1,6 +1,7 @@
 package datamanager
 
 import game_object_system._
+import game_object_system.graphics_objects.Sprite
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
@@ -11,14 +12,18 @@ object EntityLoader {
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
     case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat)
     case "movable" => MovableCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
-    case "renderable" => RenderableCom()
-    case "sprite" => extractSprite(c._2)
+    case "renderable" => extractRenderableCom(c._2)
     case "camera_center" => CameraCenter()
     case _ => EmptyCom()
   }
 
-  def extractSprite(info : Map[String, Any]) : Component =
-    SpriteLoader.loadSprite(0, 0, info("texture").toString).getOrElse(EmptyCom())
+  def extractRenderableCom(m : Map[String, Any]): Component = extractSprite(m) match {
+    case Some(s) => RenderableCom(s)
+    case _ => EmptyCom()
+  }
+
+  def extractSprite(info : Map[String, Any]) : Option[Sprite] =
+    SpriteLoader.loadSprite(0, 0, info("sprite").toString)
 
   def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
 

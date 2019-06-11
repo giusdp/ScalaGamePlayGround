@@ -8,10 +8,9 @@
       "velX" : 1,
       "velY" : 1
     },
-    "sprite": {
-      "texture" : "resources/playerimg.png"
-    },
     "camera_center" : {},
-    "renderable" : {}
+    "renderable" :  {
+      "sprite" : "resources/playerimg.png"
+    }
   }
 }
