@@ -1,5 +1,6 @@
 package game_object_system
 
+import game_object_system.graphics_objects.Sprite
 import org.joml.Matrix4f
 import simulation.MovementHandler
 
@@ -25,7 +26,9 @@ case class MovableCom(var velX: Float, var velY: Float) extends Component {
   val state_machine = new MovementHandler()
 }
 
-case class RenderableCom() extends Component {
+// Instead of forcing sprites as the objects to use to render, it could be abstracted away so to
+// allow anything to be rendered by accessing it through this component in the renderer.
+case class RenderableCom(sprite : Sprite) extends Component {
   override val priority = 2
 }
 
