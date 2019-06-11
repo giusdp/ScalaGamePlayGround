@@ -31,8 +31,8 @@ class Renderer(shader : Shader) {
 
   def renderEntity(e: Entity): Unit = {
 
-    def render(p: PositionCom, renderable: RenderableCom): Unit = {
-      val sprite = renderable.sprite
+    def render(p: PositionCom, r: RenderableCom): Unit = {
+      val sprite = r.sprite
       GL30.glBindVertexArray(sprite.model.vao)
       GL13.glActiveTexture(0)
 
@@ -48,8 +48,8 @@ class Renderer(shader : Shader) {
     }
 
     ECHandler.getPositionCom(e) match {
-      case Some(p) => ECHandler.getSpriteCom(e) match {
-        case Some(s) => render(p, s)
+      case Some(p) => ECHandler.getRenderableCom(e) match {
+        case Some(r) => render(p, r)
         case None =>
       }
       case None =>

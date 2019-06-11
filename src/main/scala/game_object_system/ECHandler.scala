@@ -1,6 +1,4 @@
 package game_object_system
-import game_object_system.graphics_objects.SpriteCom
-
 import scala.reflect.{ClassTag, classTag}
 
 object ECHandler {
@@ -17,15 +15,15 @@ object ECHandler {
   }
 
   def disposeEntities(): Unit = {
-    renderableEntities.foreach(e => getThisComponentOfE[SpriteCom](e) match {
-      case Some(s) => s.dispose()
+    renderableEntities.foreach(e => getThisComponentOfE[RenderableCom](e) match {
+      case Some(r) => r.sprite.dispose()
       case None =>
     })
   }
 
   def addComponent(e : Entity, c : Component): Unit = c match  {
     case c : RenderableCom =>
-      if (hasThisComponent[PositionCom](e) && hasThisComponent[SpriteCom](e)) {
+      if (hasThisComponent[PositionCom](e)) {
         e.addComponent(c)
         renderableEntities = e :: renderableEntities
       }
@@ -58,5 +56,5 @@ object ECHandler {
 
   def getPositionCom(e: Entity): Option[PositionCom] = getThisComponentOfE[PositionCom](e)
   def getMovableCom(e: Entity): Option[MovableCom] = getThisComponentOfE[MovableCom](e)
-  def getSpriteCom(e : Entity): Option[SpriteCom] = getThisComponentOfE[SpriteCom](e)
+  def getRenderableCom(e : Entity): Option[RenderableCom] = getThisComponentOfE[RenderableCom](e)
 }
