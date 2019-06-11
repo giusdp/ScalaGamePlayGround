@@ -33,7 +33,6 @@ object ECHandler {
       e.addComponent(c)
       movableEntities = e :: movableEntities
     }
-    case c : InputCom => if (hasThisComponent[MovableCom](e)) e.addComponent(c)
     case _ => e.addComponent(c)
   }
 

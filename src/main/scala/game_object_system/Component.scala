@@ -25,10 +25,6 @@ case class MovableCom(var velX: Float, var velY: Float) extends Component {
   val state_machine = new MovementHandler()
 }
 
-case class InputCom() extends Component {
-  override val priority = 2
-}
-
 case class RenderableCom() extends Component {
   override val priority = 2
 }

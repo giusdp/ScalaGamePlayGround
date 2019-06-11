@@ -8,7 +8,6 @@
       "velX" : 1,
       "velY" : 1
     },
-    "input" : {},
     "sprite": {
       "texture" : "resources/playerimg.png"
     },

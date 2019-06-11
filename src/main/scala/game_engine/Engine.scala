@@ -68,8 +68,8 @@ object Engine {
 
 
     /** Initialization done, loading entities */
-    EntityLoader.createEntitiesFromJSON("player.json")
-    Input.registerInput(window)
+    val player = EntityLoader.createEntitiesFromJSON("player.json").head
+    Input.registerInput(window, player)
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
     optionShader match {

@@ -11,7 +11,6 @@ object EntityLoader {
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
     case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat)
     case "movable" => MovableCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
-    case "input" => InputCom()
     case "renderable" => RenderableCom()
     case "sprite" => extractSprite(c._2)
     case "camera_center" => CameraCenter()
