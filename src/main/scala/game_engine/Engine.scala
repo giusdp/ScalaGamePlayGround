@@ -3,7 +3,7 @@ package game_engine
 import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
-import game_engine.graphics.Renderer
+import game_engine.graphics.{Renderer, ScreenConstants}
 import game_object_system.ECHandler
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
@@ -16,11 +16,6 @@ import simulation.Simulation
 
 import scala.annotation.tailrec
 
-object ScreenConstants {
-  var WIDTH : Float = 1024
-  var HEIGHT : Float= 720
-  var TITLE = "SGExp"
-}
 
 object Engine {
 

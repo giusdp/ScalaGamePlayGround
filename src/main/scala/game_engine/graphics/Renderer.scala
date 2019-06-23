@@ -1,7 +1,6 @@
 package game_engine.graphics
 import java.nio.FloatBuffer
 
-import game_engine.ScreenConstants
 import game_object_system.graphics_objects.{Camera, Shader}
 import game_object_system.{ECHandler, Entity, PositionCom, RenderableCom}
 import org.joml.Matrix4f
