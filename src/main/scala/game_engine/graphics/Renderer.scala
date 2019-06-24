@@ -10,10 +10,6 @@ import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.{GL11, GL13, GL30}
 
 class Renderer(shader : Shader) {
-  val MVP_LOCATION = 5
-
-  def persp(): Matrix4f =
-    new Matrix4f().perspective(Math.toRadians(45).asInstanceOf[Float], ScreenConstants.WIDTH/ScreenConstants.HEIGHT, 0.01f, 1000.0f)
 
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
@@ -37,9 +33,7 @@ class Renderer(shader : Shader) {
 
       GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
-      val m = persp().mulPerspectiveAffine(Camera.view_matrix)
-
-      shader.setMVP(m.mulAffine(p.model_matrix).get(fb))
+      shader.setMVP(Camera.viewProjMat.mulAffine(r.sprite.getModelMatrix).get(fb))
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 

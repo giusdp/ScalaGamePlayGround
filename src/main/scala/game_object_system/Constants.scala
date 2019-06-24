@@ -1,6 +1,6 @@
-package game_engine.graphics
+package game_object_system
 
-object ScreenConstants {
+object Constants {
   var WIDTH : Float = 800
   var HEIGHT : Float= 480
   var TITLE = "SGExp"

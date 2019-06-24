@@ -1,14 +1,13 @@
 {
   "player": {
     "position" : {
-      "x" : 0,
-      "y" : 0
+      "x" : -100,
+      "y" : 40
     },
     "movable" : {
-      "velX" : 1,
-      "velY" : 1
+      "velX" : 0.01,
+      "velY" : 0.01
     },
-    "camera_center" : {},
     "renderable" :  {
       "sprite" : "resources/playerimg.png"
     }
