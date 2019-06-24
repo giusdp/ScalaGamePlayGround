@@ -7,6 +7,8 @@ import org.json4s.native.JsonMethods._
 
 object EntityLoader {
 
+  def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
+
   /** Heart of the json map to single component transformation. Each described component in the json file is
     * opportunely converted in the associated component. For new components added this method has to be properly extended. */
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
@@ -17,15 +19,13 @@ object EntityLoader {
     case _ => EmptyCom()
   }
 
-  def extractRenderableCom(m : Map[String, Any]): Component = extractSprite(m) match {
+  private def extractRenderableCom(m : Map[String, Any]): Component = extractSprite(m) match {
     case Some(s) => RenderableCom(s)
     case _ => EmptyCom()
   }
 
-  def extractSprite(info : Map[String, Any]) : Option[Sprite] =
+  private def extractSprite(info : Map[String, Any]) : Option[Sprite] =
     SpriteLoader.loadSprite(0, 0, info("sprite").toString)
-
-  def createEntitiesFromJSON(filename: String): List[Entity] = parseJSON(filename).map(buildEntity)
 
   private def buildEntity(cs : List[Component]): Entity = {
     val e = ECHandler.spawnEntity()
