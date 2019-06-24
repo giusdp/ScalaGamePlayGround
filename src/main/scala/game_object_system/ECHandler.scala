@@ -6,7 +6,7 @@ object ECHandler {
   var entities : List[Entity] = List()
 
   var renderableEntities : List[Entity] = List()
-  var movableEntities : List[Entity] = List()
+  var entitiesWithPosition : List[Entity] = List()
 
   def spawnEntity() : Entity = {
     val e = Entity()
@@ -27,10 +27,9 @@ object ECHandler {
         e.addComponent(c)
         renderableEntities = e :: renderableEntities
       }
-    case c : MovableCom  => if (hasThisComponent[PositionCom](e)){
+    case c : PositionCom =>
       e.addComponent(c)
-      movableEntities = e :: movableEntities
-    }
+      entitiesWithPosition = e :: entitiesWithPosition
     case _ => e.addComponent(c)
   }
 

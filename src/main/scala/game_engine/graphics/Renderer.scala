@@ -33,8 +33,7 @@ class Renderer(shader : Shader) {
 
       GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
-      val m = Camera.viewProjMat.mul(r.sprite.getModelMatrix)
-      shader.setMVP(m.get(fb))
+      shader.setMVP(Camera.viewProjMat.mulAffine(r.sprite.getModelMatrix).get(fb))
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
