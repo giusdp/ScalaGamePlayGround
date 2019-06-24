@@ -18,9 +18,8 @@ object Simulation {
         ECHandler.getPositionCom(e) match {
             case Some(pos) =>
               updatePosition(pos, move)
-              if (ECHandler.hasThisComponent[CameraCenter](e)){
-                Camera.updateCamera(pos.x, pos.y)
-              }
+              if (ECHandler.hasThisComponent[CameraCenter](e)) Camera.setPosition(pos.x, pos.y)
+              else {}
             case None =>
           }
       case None =>
@@ -30,7 +29,6 @@ object Simulation {
   def updatePosition(p : PositionCom, m: MovableCom) : Unit = {
     p.addToX(m.state_machine.direction._1 * m.velX)
     p.addToY(m.state_machine.direction._2 * m.velY)
-
     p.model_matrix.identity().translate(p.x, p.y, 0)
   }
 
