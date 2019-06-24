@@ -3,8 +3,8 @@ package game_engine
 import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
-import game_engine.graphics.{Renderer, ScreenConstants}
-import game_object_system.ECHandler
+import game_engine.graphics.Renderer
+import game_object_system.{Constants, ECHandler}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -28,7 +28,7 @@ object Engine {
     if ( !glfwInit() )
       throw new IllegalStateException("Unable to initialize GLFW")
 
-    val window = glfwCreateWindow(ScreenConstants.WIDTH.asInstanceOf[Int], ScreenConstants.HEIGHT.asInstanceOf[Int], ScreenConstants.TITLE, NULL, NULL)
+    val window = glfwCreateWindow(Constants.WIDTH.asInstanceOf[Int], Constants.HEIGHT.asInstanceOf[Int], Constants.TITLE, NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     try {
