@@ -25,7 +25,9 @@ object Simulation {
     p.addToX(m.state_machine.direction._1 * m.velX)
     p.addToY(m.state_machine.direction._2 * m.velY)
     p.model_matrix.identity().translate(p.x, p.y, 0)
-    if (cc) Camera.setPosition(p.x, p.y, 0)
+    if (cc) {
+      Camera.centerCamera(p.x, p.y, 0)
+    }
     else {}
   }
 

@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11._
 import org.lwjgl.opengl.{GL11, GL13, GL30}
 
 class Renderer(shader : Shader) {
-  val MVP_LOCATION = 5
 
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
@@ -34,8 +33,8 @@ class Renderer(shader : Shader) {
 
       GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
-
-      shader.setMVP(Camera.viewProj.mulAffine(p.model_matrix).get(fb))
+      val m = Camera.viewProjMat.mul(p.model_matrix)
+      shader.setMVP(m.get(fb))
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 

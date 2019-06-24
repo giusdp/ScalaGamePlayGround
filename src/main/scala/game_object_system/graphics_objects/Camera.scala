@@ -1,17 +1,22 @@
 package game_object_system.graphics_objects
 
-import org.joml.Matrix4f
+import game_object_system.Constants
+import org.joml.{Matrix4f, Vector3f}
 
 object Camera {
 
-  var z : Float = 512
-  var view_matrix = new Matrix4f()
+  val position : Vector3f = new Vector3f()
 
-  def updateCamera(x : Float, y : Float): Unit = {
-    view_matrix = new Matrix4f().lookAt(
-      x, y, z,
-      x, y, 0.0f,
-      0.0f, 1.0f, 0.0f)
-  }
+  val proj : Matrix4f = new Matrix4f().setOrtho2D(-Constants.WIDTH / 2, Constants.WIDTH / 2,
+    -Constants.HEIGHT / 2, Constants.HEIGHT / 2)
+
+  def setPosition(x : Float, y : Float, z : Float): Unit = position.set(x, y, z)
+
+  def addPosition(x : Float, y : Float, z : Float): Unit = position.add(x, y, z)
+
+  def viewProjMat: Matrix4f = proj.mulOrthoAffine(new Matrix4f().setTranslation(position), new Matrix4f())
+
+  def centerCamera(x : Float, y : Float, z : Float): Unit =
+    position.set((x*1.5f) - (Constants.WIDTH/2), (y*1.5f) - (Constants.HEIGHT/2), z)
 
 }
