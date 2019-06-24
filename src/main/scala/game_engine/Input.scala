@@ -1,5 +1,6 @@
 package game_engine
 
+import game_object_system.graphics_objects.Camera
 import game_object_system.{ECHandler, Entity, MovableCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
@@ -22,6 +23,8 @@ object Input {
           case GLFW_PRESS =>
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
+              case GLFW_KEY_Z => Camera.zoomIn()
+              case GLFW_KEY_X => Camera.zoomOut()
 
               case _ => stateMachine.pressedKey(key)
             }
