@@ -19,8 +19,8 @@ object Camera {
   def viewProjMat: Matrix4f =
     proj.mulOrthoAffine(new Matrix4f().translation(position).scaling(scale), new Matrix4f())
 
-  def zoomIn() = scale.add(0.2f, 0.2f, 0)
-  def zoomOut() = scale.add(-0.2f, -0.2f, 0)
+  def zoomIn(): Vector3f = scale.add(0.2f, 0.2f, 0)
+  def zoomOut(): Vector3f = scale.add(-0.2f, -0.2f, 0)
 
 
 }
