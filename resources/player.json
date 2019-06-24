@@ -5,8 +5,8 @@
       "y" : 0
     },
     "movable" : {
-      "velX" : 1,
-      "velY" : 1
+      "velX" : 0.01,
+      "velY" : 0.01
     },
     "camera_center" : {},
     "renderable" :  {
