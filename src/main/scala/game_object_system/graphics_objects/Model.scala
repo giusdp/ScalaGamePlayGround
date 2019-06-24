@@ -1,9 +1,12 @@
 package game_object_system.graphics_objects
 
+import org.joml.Matrix4f
 import org.lwjgl.opengl.{GL15, GL30}
 
 
 class Model(val vao : Int, vbos : List[Int], val vCount : Int){
+
+  val model_matrix: Matrix4f = new Matrix4f()
 
   def dispose(): Unit = {
 

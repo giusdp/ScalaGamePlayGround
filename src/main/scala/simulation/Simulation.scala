@@ -1,8 +1,7 @@
 package simulation
 
 import game_object_system.graphics_objects.Camera
-import game_object_system.{CameraCenter, ECHandler, Entity, MovableCom, PositionCom}
-
+import game_object_system.{CameraCenter, ECHandler, Entity, MovableCom, PositionCom, RenderableCom}
 
 object Simulation {
 
@@ -14,21 +13,24 @@ object Simulation {
 
   def updatePosOfE(e: Entity): Unit = ECHandler.getMovableCom(e) match {
     case Some(move) => ECHandler.getPositionCom(e) match {
-      case Some(pos) => updatePosition(pos, move, ECHandler.hasThisComponent[CameraCenter](e))
+      case Some(pos) => updatePosition(pos, move,
+        ECHandler.getRenderableCom(e), ECHandler.hasThisComponent[CameraCenter](e))
       case None =>
     }
     case None =>
   }
 
 
-  def updatePosition(p : PositionCom, m: MovableCom, cc : Boolean) : Unit = {
+  def updatePosition(p : PositionCom, m: MovableCom, r : Option[RenderableCom], cc : Boolean) : Unit = {
     p.addToX(m.state_machine.direction._1 * m.velX)
     p.addToY(m.state_machine.direction._2 * m.velY)
-    p.model_matrix.identity().translate(p.x, p.y, 0)
-    if (cc) {
-      Camera.centerCamera(p.x, p.y, 0)
+    r match {
+      case Some(rc) =>
+        rc.sprite.getModelMatrix.identity().translate(p.x, p.y, 0)
+        println(rc.sprite.getModelMatrix)
+        if (cc) Camera.setPosition(p.x, p.y, 0) else {}
+      case None =>
     }
-    else {}
   }
 
 }
