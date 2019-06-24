@@ -97,9 +97,6 @@ object Engine {
 
     renderer.renderFrame(window)
 
-    if (! glfwWindowShouldClose(window))
-      game_loop(window, renderer)
-
+    if (! glfwWindowShouldClose(window)) game_loop(window, renderer)
   }
-
 }
