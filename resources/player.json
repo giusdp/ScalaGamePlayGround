@@ -8,7 +8,6 @@
       "velX" : 0.01,
       "velY" : 0.01
     },
-    "camera_center" : {},
     "renderable" :  {
       "sprite" : "resources/playerimg.png"
     }
