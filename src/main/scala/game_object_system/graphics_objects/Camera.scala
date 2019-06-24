@@ -6,7 +6,7 @@ import game_object_system.Constants.{WIDTH, HEIGHT}
 
 object Camera {
 
-  val position : Vector3f = new Vector3f() 
+  val position : Vector3f = new Vector3f()
 
   val proj : Matrix4f = new Matrix4f().setOrtho2D(-WIDTH / 2, WIDTH / 2,
     -HEIGHT / 2, HEIGHT / 2)

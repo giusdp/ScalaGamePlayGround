@@ -27,7 +27,6 @@ object Simulation {
     r match {
       case Some(rc) =>
         rc.sprite.getModelMatrix.identity().translate(p.x, p.y, 0)
-        println(rc.sprite.getModelMatrix)
         if (cc) Camera.setPosition(p.x, p.y, 0) else {}
       case None =>
     }
