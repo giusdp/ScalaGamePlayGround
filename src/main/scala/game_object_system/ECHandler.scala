@@ -6,7 +6,7 @@ object ECHandler {
   var entities : List[Entity] = List()
 
   var renderableEntities : List[Entity] = List()
-  var entitiesWithPosition : List[Entity] = List()
+  var   entitiesWithPosition : List[Entity] = List()
 
   def spawnEntity() : Entity = {
     val e = Entity()
@@ -23,9 +23,12 @@ object ECHandler {
 
   def addComponent(e : Entity, c : Component): Unit = c match  {
     case c : RenderableCom =>
-      if (hasThisComponent[PositionCom](e)) {
-        e.addComponent(c)
-        renderableEntities = e :: renderableEntities
+      getPositionCom(e) match {
+        case None =>
+        case Some(p) =>
+          c.sprite.moveSprite(p.x, p.y, 0)
+          e.addComponent(c)
+          renderableEntities = e :: renderableEntities
       }
     case c : PositionCom =>
       e.addComponent(c)

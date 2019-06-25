@@ -14,7 +14,7 @@ object Simulation {
   private def updateRenderables() : Unit = ECHandler.renderableEntities.foreach(updateModel)
 
   private def updateModel(e : Entity): Unit = (ECHandler.getRenderableCom(e), ECHandler.getPositionCom(e)) match {
-    case (Some(r), Some(p)) => r.sprite.getModelMatrix.identity().translate (p.x, p.y, 0)
+    case (Some(r), Some(p)) => r.sprite.moveSprite(p.x, p.y, 0)
     case _ =>
   }
 
