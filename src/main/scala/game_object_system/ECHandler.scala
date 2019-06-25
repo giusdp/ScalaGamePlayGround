@@ -54,6 +54,6 @@ object ECHandler {
   cs collectFirst {case a : T if classTag[T].runtimeClass.isInstance(a) => a}
 
   def getPositionCom(e: Entity): Option[PositionCom] = getThisComponentOfE[PositionCom](e)
-  def getMovableCom(e: Entity): Option[MovableCom] = getThisComponentOfE[MovableCom](e)
+  def getMovableCom(e: Entity): Option[MovementCom] = getThisComponentOfE[MovementCom](e)
   def getRenderableCom(e : Entity): Option[RenderableCom] = getThisComponentOfE[RenderableCom](e)
 }

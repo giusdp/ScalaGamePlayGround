@@ -1,7 +1,7 @@
 package game_engine
 
 import game_object_system.graphics_objects.Camera
-import game_object_system.{ECHandler, Entity, MovableCom}
+import game_object_system.{ECHandler, Entity, MovementCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
 import simulation.MovementHandler
@@ -9,7 +9,7 @@ import simulation.MovementHandler
 object Input {
 
   def registerInput(window : Long, e : Entity): Unit = {
-    ECHandler.getThisComponentOfE[MovableCom](e) match {
+    ECHandler.getThisComponentOfE[MovementCom](e) match {
         case Some(c) => Input.setupCallbacks(window, c.state_machine)
         case _ =>
       }

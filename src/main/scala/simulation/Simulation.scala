@@ -23,7 +23,7 @@ object Simulation {
     case _ =>
   }
 
-  private def updatePosition(p : PositionCom, m: MovableCom,  cc : Boolean) : Unit = {
+  private def updatePosition(p : PositionCom, m: MovementCom, cc : Boolean) : Unit = {
     p.addToX(m.state_machine.direction._1 * m.velX)
     p.addToY(m.state_machine.direction._2 * m.velY)
   }
