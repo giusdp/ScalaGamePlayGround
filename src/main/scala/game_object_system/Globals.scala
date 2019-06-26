@@ -2,7 +2,7 @@ package game_object_system
 
 import scala.util.Random
 
-object Constants {
+object Globals {
   var WIDTH : Float = 800
   var HEIGHT : Float= 480
   var TITLE = "SGExp"
