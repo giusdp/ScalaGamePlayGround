@@ -3,7 +3,6 @@ import java.nio.FloatBuffer
 
 import game_object_system.graphics_objects.{Camera, Shader}
 import game_object_system.{ECHandler, Entity, PositionCom, RenderableCom}
-import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.opengl.GL11._
@@ -18,7 +17,9 @@ class Renderer(shader : Shader) {
     glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
     shader.use()
+
     ECHandler.renderableEntities.foreach(renderEntity)
+
     shader.stop()
 
     glfwSwapBuffers(window); // swap the color buffers
