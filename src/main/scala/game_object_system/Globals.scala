@@ -7,7 +7,7 @@ object Constants {
   var HEIGHT : Float= 480
   var TITLE = "SGExp"
 
-  val random : scala.util.Random = Random()
+  val random : scala.util.Random = Random
 
   var tileSize = 16
 }
