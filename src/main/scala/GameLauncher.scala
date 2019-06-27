@@ -1,7 +1,7 @@
-import game_engine.Engine
+import game_engine.GameEngine
 
 object GameLauncher {
 
-  def main(args : Array[String]) : Unit = Engine.run()
+  def main(args : Array[String]) : Unit = GameEngine.run()
 
 }

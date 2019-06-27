@@ -17,7 +17,7 @@ import simulation.Simulation
 import scala.annotation.tailrec
 
 
-object Engine {
+object GameEngine {
 
   def run(): Unit = {
     // Setup an error callback. The default implementation
