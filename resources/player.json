@@ -4,7 +4,7 @@
       "x" : -100,
       "y" : 40
     },
-    "movable" : {
+    "movement" : {
       "velX" : 0.01,
       "velY" : 0.01
     },
