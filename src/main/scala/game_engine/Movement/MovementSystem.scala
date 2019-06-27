@@ -1,4 +1,4 @@
-package simulation.Movement
+package game_engine.Movement
 
 import com.badlogic.ashley.core.{Engine, EntitySystem}
 
