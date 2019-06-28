@@ -5,7 +5,7 @@ import java.nio._
 import datamanager.{EntityLoader, ShaderLoader}
 import game_engine.Movement.MovementSystem
 import game_engine.graphics.RenderingSystem
-import game_object_system.{ECEngine, ECHandler, Globals}
+import game_object_system.{ECEngine, Globals}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -87,8 +87,6 @@ object Game {
 
       case None => Console.err.println("Failed to create shader, abort.")
     }
-
-    ECHandler.disposeEntities()
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)

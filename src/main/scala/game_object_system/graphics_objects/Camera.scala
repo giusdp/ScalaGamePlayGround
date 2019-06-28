@@ -8,8 +8,7 @@ object Camera {
   val position : Vector3f = new Vector3f(0,0,0)
   val scale = new Vector3f(1,1,1)
 
-  var proj : Matrix4f = new Matrix4f().setOrtho2D(-WIDTH / 2, WIDTH / 2,
-    -HEIGHT / 2, HEIGHT / 2).translate(0,0,200)
+  var proj : Matrix4f = new Matrix4f().setOrtho2D(-WIDTH / 2, WIDTH / 2, -HEIGHT / 2, HEIGHT / 2).translate(0,0,200)
 
   def setPosition(x : Float, y : Float, z : Float): Unit = position.set(x, y, z)
 
