@@ -5,9 +5,10 @@ import game_object_system.graphics_objects.Sprite
 
 case class EmptyCom() extends Component
 
-case class PositionCom(var x: Float, var y: Float) extends Component{
-  def addToX(nx : Float): Unit = x += nx
-  def addToY(ny : Float): Unit = y += ny
+case class PositionCom(var x: Float, var y: Float, var z : Float) extends Component{
+  def setX(nx : Float): Unit = x = nx
+  def setY(ny : Float): Unit = y = ny
+  def setZ(nz : Float): Unit = z = nz
 }
 
 case class VelocityCom(var velX: Float, var velY: Float) extends Component
@@ -16,4 +17,4 @@ case class VelocityCom(var velX: Float, var velY: Float) extends Component
 // allow anything to be rendered by accessing it through this component in the renderer.
 case class RenderableCom(sprite : Sprite) extends Component
 
-case class CameraCenter() extends Component
+case class CameraCenterCom() extends Component
