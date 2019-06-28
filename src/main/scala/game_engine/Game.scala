@@ -14,7 +14,6 @@ import org.lwjgl.opengl.GL11.{GL_COLOR_BUFFER_BIT, glClear, glClearColor}
 import org.lwjgl.system.MemoryStack._
 import org.lwjgl.system.MemoryUtil._
 import org.lwjgl.system._
-import simulation.Simulation
 
 import scala.annotation.tailrec
 
@@ -99,8 +98,6 @@ object Game {
   @tailrec
   def game_loop(window: Long): Unit = {
     Input.tickInput()
-
-    Simulation.update()
 
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
     glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
