@@ -3,7 +3,7 @@ package game_engine
 import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
-import game_engine.Movement.MovementSystem
+import game_engine.movement.MovementSystem
 import game_engine.graphics.RenderingSystem
 import game_object_system.{ECEngine, Globals}
 import org.lwjgl.glfw.Callbacks._
@@ -65,6 +65,7 @@ object Game {
 
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
+    ECEngine.engine.addEntity(player)
     Input.registerInput(window, player)
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")

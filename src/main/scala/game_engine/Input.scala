@@ -9,10 +9,10 @@ import simulation.MovementHandler
 object Input {
 
   def registerInput(window : Long, e : Entity): Unit = {
-
+    setupCallbacks(window)
   }
 
-  def setupCallbacks(window: Long, stateMachine: MovementHandler): Unit = {
+  def setupCallbacks(window: Long): Unit = {
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
@@ -23,10 +23,10 @@ object Input {
               case GLFW_KEY_Z => Camera.zoomIn()
               case GLFW_KEY_X => Camera.zoomOut()
 
-              case _ => stateMachine.pressedKey(key)
+              case _ =>
             }
 
-          case GLFW_RELEASE => stateMachine.releasedKey(key)
+          case GLFW_RELEASE => 
           case _ =>  // GLFW_REPEAT
         }
 
