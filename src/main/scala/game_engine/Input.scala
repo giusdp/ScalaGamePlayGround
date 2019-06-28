@@ -26,7 +26,7 @@ object Input {
               case _ =>
             }
 
-          case GLFW_RELEASE => 
+          case GLFW_RELEASE =>
           case _ =>  // GLFW_REPEAT
         }
 

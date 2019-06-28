@@ -5,7 +5,7 @@ import java.util.Comparator
 import com.badlogic.ashley.core.{Entity, Family}
 import com.badlogic.ashley.systems.SortedIteratingSystem
 import game_object_system.{ECEngine, PositionCom, VelocityCom}
-import game_object_system.graphics_objects.Shader
+import game_object_system.graphics_objects.{Camera, Shader}
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL13, GL30}
 
@@ -22,7 +22,7 @@ class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSy
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
-    shader.setMVP(sprite.getModelMatrix.get(fb))
+    shader.setMVP(Camera.viewProjMat.mulAffine(sprite.getModelMatrix).get(fb))
 
     GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
