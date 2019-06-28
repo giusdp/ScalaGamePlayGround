@@ -4,9 +4,9 @@
       "x" : -100,
       "y" : 40
     },
-    "movement" : {
-      "velX" : 0.01,
-      "velY" : 0.01
+    "velocity" : {
+      "velX" : 0.001,
+      "velY" : 0.001
     },
     "renderable" :  {
       "sprite" : "resources/playerimg.png"

@@ -8,7 +8,6 @@ object d extends Enumeration{
   val UP: (Float, Float) = (0, 1)
   val DOWN: (Float, Float) = (0, -1)
   val RIGHT: (Float, Float) = (1, 0)
-
 }
 
 class MovementHandler {

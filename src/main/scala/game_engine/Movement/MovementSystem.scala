@@ -1,11 +1,24 @@
 package game_engine.Movement
 
-import com.badlogic.ashley.core.{Engine, EntitySystem}
+import game_object_system.{ECEngine, VelocityCom, PositionCom}
+import com.badlogic.ashley.core.{Engine, Entity, EntitySystem, Family}
+import scala.jdk.CollectionConverters._
 
 class MovementSystem extends EntitySystem {
-  override def addedToEngine(engine: Engine): Unit = super.addedToEngine(engine)
 
-  override def removedFromEngine(engine: Engine): Unit = super.removedFromEngine(engine)
+  var entities: Iterable[Entity] = _
 
-  override def update(deltaTime: Float): Unit = super.update(deltaTime)
+  override def addedToEngine(engine: Engine): Unit = {
+    entities = ECEngine.engine.getEntitiesFor(Family.all(PositionCom.getClass, VelocityCom.getClass).get()).asScala
+  }
+
+  override def update(deltaTime: Float): Unit = {
+    entities.foreach(e => {
+      val p = ECEngine.posMapper.get(e)
+      val m = ECEngine.moveMapper.get(e)
+      p.addToX(deltaTime * m.velX)
+      p.addToY(deltaTime * m.velY)
+    })
+  }
+
 }
