@@ -1,4 +1,4 @@
-package simulation
+package game_engine.movement
 
 import org.lwjgl.glfw.GLFW.{GLFW_KEY_A, GLFW_KEY_D, GLFW_KEY_S, GLFW_KEY_W}
 

@@ -66,7 +66,7 @@ object Game {
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
     ECEngine.engine.addEntity(player)
-    Input.registerInput(window, player)
+    InputHandler.registerInput(window, player)
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
     optionShader match {
@@ -98,7 +98,7 @@ object Game {
 
   @tailrec
   def game_loop(window: Long): Unit = {
-    Input.tickInput()
+    InputHandler.tickInput()
 
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
     glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer

@@ -4,9 +4,8 @@ import com.badlogic.ashley.core.Entity
 import game_object_system.graphics_objects.Camera
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-import simulation.MovementHandler
 
-object Input {
+object InputHandler {
 
   def registerInput(window : Long, e : Entity): Unit = {
     setupCallbacks(window)
