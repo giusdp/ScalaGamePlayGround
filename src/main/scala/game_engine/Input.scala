@@ -1,7 +1,8 @@
 package game_engine
 
+import com.badlogic.ashley.core.Entity
 import game_object_system.graphics_objects.Camera
-import game_object_system.{ECHandler, Entity, MovementCom}
+import game_object_system.{ECHandler, VelocityCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
 import simulation.MovementHandler
@@ -9,7 +10,7 @@ import simulation.MovementHandler
 object Input {
 
   def registerInput(window : Long, e : Entity): Unit = {
-    ECHandler.getThisComponentOfE[MovementCom](e) match {
+    ECHandler.getThisComponentOfE[VelocityCom](e) match {
         case Some(c) => Input.setupCallbacks(window, c.state_machine)
         case _ =>
       }

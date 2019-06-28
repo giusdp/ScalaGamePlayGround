@@ -1,24 +1,19 @@
 package game_engine.Movement
 
-import game_object_system.{ECEngine, VelocityCom, PositionCom}
-import com.badlogic.ashley.core.{Engine, Entity, EntitySystem, Family}
-import scala.jdk.CollectionConverters._
+import com.badlogic.ashley.core.{Entity, Family}
+import com.badlogic.ashley.systems.IteratingSystem
+import game_object_system.{ECEngine, PositionCom, VelocityCom}
 
-class MovementSystem extends EntitySystem {
+class MovementSystem(priority : Int) extends IteratingSystem(
+  Family.all(PositionCom.getClass, VelocityCom.getClass).get(),
+  priority
+) {
 
-  var entities: Iterable[Entity] = _
 
-  override def addedToEngine(engine: Engine): Unit = {
-    entities = ECEngine.engine.getEntitiesFor(Family.all(PositionCom.getClass, VelocityCom.getClass).get()).asScala
+  override def processEntity(entity: Entity, deltaTime: Float): Unit = {
+      val p = ECEngine.posMapper.get(entity)
+      val m = ECEngine.moveMapper.get(entity)
+      p.setX(deltaTime * m.velX)
+      p.setY(deltaTime * m.velY)
   }
-
-  override def update(deltaTime: Float): Unit = {
-    entities.foreach(e => {
-      val p = ECEngine.posMapper.get(e)
-      val m = ECEngine.moveMapper.get(e)
-      p.addToX(deltaTime * m.velX)
-      p.addToY(deltaTime * m.velY)
-    })
-  }
-
 }

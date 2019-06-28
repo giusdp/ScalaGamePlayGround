@@ -3,12 +3,14 @@ package game_engine
 import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
-import game_engine.graphics.Renderer
-import game_object_system.{Globals, ECHandler}
+import game_engine.Movement.MovementSystem
+import game_engine.graphics.RenderingSystem
+import game_object_system.{ECEngine, ECHandler, Globals}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
 import org.lwjgl.opengl.GL
+import org.lwjgl.opengl.GL11.{GL_COLOR_BUFFER_BIT, glClear, glClearColor}
 import org.lwjgl.system.MemoryStack._
 import org.lwjgl.system.MemoryUtil._
 import org.lwjgl.system._
@@ -69,14 +71,21 @@ object Game {
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
     optionShader match {
       case Some(s) =>
-        val renderer = new Renderer(s)
+        val renderer = new RenderingSystem(s, 1)
+
+        val movement = new MovementSystem(0)
+
+        ECEngine.engine.addSystem(movement)
+        ECEngine.engine.addSystem(renderer)
+
 
         /** Game started. */
-        game_loop(window, renderer)
+        game_loop(window)
 
         /** Cleaning before exiting */
         renderer.dispose()
-      case None => Console.err.println("Failed to create shader, aborted.")
+
+      case None => Console.err.println("Failed to create shader, abort.")
     }
 
     ECHandler.disposeEntities()
@@ -90,13 +99,18 @@ object Game {
   }
 
   @tailrec
-  def game_loop(window: Long, renderer : Renderer): Unit = {
+  def game_loop(window: Long): Unit = {
     Input.tickInput()
 
     Simulation.update()
 
-    renderer.renderFrame(window)
+    glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
+    glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
-    if (! glfwWindowShouldClose(window)) game_loop(window, renderer)
+    ECEngine.engine.update(1)
+
+    glfwSwapBuffers(window); // swap the color buffers
+
+    if (! glfwWindowShouldClose(window)) game_loop(window)
   }
 }
