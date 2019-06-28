@@ -98,9 +98,9 @@ object Game {
 
   @tailrec
   def game_loop(window: Long): Unit = {
-    InputHandler.tickInput()
+    glfwPollEvents()
 
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
+    glClearColor(1.0f, 0.5f, 0.0f, 0.0f)
     glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
     ECEngine.engine.update(1)

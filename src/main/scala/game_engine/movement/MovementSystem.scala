@@ -9,11 +9,15 @@ class MovementSystem(priority : Int) extends IteratingSystem(
   priority
 ) {
 
-
   override def processEntity(entity: Entity, deltaTime: Float): Unit = {
-      val p = ECEngine.posMapper.get(entity)
-      val m = ECEngine.moveMapper.get(entity)
-      p.setX(deltaTime * m.velX)
-      p.setY(deltaTime * m.velY)
+    val p = ECEngine.posMapper.get(entity)
+    val v = ECEngine.velMapper.get(entity).velocity
+    val m = ECEngine.msmMpper.get(entity)
+    p.addToX(deltaTime * m.msm.direction._1 * v)
+    p.addToY(deltaTime * m.msm.direction._2 * v)
+
+    if (ECEngine.renderableMapper.has(entity)) {
+      ECEngine.renderableMapper.get(entity).sprite.moveSprite(p.x, p.y, p.z)
+    }
   }
 }
