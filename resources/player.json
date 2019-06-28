@@ -1,13 +1,13 @@
 {
   "player": {
     "position" : {
-      "x" : -100,
-      "y" : 40
+      "x" : 0,
+      "y" : 0
     },
     "velocity" : {
-      "velX" : 0.001,
-      "velY" : 0.001
+      "value": 0.01
     },
+    "msm" : true,
     "renderable" :  {
       "sprite" : "resources/playerimg.png"
     }

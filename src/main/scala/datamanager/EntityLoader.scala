@@ -51,7 +51,8 @@ object EntityLoader {
     * For new components added this method has to be properly extended. */
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
     case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat, 0)
-    case "velocity" => VelocityCom(c._2("velX").toString.toFloat, c._2("velX").toString.toFloat)
+    case "velocity" => VelocityCom(c._2("value").toString.toFloat)
+    case "msm" => MovementSMCom()
     case "renderable" => extractRenderableCom(c._2)
     case "camera_center" => CameraCenterCom()
     case _ => EmptyCom()
