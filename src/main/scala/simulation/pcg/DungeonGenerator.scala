@@ -1,7 +1,6 @@
 package simulation.pcg
 
 import game_object_system.Globals
-import game_object_system.graphics_objects.Sprite
 import javax.swing.text.html.parser.Entity
 
 object DungeonGenerator {

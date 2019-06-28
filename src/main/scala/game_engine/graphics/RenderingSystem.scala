@@ -15,8 +15,11 @@ class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSy
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
   override def processEntity(e: Entity, deltaTime: Float): Unit = {
-    shader.use()
+
     val sprite = ECEngine.renderableMapper.get(e).sprite
+
+    shader.use()
+
     GL30.glBindVertexArray(sprite.model.vao)
     GL13.glActiveTexture(0)
 
