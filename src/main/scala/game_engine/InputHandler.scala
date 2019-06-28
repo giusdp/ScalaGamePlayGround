@@ -1,21 +1,14 @@
 package game_engine
 
+import com.badlogic.ashley.core.Entity
+import game_object_system.ECEngine
 import game_object_system.graphics_objects.Camera
-import game_object_system.{ECHandler, Entity, MovementCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-import simulation.MovementHandler
 
-object Input {
+object InputHandler {
 
-  def registerInput(window : Long, e : Entity): Unit = {
-    ECHandler.getThisComponentOfE[MovementCom](e) match {
-        case Some(c) => Input.setupCallbacks(window, c.state_machine)
-        case _ =>
-      }
-  }
-
-  def setupCallbacks(window: Long, stateMachine: MovementHandler): Unit = {
+  def registerInput(window : Long, player : Entity): Unit = {
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
@@ -23,21 +16,28 @@ object Input {
           case GLFW_PRESS =>
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
+
+              case GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_A | GLFW_KEY_D =>
+                ECEngine.msmMpper.get(player).msm.pressedKey(key)
+
+
               case GLFW_KEY_Z => Camera.zoomIn()
               case GLFW_KEY_X => Camera.zoomOut()
 
-              case _ => stateMachine.pressedKey(key)
+              case _ =>
             }
 
-          case GLFW_RELEASE => stateMachine.releasedKey(key)
+          case GLFW_RELEASE => key match {
+            case GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_A | GLFW_KEY_D =>
+              ECEngine.msmMpper.get(player).msm.releasedKey(key)
+            case _ =>
+          }
+
           case _ =>  // GLFW_REPEAT
         }
 
     glfwSetKeyCallback(window, fn)
   }
 
-  def tickInput(): Unit = {
-    glfwPollEvents()
-  }
 
 }

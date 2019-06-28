@@ -3,21 +3,22 @@ package game_engine
 import java.nio._
 
 import datamanager.{EntityLoader, ShaderLoader}
-import game_engine.graphics.Renderer
-import game_object_system.{Constants, ECHandler}
+import game_engine.movement.MovementSystem
+import game_engine.graphics.RenderingSystem
+import game_object_system.{ECEngine, Globals}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
 import org.lwjgl.opengl.GL
+import org.lwjgl.opengl.GL11.{GL_COLOR_BUFFER_BIT, glClear, glClearColor}
 import org.lwjgl.system.MemoryStack._
 import org.lwjgl.system.MemoryUtil._
 import org.lwjgl.system._
-import simulation.Simulation
 
 import scala.annotation.tailrec
 
 
-object Engine {
+object Game {
 
   def run(): Unit = {
     // Setup an error callback. The default implementation
@@ -28,7 +29,7 @@ object Engine {
     if ( !glfwInit() )
       throw new IllegalStateException("Unable to initialize GLFW")
 
-    val window = glfwCreateWindow(Constants.WIDTH.asInstanceOf[Int], Constants.HEIGHT.asInstanceOf[Int], Constants.TITLE, NULL, NULL)
+    val window = glfwCreateWindow(Globals.WIDTH.asInstanceOf[Int], Globals.HEIGHT.asInstanceOf[Int], Globals.TITLE, NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window")
 
     try {
@@ -64,22 +65,28 @@ object Engine {
 
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
-    Input.registerInput(window, player)
+    ECEngine.engine.addEntity(player)
+    InputHandler.registerInput(window, player)
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
     optionShader match {
       case Some(s) =>
-        val renderer = new Renderer(s)
+        val renderer = new RenderingSystem(s, 1)
+
+        val movement = new MovementSystem(0)
+
+        ECEngine.engine.addSystem(movement)
+        ECEngine.engine.addSystem(renderer)
+
 
         /** Game started. */
-        game_loop(window, renderer)
+        game_loop(window)
 
         /** Cleaning before exiting */
         renderer.dispose()
-      case None => Console.err.println("Failed to create shader, aborted.")
-    }
 
-    ECHandler.disposeEntities()
+      case None => Console.err.println("Failed to create shader, abort.")
+    }
     // Free the window callbacks and destroy the window
     glfwFreeCallbacks(window)
     glfwDestroyWindow(window)
@@ -90,13 +97,16 @@ object Engine {
   }
 
   @tailrec
-  def game_loop(window: Long, renderer : Renderer): Unit = {
-    Input.tickInput()
+  def game_loop(window: Long): Unit = {
+    glfwPollEvents()
 
-    Simulation.update()
+    glClearColor(1.0f, 0.5f, 0.0f, 0.0f)
+    glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
 
-    renderer.renderFrame(window)
+    ECEngine.engine.update(1)
 
-    if (! glfwWindowShouldClose(window)) game_loop(window, renderer)
+    glfwSwapBuffers(window); // swap the color buffers
+
+    if (! glfwWindowShouldClose(window)) game_loop(window)
   }
 }

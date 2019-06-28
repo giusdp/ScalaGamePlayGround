@@ -15,6 +15,8 @@ libraryDependencies += "org.l33tlabs.twl" % "pngdecoder" % "1.0"
 // https://mvnrepository.com/artifact/org.joml/joml
 libraryDependencies += "org.joml" % "joml" % "1.9.15"
 
+// https://mvnrepository.com/artifact/com.badlogicgames.ashley/ashley
+libraryDependencies += "com.badlogicgames.ashley" % "ashley" % "1.7.3"
 
 libraryDependencies ++= {
   val version = "3.2.0"
