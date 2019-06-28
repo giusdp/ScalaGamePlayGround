@@ -1,11 +1,11 @@
-package game_engine.Movement
+package game_engine.movement
 
 import com.badlogic.ashley.core.{Entity, Family}
 import com.badlogic.ashley.systems.IteratingSystem
 import game_object_system.{ECEngine, PositionCom, VelocityCom}
 
 class MovementSystem(priority : Int) extends IteratingSystem(
-  Family.all(PositionCom.getClass, VelocityCom.getClass).get(),
+  Family.all(classOf[PositionCom], classOf[VelocityCom]).get(),
   priority
 ) {
 

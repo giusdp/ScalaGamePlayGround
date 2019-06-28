@@ -10,7 +10,7 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL13, GL30}
 
 class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSystem(
-  Family.all(PositionCom.getClass, VelocityCom.getClass).get(), Comp.comparator, priority) {
+  Family.all(classOf[PositionCom], classOf[VelocityCom]).get(), Comp.comparator, priority) {
 
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
