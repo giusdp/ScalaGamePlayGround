@@ -6,9 +6,12 @@ import game_object_system.graphics_objects.Camera
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
 
+import game_engine.movement.MoveCommands._
+
 object InputHandler {
 
   def registerInput(window : Long, player : Entity): Unit = {
+    val direction = ECEngine.dirMapper.get(player)
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
@@ -17,8 +20,10 @@ object InputHandler {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
 
-              case GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_A | GLFW_KEY_D =>
-                ECEngine.msmMpper.get(player).msm.pressedKey(key)
+              case GLFW_KEY_W => moveUp(direction)
+              case GLFW_KEY_S => moveDown(direction)
+              case GLFW_KEY_A => moveLeft(direction)
+              case GLFW_KEY_D => moveRight(direction)
 
 
               case GLFW_KEY_Z => Camera.zoomIn()
@@ -29,7 +34,6 @@ object InputHandler {
 
           case GLFW_RELEASE => key match {
             case GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_A | GLFW_KEY_D =>
-              ECEngine.msmMpper.get(player).msm.releasedKey(key)
             case _ =>
           }
 

@@ -8,7 +8,7 @@ object ECEngine{
 
   val posMapper : ComponentMapper[PositionCom] = ComponentMapper.getFor(classOf[PositionCom])
   val velMapper : ComponentMapper[VelocityCom] = ComponentMapper.getFor(classOf[VelocityCom])
-  val msmMpper : ComponentMapper[MovementSMCom] = ComponentMapper.getFor(classOf[MovementSMCom])
+  val dirMapper : ComponentMapper[DirectionCom] = ComponentMapper.getFor(classOf[DirectionCom])
   val renderableMapper : ComponentMapper[RenderableCom] = ComponentMapper.getFor(classOf[RenderableCom])
   val cameraCenterMapper : ComponentMapper[CameraCenterCom] = ComponentMapper.getFor(classOf[CameraCenterCom])
 

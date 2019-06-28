@@ -52,7 +52,7 @@ object EntityLoader {
   private def asComponent(c : (String, Map[String, Any])) : Component = c._1 match {
     case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat, 0)
     case "velocity" => VelocityCom(c._2("value").toString.toFloat)
-    case "msm" => MovementSMCom()
+    case "direction" => DirectionCom()
     case "renderable" => extractRenderableCom(c._2)
     case "camera_center" => CameraCenterCom()
     case _ => EmptyCom()

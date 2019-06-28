@@ -7,7 +7,7 @@
     "velocity" : {
       "value": 0.01
     },
-    "msm" : true,
+    "direction" : true,
     "renderable" :  {
       "sprite" : "resources/playerimg.png"
     }
