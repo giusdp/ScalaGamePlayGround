@@ -5,7 +5,7 @@
       "y" : 0
     },
     "velocity" : {
-      "value": 0.01
+      "value": 100
     },
     "direction" : true,
     "renderable" :  {

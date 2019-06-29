@@ -3,6 +3,7 @@ package game_engine
 import datamanager.{EntityLoader, ShaderLoader}
 import game_engine.graphics.{RenderingSystem, Window}
 import game_engine.movement.MovementSystem
+import game_engine.utils.Timer
 import game_object_system.ECEngine
 import game_object_system.graphics_objects.Camera
 import org.lwjgl.glfw.Callbacks._
@@ -60,9 +61,11 @@ object Game {
 
   @tailrec
   def gameLoop(): Unit = {
+    val deltaTime = Timer.getDeltaTime
+    println(deltaTime)
     glfwPollEvents()
     Window.clearWindow()
-    ECEngine.engine.update(1)
+    ECEngine.engine.update(deltaTime)
     Window.swapBuffer()
 
     if (! Window.shouldClose()) gameLoop()

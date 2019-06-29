@@ -8,7 +8,7 @@ object Timer {
 
   def init(): Unit = lastFrame = getTime
 
-  def getTime: Double = GLFW.glfwGetTime() / 1000.0
+  def getTime: Double = GLFW.glfwGetTime()
 
   def getDeltaTime: Float = {
     val time = getTime
