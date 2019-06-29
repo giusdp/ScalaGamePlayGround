@@ -1,16 +1,16 @@
 package game_engine
 
 import com.badlogic.ashley.core.Entity
+import game_engine.graphics.Window
 import game_object_system.ECEngine
 import game_object_system.graphics_objects.Camera
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-
 import game_engine.movement.MoveCommands._
 
 object InputHandler {
 
-  def registerInput(window : Long, player : Entity): Unit = {
+  def registerInput(player : Entity): Unit = {
     val direction = ECEngine.dirMapper.get(player)
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
@@ -40,7 +40,7 @@ object InputHandler {
           case _ =>  // GLFW_REPEAT
         }
 
-    glfwSetKeyCallback(window, fn)
+    glfwSetKeyCallback(Window.window, fn)
   }
 
 

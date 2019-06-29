@@ -1,7 +1,8 @@
 package game_engine.pcg
 
-import game_object_system.Globals.{random, tileSize}
 import game_object_system.graphics_objects.Rect
+
+import scala.util.Random
 
 sealed trait BSPTree
 case class BSPNode(x : Int, y : Int, w: Int, h : Int, left : BSPTree, right: BSPTree) extends BSPTree
@@ -9,6 +10,8 @@ case class BSPLeaf(x : Int, y : Int, w: Int, h : Int) extends BSPTree
 
 object BSPBuilder {
 
+  val random: Random = Random
+  val tileSize = 16
   val minRoom: Int = 3 * tileSize
 
 

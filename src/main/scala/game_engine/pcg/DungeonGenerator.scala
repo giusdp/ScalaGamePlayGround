@@ -1,14 +1,14 @@
 package game_engine.pcg
 
-import game_object_system.Globals
-import javax.swing.text.html.parser.Entity
+import com.badlogic.ashley.core.Entity
+
 
 object DungeonGenerator {
 
   /** Dungeon generated with a random width and height */
   def generateDungeon() : List[Entity] = {
-    val w = Globals.random.between(300, 1001) // a inclusive b esclusive
-    val h = Globals.random.between(300, 1001)
+    val w = 3 // a inclusive b esclusive
+    val h = 3
     generateDungeon(w, h)
   }
 

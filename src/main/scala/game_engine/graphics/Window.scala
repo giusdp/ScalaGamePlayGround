@@ -10,15 +10,19 @@ import org.lwjgl.opengl.GL11.{GL_COLOR_BUFFER_BIT, glClear, glClearColor}
 object Window {
 
   var fpsCap = 60
+  var width = 0
+  var height = 0
 
   var window : Long = 0
 
-  def createWindow(title : String, width : Int, height : Int) : Unit = {
-    window = glfwCreateWindow(width, height, title, NULL, NULL)
+  def createWindow(title : String, w : Int, h : Int) : Unit = {
+    width = w
+    height = h
+    window = glfwCreateWindow(w, h, title, NULL, NULL)
     if (window == NULL) throw new RuntimeException("Failed to create the GLFW window.")
 
     val vidMode : GLFWVidMode = glfwGetVideoMode(glfwGetPrimaryMonitor())
-    glfwSetWindowPos(window, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2)
+    glfwSetWindowPos(window, (vidMode.width() - w) / 2, (vidMode.height() - h) / 2)
 
     // Make the OpenGL context current
     glfwMakeContextCurrent(window)
@@ -29,7 +33,10 @@ object Window {
 
   }
 
-  def setSize(w : Int, h : Int) = ???
+  def setSize(w : Int, h : Int): Unit = {
+    width = w
+    height = h
+  }
   def shouldClose() : Boolean = glfwWindowShouldClose(window)
 
   def clearWindow(): Unit = {
