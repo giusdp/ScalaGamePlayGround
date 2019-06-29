@@ -62,7 +62,6 @@ object Game {
   @tailrec
   def gameLoop(): Unit = {
     val deltaTime = Timer.getDeltaTime
-    println(deltaTime)
     glfwPollEvents()
     Window.clearWindow()
     ECEngine.engine.update(deltaTime)

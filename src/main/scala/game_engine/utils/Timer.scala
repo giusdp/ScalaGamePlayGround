@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW
 
 object Timer {
 
-  var lastFrame : Double = 0.0f
+  var lastFrame : Double = 0.0
 
   def init(): Unit = lastFrame = getTime
 
