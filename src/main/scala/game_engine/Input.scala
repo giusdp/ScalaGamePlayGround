@@ -33,7 +33,10 @@ object Input {
             }
 
           case GLFW_RELEASE => key match {
-            case GLFW_KEY_W | GLFW_KEY_S | GLFW_KEY_A | GLFW_KEY_D =>
+            case GLFW_KEY_W => moveDown(direction)
+            case GLFW_KEY_S => moveUp(direction)
+            case GLFW_KEY_A => moveRight(direction)
+            case GLFW_KEY_D => moveLeft(direction)
             case _ =>
           }
 
