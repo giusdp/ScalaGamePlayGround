@@ -1,7 +1,6 @@
 package game_engine.graphics
 
-import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwMakeContextCurrent, glfwSetWindowPos, glfwShowWindow, glfwSwapBuffers,
-  glfwSwapInterval, glfwWindowShouldClose, glfwGetVideoMode, glfwGetPrimaryMonitor}
+import org.lwjgl.glfw.GLFW.{glfwCreateWindow, glfwGetPrimaryMonitor, glfwGetVideoMode, glfwMakeContextCurrent, glfwSetWindowPos, glfwSetWindowTitle, glfwShowWindow, glfwSwapBuffers, glfwSwapInterval, glfwWindowShouldClose}
 import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.opengl.GL11.{GL_COLOR_BUFFER_BIT, glClear, glClearColor}
@@ -37,6 +36,10 @@ object Window {
     width = w
     height = h
   }
+
+  def setTitle(title : String) : Unit = glfwSetWindowTitle(Window.window, title)
+
+
   def shouldClose() : Boolean = glfwWindowShouldClose(window)
 
   def clearWindow(): Unit = {

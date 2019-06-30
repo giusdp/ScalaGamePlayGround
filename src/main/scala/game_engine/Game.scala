@@ -71,7 +71,7 @@ object Game {
     lastFPSTime += deltaTime
     fps += 1
     if (lastFPSTime >= 1.0){
-      println("FPS: " + fps)
+      Window.setTitle("FPS: " + fps)
       lastFPSTime = 0
       fps = 0
     }
