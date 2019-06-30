@@ -20,10 +20,10 @@ object Input {
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
 
-              case GLFW_KEY_W => moveUp(direction)
-              case GLFW_KEY_S => moveDown(direction)
-              case GLFW_KEY_A => moveLeft(direction)
-              case GLFW_KEY_D => moveRight(direction)
+              case GLFW_KEY_W => pressedUp(direction)
+              case GLFW_KEY_S => pressedDown(direction)
+              case GLFW_KEY_A => pressedLeft(direction)
+              case GLFW_KEY_D => pressedRight(direction)
 
 
               case GLFW_KEY_Z => Camera.zoomIn()
@@ -33,10 +33,10 @@ object Input {
             }
 
           case GLFW_RELEASE => key match {
-            case GLFW_KEY_W => moveDown(direction)
-            case GLFW_KEY_S => moveUp(direction)
-            case GLFW_KEY_A => moveRight(direction)
-            case GLFW_KEY_D => moveLeft(direction)
+            case GLFW_KEY_W => releasedUp(direction)
+            case GLFW_KEY_S => releasedDown(direction)
+            case GLFW_KEY_A => releasedLeft(direction)
+            case GLFW_KEY_D => releasedRight(direction)
             case _ =>
           }
 
