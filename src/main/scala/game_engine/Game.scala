@@ -35,7 +35,7 @@ object Game {
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
     ECEngine.engine.addEntity(player)
 
-    InputHandler.registerInput(player)
+    Input.registerInput(player)
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
 

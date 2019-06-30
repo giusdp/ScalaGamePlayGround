@@ -8,7 +8,7 @@ import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
 import game_engine.movement.MoveCommands._
 
-object InputHandler {
+object Input {
 
   def registerInput(player : Entity): Unit = {
     val direction = ECEngine.dirMapper.get(player)
