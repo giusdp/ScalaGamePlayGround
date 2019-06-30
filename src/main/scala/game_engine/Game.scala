@@ -13,9 +13,7 @@ import org.lwjgl.opengl.GL
 
 import scala.annotation.tailrec
 
-
 object Game {
-
 
   def run(): Unit = {
     // Setup an error callback. The default implementation
@@ -51,6 +49,7 @@ object Game {
     ECEngine.engine.addSystem(renderer)
 
     /** Game started. */
+    Timer.init()
     gameLoop()
 
     /** Cleaning before exiting */
@@ -59,15 +58,33 @@ object Game {
 
   }
 
+
+  val fpsCap : Int = 60
+  val frameTime : Double = 1000.0/fpsCap.toDouble // 16 ms each frame
+  var lastFPSTime : Double = 0
+  var fps : Int = 0
+
   @tailrec
   def gameLoop(): Unit = {
     val deltaTime = Timer.getDeltaTime
+
+    lastFPSTime += deltaTime
+    fps += 1
+    if (lastFPSTime >= 1.0){
+      println("FPS: " + fps)
+      lastFPSTime = 0
+      fps = 0
+    }
+
     glfwPollEvents()
     Window.clearWindow()
     ECEngine.engine.update(deltaTime)
     Window.swapBuffer()
 
-    if (! Window.shouldClose()) gameLoop()
+    try{Thread.sleep((Timer.lastFrame - Timer.getTime + frameTime).toLong)}
+    catch {case e: Exception => Console.err.println(e.getMessage)}
+
+    if (!Window.shouldClose()) gameLoop()
   }
 
   def cleanUp(): Unit = {
