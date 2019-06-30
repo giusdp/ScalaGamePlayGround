@@ -1,21 +1,17 @@
 package game_engine
 
+import com.badlogic.ashley.core.Entity
+import game_engine.graphics.Window
+import game_object_system.ECEngine
 import game_object_system.graphics_objects.Camera
-import game_object_system.{ECHandler, Entity, MovableCom}
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw.GLFWKeyCallbackI
-import simulation.MovementHandler
+import game_engine.movement.MoveCommands._
 
 object Input {
 
-  def registerInput(window : Long, e : Entity): Unit = {
-    ECHandler.getThisComponentOfE[MovableCom](e) match {
-        case Some(c) => Input.setupCallbacks(window, c.state_machine)
-        case _ =>
-      }
-  }
-
-  def setupCallbacks(window: Long, stateMachine: MovementHandler): Unit = {
+  def registerInput(player : Entity): Unit = {
+    val direction = ECEngine.dirMapper.get(player)
     val fn : GLFWKeyCallbackI =
       (window: Long, key: Int, _: Int, action: Int, _: Int) =>
         action match {
@@ -23,21 +19,32 @@ object Input {
           case GLFW_PRESS =>
             key match {
               case GLFW_KEY_Q => glfwSetWindowShouldClose(window, true)
+
+              case GLFW_KEY_W => pressedUp(direction)
+              case GLFW_KEY_S => pressedDown(direction)
+              case GLFW_KEY_A => pressedLeft(direction)
+              case GLFW_KEY_D => pressedRight(direction)
+
+
               case GLFW_KEY_Z => Camera.zoomIn()
               case GLFW_KEY_X => Camera.zoomOut()
 
-              case _ => stateMachine.pressedKey(key)
+              case _ =>
             }
 
-          case GLFW_RELEASE => stateMachine.releasedKey(key)
+          case GLFW_RELEASE => key match {
+            case GLFW_KEY_W => releasedUp(direction)
+            case GLFW_KEY_S => releasedDown(direction)
+            case GLFW_KEY_A => releasedLeft(direction)
+            case GLFW_KEY_D => releasedRight(direction)
+            case _ =>
+          }
+
           case _ =>  // GLFW_REPEAT
         }
 
-    glfwSetKeyCallback(window, fn)
+    glfwSetKeyCallback(Window.window, fn)
   }
 
-  def tickInput(): Unit = {
-    glfwPollEvents()
-  }
 
 }
