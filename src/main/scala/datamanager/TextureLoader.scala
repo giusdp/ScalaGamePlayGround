@@ -5,10 +5,16 @@ import java.nio.ByteBuffer
 import java.nio.file.{Files, Paths}
 
 import de.matthiasmann.twl.utils.PNGDecoder
-import game_object_system.graphics_objects.Texture
+import game_object_system.graphics_objects.{Texture, TextureAtlas}
 import org.lwjgl.opengl.{GL11, GL30}
 
 object TextureLoader {
+
+  def loadTilesTextureAtlas(filename : String, tileSize : Float): TextureAtlas = {
+    val t = TextureLoader.loadTexture("resources/"+filename) //TODO remove resources/, make it dynamic
+      .getOrElse(throw new RuntimeException("Failed to load texture atlas " + filename))
+    TextureAtlas(t, tileSize, t.w, t.h)
+  }
 
   def loadTexture(fileName: String) : Option[Texture] = {
 
