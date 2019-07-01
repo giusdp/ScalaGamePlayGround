@@ -2,7 +2,7 @@ package datamanager
 
 import java.nio.{FloatBuffer, IntBuffer}
 
-import game_object_system.graphics_objects.{Model, Shape}
+import game_object_system.graphics_objects.{Model, ModelPrimitives}
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
 
@@ -10,11 +10,11 @@ object ModelLoader {
   val VERTEX_LOCATION = 0
   val TEXTURE_LOCATION = 1
 
-  def loadModel(s : Shape): Model = {
+  def loadModel(s : ModelPrimitives): Model = {
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
 
-    val vbos = List(bindIndicesBuffer(s.indices), bindVertexBuffer(s.vertices), bindTexCoordBuffer(s.tex_coords))
+    val vbos = List(bindIndicesBuffer(s.indices), bindVertexBuffer(s.vertices), bindTexCoordBuffer(s.texCoords))
 
     GL30.glBindVertexArray(0)
     Model(vao, vbos, s.indices.length)
