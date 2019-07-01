@@ -1,6 +1,6 @@
 package game_object_system.graphics_objects
 
-trait ModelPrimitives {
+trait ModelPrimitive {
   val indices : Array[Int] = Array()
 
   val vertices : Array[Float] = Array()
@@ -8,7 +8,7 @@ trait ModelPrimitives {
   val texCoords : Array[Float] = Array()
 }
 
-case class ModelRect(x : Float, y : Float, w : Float, h : Float) extends ModelPrimitives {
+case class ModelRect(x : Float, y : Float, w : Float, h : Float) extends ModelPrimitive {
   override val indices: Array[Int] = Array(
     0,1,3,
     3,1,2
@@ -29,7 +29,7 @@ case class ModelRect(x : Float, y : Float, w : Float, h : Float) extends ModelPr
   )
 }
 
-case class CustomTextureRect(x : Float, y : Float, w : Float, h : Float, texs : Array[Float]) extends ModelPrimitives {
+case class CustomTextureRect(x : Float, y : Float, w : Float, h : Float, texs : Array[Float]) extends ModelPrimitive {
   override val indices: Array[Int] = Array(
     0,1,3,
     3,1,2
