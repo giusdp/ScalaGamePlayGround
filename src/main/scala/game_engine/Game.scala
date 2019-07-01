@@ -1,11 +1,13 @@
 package game_engine
 
-import datamanager.{EntityLoader, ShaderLoader}
+import com.badlogic.ashley.core.Entity
+import datamanager.{EntityLoader, ShaderLoader, TextureLoader}
 import game_engine.graphics.{RenderingSystem, Window}
 import game_engine.movement.MovementSystem
+import game_engine.pcg.DungeonGenerator
 import game_engine.utils.Timer
-import game_object_system.ECEngine
-import game_object_system.graphics_objects.Camera
+import game_object_system.{ECEngine, RenderableCom}
+import game_object_system.graphics_objects.{Camera, DungeonTileSet, Sprite}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -37,24 +39,37 @@ object Game {
 
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
 
-    val shader = optionShader.getOrElse({
+    try {
+      val textureAtlas = TextureLoader.loadTilesTextureAtlas("tiles_dungeon.png", 16)
+      val ts = DungeonTileSet(textureAtlas)
+      val dungeon = DungeonGenerator.generateDungeon(ts)
+
+      val sprite = Sprite(dungeon, textureAtlas.texture)
+      val e = new Entity
+      e.add(RenderableCom(sprite))
+
+
+      val shader = optionShader.getOrElse(throw new RuntimeException("Failed to create shader, abort."))
+
+      val renderer = new RenderingSystem(shader, 1)
+      val movement = new MovementSystem(0)
+
+      ECEngine.engine.addSystem(movement)
+      ECEngine.engine.addSystem(renderer)
+
+      /** Game started. */
+      Timer.init()
+      gameLoop()
+
+      /** Cleaning before exiting */
+      renderer.dispose()
+    }
+    catch{
+        case e : Exception => e.printStackTrace()
+      }
+    finally {
       cleanUp()
-      throw new RuntimeException("Failed to create shader, abort.")
-    })
-
-    val renderer = new RenderingSystem(shader, 1)
-    val movement = new MovementSystem(0)
-
-    ECEngine.engine.addSystem(movement)
-    ECEngine.engine.addSystem(renderer)
-
-    /** Game started. */
-    Timer.init()
-    gameLoop()
-
-    /** Cleaning before exiting */
-    renderer.dispose()
-    cleanUp()
+    }
 
   }
 
