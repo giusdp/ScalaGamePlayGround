@@ -1,0 +1,5 @@
+package datamanager
+
+class TilesLoader {
+
+}
