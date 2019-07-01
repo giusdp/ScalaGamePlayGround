@@ -1,13 +1,10 @@
 package game_object_system.graphics_objects
 
-import com.badlogic.ashley.core.Entity
+trait TileSet
 
-trait TileMap extends Entity
+case class DungeonTileSet(textureAtlas: TextureAtlas) extends TileSet {
 
-case class DungeonTileMap(textureAtlas: TextureAtlas) extends TileMap {
-
-  val tiles : Map[String, Tile] = Map(
-    // FLOOR
+  val floorTiles : Map[Int, Tile] = Map(
     1 -> textureAtlas.makeTile(1),
     2 -> textureAtlas.makeTile(2),
     3 -> textureAtlas.makeTile(3),
@@ -32,8 +29,9 @@ case class DungeonTileMap(textureAtlas: TextureAtlas) extends TileMap {
     22 -> textureAtlas.makeTile(47),
     23 -> textureAtlas.makeTile(48),
     24 -> textureAtlas.makeTile(49),
-
-    // WALLS
   )
+  val wallTiles : Map[Int, Tile] = Map()
 
 }
+
+case class Tile ( texCoords: Array[Float])

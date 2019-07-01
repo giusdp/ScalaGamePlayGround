@@ -14,7 +14,7 @@ case class TextureAtlas(texture : Texture, cellSize : Float, sheetWidth : Float,
       tx + tw, ty + th,
       tx, ty + th
     )
-    Tile(CustomTextureRect(0, 0, cellSize, cellSize, tc))
+    Tile(tc)
   }
 
 }
