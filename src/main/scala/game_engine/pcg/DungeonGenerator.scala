@@ -25,7 +25,7 @@ object DungeonGenerator {
     prepareDungeonModel(rooms, ts)
   }
 
-  def roomsRects(t : BSPTree) : List[Rect] = t match {
+  private def roomsRects(t : BSPTree) : List[Rect] = t match {
     case BSPNode(_, _, _, _, l, r) => roomsRects(l) ++ roomsRects(r)
     case BSPLeaf(x,y,w,h) =>
       val rw = Math.abs(random.nextInt()) % (w-minRoom+1)
@@ -35,17 +35,17 @@ object DungeonGenerator {
 
   }
 
-  def removeRandomRooms(rooms : List[Rect], maxToRemove : Int): List[Rect] = {
+  private def removeRandomRooms(rooms : List[Rect], maxToRemove : Int): List[Rect] = {
     var rs = rooms
     if (rooms.length > 5) // just to make sure
     { // remove first 0, 1, 2 or 3 rooms TODO: check if alright results
-      val roomsToRemove = (0 to random.nextInt(maxToRemove)).map(_ => rooms(random.nextInt(rooms.length)))
+      val roomsToRemove = (0 to random.between(0, maxToRemove+1)).map(_ => rooms(random.nextInt(rooms.length)))
       rs = rooms.filter(!roomsToRemove.contains(_))
     }
     rs
   }
 
-  def prepareDungeonModel(rooms : List[Rect], ts : DungeonTileSet): Model = {
+  private def prepareDungeonModel(rooms : List[Rect], ts : DungeonTileSet): Model = {
 
     val baseInds: Array[Int] = Array(
       0,1,3,
@@ -63,7 +63,7 @@ object DungeonGenerator {
     ModelLoader.loadModel(indices, vertices, texCoords)
   }
 
-  def processRoom(room: Rect): Array[Float] = {
+  private def processRoom(room: Rect): Array[Float] = {
     val numCols : Int = ((room.w - room.x) / tileSize).toInt
     val numRows : Int = ((room.h - room.y) / tileSize).toInt
     var list : List[Array[Float]] = List()
