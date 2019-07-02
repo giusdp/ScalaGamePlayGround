@@ -6,7 +6,7 @@ import game_engine.graphics.{RenderingSystem, Window}
 import game_engine.movement.MovementSystem
 import game_engine.pcg.DungeonGenerator
 import game_engine.utils.Timer
-import game_object_system.{ECEngine, RenderableCom}
+import game_object_system.{ECEngine, PositionCom, RenderableCom}
 import game_object_system.graphics_objects.{Camera, DungeonTileSet, Sprite}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
@@ -33,6 +33,7 @@ object Game {
 
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
+    ECEngine.posMapper.get(player).z = 1
     ECEngine.engine.addEntity(player)
 
     Input.registerInput(player)
@@ -46,7 +47,9 @@ object Game {
 
       val sprite = Sprite(dungeon, textureAtlas.texture)
       val e = new Entity
+      e.add(PositionCom(0,0,0))
       e.add(RenderableCom(sprite))
+      ECEngine.engine.addEntity(e)
 
 
       val shader = optionShader.getOrElse(throw new RuntimeException("Failed to create shader, abort."))
