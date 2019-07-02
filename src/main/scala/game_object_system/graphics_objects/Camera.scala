@@ -4,7 +4,7 @@ import org.joml.{Matrix4f, Vector3f}
 
 object Camera {
 
-  val position : Vector3f = new Vector3f(0,0,0)
+  val position : Vector3f = new Vector3f(0,0,10)
   val scale = new Vector3f(1,1,1)
 
   var proj : Matrix4f = new Matrix4f()
@@ -21,6 +21,5 @@ object Camera {
 
   def zoomIn(): Vector3f = scale.add(0.2f, 0.2f, 0)
   def zoomOut(): Vector3f = scale.add(-0.2f, -0.2f, 0)
-
 
 }
