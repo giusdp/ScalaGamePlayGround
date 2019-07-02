@@ -5,12 +5,12 @@ import java.util.Comparator
 import com.badlogic.ashley.core.{Entity, Family}
 import com.badlogic.ashley.systems.SortedIteratingSystem
 import game_object_system.graphics_objects.{Camera, Shader}
-import game_object_system.{ECEngine, RenderableCom}
+import game_object_system.{ECEngine, PositionCom, RenderableCom}
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL13, GL30}
 
 class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSystem(
-  Family.all(classOf[RenderableCom]).get(), Comp.comparator, priority) {
+  Family.all(classOf[PositionCom], classOf[RenderableCom]).get(), Comp.comparator, priority) {
 
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)
 
