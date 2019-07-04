@@ -11,9 +11,9 @@ import org.lwjgl.opengl.{GL11, GL30}
 
 object TextureLoader {
 
-  def loadTilesTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
+  def loadTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
     val t = TextureLoader.loadTexture(filename)
-      .getOrElse(throw new RuntimeException("Failed to load texture atlas " + filename))
+      .getOrElse(throw new RuntimeException("Failed to load texture atlas: " + filename + "."))
     TextureAtlas(t, tileWidth, tileHeight, t.w, t.h)
   }
 
