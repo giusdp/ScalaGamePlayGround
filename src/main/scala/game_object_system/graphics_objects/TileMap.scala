@@ -2,7 +2,9 @@ package game_object_system
 
 import java.awt.Rectangle
 
-case class TMXTile(position : Int)
+import game_object_system.graphics_objects.TextureAtlas
+
+case class TMXTile(gid : Int)
 
 case class TMXLayer(name: String, width: Int, height: Int, tiles: Array[TMXTile])
 object TMXLayer{
@@ -15,15 +17,15 @@ object TMXLayer{
 case class TMXObject(gid:Int, rect:Rectangle)
 case class TMXObjectGroup(name:String, width:Int, height:Int, objects: List[TMXObject])
 
-case class TmxTileset(name:String, tileWidth:Int, tileHeight:Int, tsImageSrc: String)
+case class TMXTileSet(name:String, tileWidth:Int, tileHeight:Int, tsImage: TextureAtlas)
 
 
 case class TMXMap(
-                 width : Int,
-                 height : Int,
-                 tileWidth: Int,
-                 tileHeight: Int,
-                 tileSet: Seq[TmxTileset],
-                 layers: Seq[TMXLayer],
-                 objectGroup: Seq[TMXObjectGroup]
+                   width : Int,
+                   height : Int,
+                   tileWidth: Int,
+                   tileHeight: Int,
+                   tileSet: TMXTileSet,
+                   layers: Seq[TMXLayer],
+                   objectGroup: Seq[TMXObjectGroup]
                  )
