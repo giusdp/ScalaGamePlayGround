@@ -17,4 +17,6 @@ case class TextureAtlas(texture : Texture, cellSize : Float, sheetWidth : Float,
     Tile(tc)
   }
 
+  def dispose(): Unit = texture.dispose()
+
 }

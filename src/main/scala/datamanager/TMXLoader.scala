@@ -1,0 +1,5 @@
+package datamanager
+
+object TMXLoader {
+
+}
