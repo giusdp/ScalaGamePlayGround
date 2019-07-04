@@ -8,13 +8,13 @@ trait ModelPrimitive {
   val texCoords : Array[Float] = Array()
 }
 
-case class ModelRect(x : Float, y : Float, w : Float, h : Float) extends ModelPrimitive {
+case class RectModel(x : Float, y : Float, w : Float, h : Float) extends ModelPrimitive {
   override val indices: Array[Int] = Array(
     0,1,3,
     3,1,2
   )
 
-  override val vertices = Array(
+  override val vertices: Array[Float] = Array(
     x - (w/2), y + (h/2), 0f,
     x - (w/2) , y - (h/2), 0f,
     x + (w/2), y - (h/2), 0f,
@@ -44,3 +44,7 @@ case class CustomTextureRect(x : Float, y : Float, w : Float, h : Float, texs : 
 
   override val texCoords: Array[Float] = texs
 }
+
+case class CustomModel(override val indices: Array[Int],
+                       override val vertices: Array[Float],
+                       override val texCoords: Array[Float]) extends ModelPrimitive

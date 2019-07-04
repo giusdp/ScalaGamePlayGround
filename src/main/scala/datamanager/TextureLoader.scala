@@ -14,7 +14,7 @@ object TextureLoader {
   def loadTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
     val t = TextureLoader.loadTexture(filename)
       .getOrElse(throw new RuntimeException("Failed to load texture atlas: " + filename + "."))
-    TextureAtlas(t, tileWidth, tileHeight, t.w, t.h)
+    TextureAtlas(t, tileWidth, tileHeight)
   }
 
   def loadTexture(fileName: String): Option[Texture] = {

@@ -1,6 +1,6 @@
 package datamanager
 
-import game_object_system.graphics_objects.{ModelRect, Sprite, TextureAtlas}
+import game_object_system.graphics_objects.{RectModel, Sprite, TextureAtlas}
 
 object SpriteLoader {
 
@@ -8,7 +8,7 @@ object SpriteLoader {
 
   def loadSprite(x : Int, y : Int, imgFileName : String): Option[Sprite] =
     TextureLoader.loadTexture(imgFileName) match {
-      case Some(t) =>  Some(Sprite(ModelLoader.loadModel(ModelRect(x,y, t.w, t.h)), t))
+      case Some(t) =>  Some(Sprite(ModelLoader.loadModel(RectModel(x,y, t.w, t.h)), t))
       case None => None
     }
 /*
