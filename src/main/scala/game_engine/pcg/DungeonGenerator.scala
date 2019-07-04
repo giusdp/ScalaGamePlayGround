@@ -1,12 +1,13 @@
 package game_engine.pcg
 
+import java.awt.Rectangle
+
 import datamanager.ModelLoader
 import game_object_system.graphics_objects.{DungeonTileSet, Model}
 
 import scala.util.Random
 
 object DungeonGenerator {
-  case class Rect(x : Float, y : Float, w: Float, h : Float)
 
   val tileSize : Float = 16
   val minRoom: Int = 4 * tileSize.toInt
@@ -22,20 +23,18 @@ object DungeonGenerator {
   def generateDungeon(w: Int, h : Int, ts : DungeonTileSet): Model = {
     val tree = BSPTree.buildBSPTree(3, w, h) // With a limit of 3, the rooms generated are always 7/8
     var rooms = removeRandomRooms(roomsRects(tree), random.nextInt(4))
-    prepareDungeonModel(rooms, ts)
+    prepareDungeonModel(rooms, ts, w, h)
   }
 
-  private def roomsRects(t : BSPTree) : List[Rect] = t match {
+  private def roomsRects(t : BSPTree) : List[Rectangle] = t match {
     case BSPNode(_, _, _, _, l, r) => roomsRects(l) ++ roomsRects(r)
     case BSPLeaf(x,y,w,h) =>
       val rw = Math.abs(random.nextInt()) % (w-minRoom+1)
       val rh = Math.abs(random.nextInt()) % (h-minRoom+1)
-      List(Rect(x+rw,y+rh,w,h))
-
-
+      List(new Rectangle(x+rw,y+rh,w,h))
   }
 
-  private def removeRandomRooms(rooms : List[Rect], maxToRemove : Int): List[Rect] = {
+  private def removeRandomRooms(rooms : List[Rectangle], maxToRemove : Int): List[Rectangle] = {
     var rs = rooms
     if (rooms.length > 5) // just to make sure
     { // remove first 0, 1, 2 or 3 rooms TODO: check if alright results
@@ -45,7 +44,7 @@ object DungeonGenerator {
     rs
   }
 
-  private def prepareDungeonModel(rooms : List[Rect], ts : DungeonTileSet): Model = {
+  private def prepareDungeonModel(rooms : List[Rectangle], ts : DungeonTileSet, dW : Float, dH : Float): Model = {
 
     val baseInds: Array[Int] = Array(
       0,1,3,
@@ -54,27 +53,37 @@ object DungeonGenerator {
 
     val indices: Array[Int] = rooms.flatMap(_ => baseInds.map(_+4)).toArray
 
-    val vertices: Array[Float] = rooms.flatMap(processRoom).toArray
+    val vertices: Array[Float] = rooms.flatMap(processRoom(_, dW, dH)).toArray
 
     val texCoords: Array[Float] = (for (_ <- 0 until vertices.length/4) yield {
       ts.floorTiles(random.nextInt(ts.floorTiles.size)).texCoords
     }).flatten.toArray
 
-    ModelLoader.loadModel(indices, vertices, texCoords)
+    val vs : Array[Float] = Array(
+      -8, 8, 0,
+      -8, -8, 0,
+      8, -8, 0,
+      8, 8, 0
+    )
+    val tc = texCoords.take(4)
+    val m = ModelLoader.loadModel(indices, vertices, texCoords)
+    m
   }
 
-  private def processRoom(room: Rect): Array[Float] = {
-    val numCols : Int = ((room.w - room.x) / tileSize).toInt
-    val numRows : Int = ((room.h - room.y) / tileSize).toInt
+  private def processRoom(room: Rectangle, dW : Float, dH : Float): Array[Float] = {
+    val numCols : Int = ((room.width - room.x) / tileSize).toInt
+    val numRows : Int = ((room.height - room.y) / tileSize).toInt
     var list : List[Array[Float]] = List()
     for (x <- 0 to numCols) for (y <- 0 to numRows){
-      val posX = room.x + (x * tileSize + 1)
-      val posY = room.y + (y * tileSize)
+      val posX = (room.x + (x * tileSize + 1)) / dW
+      val posY = (room.y + (y * tileSize)) / dH
+      val sizeW = tileSize / dW
+      val sizeH = tileSize / dH
       val vertices = Array(
-        posX, posY + (tileSize/2.0f), 0f,
-        posX - (tileSize/2.0f) , posY - (tileSize/2.0f), 0f,
-        posX + (tileSize/2.0f), posY - (tileSize/2.0f), 0f,
-        posX + (tileSize/2.0f), posY + (tileSize/2.0f), 0f,
+        posX - sizeW, posY + sizeH, 0f,
+        posX - sizeW, posY - sizeH, 0f,
+        posX + sizeW, posY - sizeH, 0f,
+        posX + sizeW, posY + sizeH, 0f,
       )
       list = vertices :: list
     }

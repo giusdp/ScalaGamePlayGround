@@ -4,27 +4,27 @@ import java.io.ByteArrayInputStream
 import java.nio.ByteBuffer
 import java.nio.file.{Files, Paths}
 
+import datamanager.Resource.RES_DIR
 import de.matthiasmann.twl.utils.PNGDecoder
 import game_object_system.graphics_objects.{Texture, TextureAtlas}
 import org.lwjgl.opengl.{GL11, GL30}
 
 object TextureLoader {
 
-  def loadTilesTextureAtlas(filename : String, tileSize : Float): TextureAtlas = {
-    val t = TextureLoader.loadTexture("resources/"+filename) //TODO remove resources/, make it dynamic
+  def loadTilesTextureAtlas(filename: String, tileSize: Float): TextureAtlas = {
+    val t = TextureLoader.loadTexture(filename)
       .getOrElse(throw new RuntimeException("Failed to load texture atlas " + filename))
     TextureAtlas(t, tileSize, t.w, t.h)
   }
 
-  def loadTexture(fileName: String) : Option[Texture] = {
-
-    try{
-      val byteArray = Files.readAllBytes(Paths.get(fileName))
+  def loadTexture(fileName: String): Option[Texture] = {
+    try {
+      val byteArray: Array[Byte] = Files.readAllBytes(Paths.get(RES_DIR + fileName))
       //load png file
-      val decoder : PNGDecoder = new PNGDecoder(new ByteArrayInputStream(byteArray))
+      val decoder: PNGDecoder = new PNGDecoder(new ByteArrayInputStream(byteArray))
 
       //create a byte buffer big enough to store RGBA values
-      val buffer = ByteBuffer.allocateDirect(4 * decoder.getWidth * decoder.getHeight)
+      val buffer: ByteBuffer = ByteBuffer.allocateDirect(4 * decoder.getWidth * decoder.getHeight)
 
       //decode
       decoder.decode(buffer, decoder.getWidth * 4, PNGDecoder.Format.RGBA)
@@ -55,8 +55,8 @@ object TextureLoader {
       Some(Texture(id, decoder.getWidth, decoder.getHeight))
     }
     catch {
-      case _ : Exception => Console.err.println("Error while loading texture: " + fileName) ; None
+      case _: Exception => Console.err.println("Error while loading texture: " + fileName); None
     }
   }
-
 }
+
