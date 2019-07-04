@@ -11,15 +11,15 @@ import org.lwjgl.opengl.{GL11, GL30}
 
 object TextureLoader {
 
-  def loadTilesTextureAtlas(filename: String, tileSize: Float): TextureAtlas = {
+  def loadTilesTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
     val t = TextureLoader.loadTexture(filename)
       .getOrElse(throw new RuntimeException("Failed to load texture atlas " + filename))
-    TextureAtlas(t, tileSize, t.w, t.h)
+    TextureAtlas(t, tileWidth, tileHeight, t.w, t.h)
   }
 
   def loadTexture(fileName: String): Option[Texture] = {
     try {
-      val byteArray: Array[Byte] = Files.readAllBytes(Paths.get(RES_DIR + fileName))
+      val byteArray = Files.readAllBytes(Paths.get(RES_DIR + fileName))
       //load png file
       val decoder: PNGDecoder = new PNGDecoder(new ByteArrayInputStream(byteArray))
 

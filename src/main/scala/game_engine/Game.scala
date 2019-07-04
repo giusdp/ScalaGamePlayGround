@@ -41,7 +41,7 @@ object Game {
     val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
 
     try {
-      val textureAtlas = TextureLoader.loadTilesTextureAtlas("tiles_dungeon.png", 16)
+      val textureAtlas = TextureLoader.loadTilesTextureAtlas("tiles_dungeon.png", 16, 16)
       val ts = DungeonTileSet(textureAtlas)
       val dungeon = DungeonGenerator.generateDungeon(ts)
 

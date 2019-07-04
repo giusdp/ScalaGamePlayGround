@@ -9,7 +9,7 @@
     },
     "direction" : true,
     "renderable" :  {
-      "sprite" : "resources/playerimg.png"
+      "sprite" : "playerimg.png"
     }
   }
 }
