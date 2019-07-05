@@ -22,7 +22,6 @@ case class TextureAtlas(texture : Texture, cellWidth : Float, cellHeight : Float
     val regionWidth : Float = cellWidth/imageWidth
     val regionHeight: Float = cellHeight/imageHeight
     val columns: Float = imageWidth/cellWidth
-    val rows: Float = imageHeight/cellHeight
 
     val u: Float = (i % columns) * regionWidth
     val v: Float = Math.floor(i / columns).toFloat * regionHeight
