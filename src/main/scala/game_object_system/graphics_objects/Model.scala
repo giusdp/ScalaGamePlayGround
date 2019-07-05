@@ -8,6 +8,8 @@ class Model(val vao : Int, vbos : List[Int], val vCount : Int){
 
   val model_matrix: Matrix4f = new Matrix4f()
 
+  def translate(x : Float, y: Float, z : Float) = model_matrix.identity().translate (x, y, z)
+
   def dispose(): Unit = {
 
     // Delete the VBO
