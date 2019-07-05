@@ -10,6 +10,7 @@
     "direction" : true,
     "renderable" :  {
       "sprite" : "playerimg.png"
-    }
+    },
+    "camera_center": true
   }
 }
