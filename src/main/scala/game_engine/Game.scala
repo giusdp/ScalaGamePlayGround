@@ -16,7 +16,7 @@ import scala.annotation.tailrec
 
 object Game {
   var SCREEN_WIDTH = 800
-  val SCREEN_HEIGHT = 480
+  var SCREEN_HEIGHT = 480
 
   def run(): Unit = {
 
@@ -70,7 +70,7 @@ object Game {
 
       ECEngine.engine.addSystem(movement)
       ECEngine.engine.addSystem(renderer)
-      ECEngine.engine.addSystem(mapRenderer)
+      //ECEngine.engine.addSystem(mapRenderer)
 
       /** Game started. */
       Timer.init()
