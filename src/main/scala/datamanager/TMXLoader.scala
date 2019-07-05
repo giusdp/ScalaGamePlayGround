@@ -72,14 +72,11 @@ object TMXLoader {
       val layerHeight = getInt((layer \ HEIGHT).text)
       val data: Array[Int] = (layer \ DATA).text.split(",").map(_.trim.toInt)
 
-      val tiles: Seq[Model] = for {
-        y <- 0 until layerHeight
-        x <- 0 until layerWidth
-        if data(x + (y*layerHeight)) != 0
-      } yield buildTile(x*tileWidth, y*tileHeight, tileWidth, tileHeight, data(x + (y*layerHeight)), atlas)
-//        .filterNot(_==0)
-//        .map(t => buildTile(tileWidth, tileHeight, t, atlas))
-
+      var tiles : List[Model]= List()
+      for(y <-0 until layerHeight) for (x <- 0 until layerWidth){
+        if (data(x + (y*layerHeight)) != 0)
+          tiles = buildTile(x*tileWidth, -y*tileHeight, tileWidth, tileHeight, data(x + (y*layerHeight)), atlas) :: tiles
+      }
       TileLayer((layer \ NAME).text, layerWidth, layerHeight, tiles.toArray)
   }
 
