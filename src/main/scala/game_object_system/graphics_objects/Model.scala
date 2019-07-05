@@ -8,7 +8,9 @@ class Model(val vao : Int, vbos : List[Int], val vCount : Int){
 
   val model_matrix: Matrix4f = new Matrix4f()
 
-  def translate(x : Float, y: Float, z : Float) = model_matrix.identity().translate (x, y, z)
+  def translate(x : Float, y: Float, z : Float):Unit = model_matrix.identity().translate(x, y, z)
+  def scale(x : Float, y: Float, z : Float):Unit = model_matrix.identity().scaling(x, y, z)
+  def rotate(angle : Float, x : Float, y: Float, z : Float):Unit = model_matrix.identity().rotate(angle, x, y, z)
 
   def dispose(): Unit = {
 
