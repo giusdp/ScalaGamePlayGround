@@ -56,6 +56,7 @@ object Game {
 //      ECEngine.engine.addEntity(e)
 
       val tmxMap = TMXLoader.parseTMX("s1.tmx")
+      tmxMap.translateMap(-200,200,0)
       val mapEntity = new Entity()
       mapEntity.add(TileMapCom(tmxMap))
       ECEngine.engine.addEntity(mapEntity)
