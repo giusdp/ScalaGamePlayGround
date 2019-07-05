@@ -27,8 +27,8 @@ case class TextureAtlas(texture : Texture, cellWidth : Float, cellHeight : Float
     Array(
       u,                v,
       u,                v + regionHeight,
-      u,  v + regionHeight,
-      u+ regionWidth,                v
+      u + regionWidth,  v + regionHeight,
+      u + regionWidth,  v,
     )
   }
 
