@@ -10,7 +10,7 @@ import game_object_system.graphics_objects.{Camera, TileMap}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
-import org.lwjgl.opengl.GL
+import org.lwjgl.opengl.{GL, GL11}
 
 import scala.annotation.tailrec
 
@@ -35,9 +35,12 @@ object Game {
 
     GL.createCapabilities()
 
+    GL11.glEnable(GL11.GL_BLEND)
+    GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+    
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
-    ECEngine.posMapper.get(player).z = 1
+    //ECEngine.posMapper.get(player).z = 1
     ECEngine.engine.addEntity(player)
 
     Input.registerInput(player)
@@ -75,7 +78,7 @@ object Game {
       /** Game started. */
       Timer.init()
       val t1 = System.nanoTime()
-      println("Time required to initialize everything (before entering game loop): " + (t1 - t0) / 1000000 + "ms")
+      println("Time elapsed to initialize everything (before entering game loop): " + (t1 - t0) / 1000000 + "ms")
 
       gameLoop()
 
@@ -88,9 +91,7 @@ object Game {
     finally {
       cleanUp()
     }
-
   }
-
 
   val fpsCap : Int = 60
   val frameTime : Double = 1000.0/fpsCap.toDouble // 16 ms each frame
