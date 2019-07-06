@@ -27,17 +27,16 @@ object Game {
     GLFWErrorCallback.createPrint(System.err).set()
 
     // Initialize GLFW. Most GLFW functions will not work before doing this.
-    if ( !glfwInit() )
-      throw new IllegalStateException("Unable to initialize GLFW")
+    if ( !glfwInit() ) throw new IllegalStateException("Unable to initialize GLFW")
 
-    Window.createWindow("SCExp", 800, 480)
+    Window.createWindow("SCExp", SCREEN_WIDTH, SCREEN_HEIGHT)
     Camera.setViewSize(Window.width, Window.height)
 
     GL.createCapabilities()
 
     GL11.glEnable(GL11.GL_BLEND)
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
-    
+
     /** Initialization done, loading entities */
     val player = EntityLoader.createEntitiesFromJSON("player.json").head
     //ECEngine.posMapper.get(player).z = 1
