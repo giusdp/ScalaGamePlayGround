@@ -3,8 +3,8 @@
 in vec2 tex_coords;
 out vec4 out_Color;
 
-uniform sampler2D texture_sampler;
+uniform sampler2D sampler;
 
 void main(void){
-    out_Color = texture(texture_sampler, tex_coords);
+    out_Color = texture(sampler, tex_coords);
 }
