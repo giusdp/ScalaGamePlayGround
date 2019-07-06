@@ -21,11 +21,12 @@ class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSy
     shader.use()
 
     GL30.glBindVertexArray(sprite.model.vao)
-    GL13.glActiveTexture(0)
+    GL13.glActiveTexture(1)
 
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
 
-    shader.setMVP(Camera.viewProjMat.mulAffine(sprite.getModelMatrix).get(fb))
+    val mvp = Camera.getProjection.mulOrthoAffine(sprite.getModelMatrix)
+    shader.setMVP(mvp.get(fb))
 
     GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 

@@ -72,7 +72,7 @@ object Game {
 
       ECEngine.engine.addSystem(movement)
       ECEngine.engine.addSystem(renderer)
-      //ECEngine.engine.addSystem(mapRenderer)
+      ECEngine.engine.addSystem(mapRenderer)
 
       /** Game started. */
       Timer.init()
