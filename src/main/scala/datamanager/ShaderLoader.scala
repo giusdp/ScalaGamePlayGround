@@ -7,14 +7,16 @@ import org.lwjgl.opengl.GL20.{GL_FRAGMENT_SHADER, GL_VERTEX_SHADER}
 
 object ShaderLoader {
 
+  val SHADER_DIR = "shaders/"
+
   def loadShaderProgram(vertexFileName : String, fragmentFileName : String) : Option[Shader] = {
     val program = GL20.glCreateProgram()
 
-    val vertexCode = Resource.using(Resource(vertexFileName))(getShaderCode)
+    val vertexCode = Resource.using(Resource(SHADER_DIR+vertexFileName))(getShaderCode)
     val vertexShader = loadShader(vertexCode, GL_VERTEX_SHADER)
     if (vertexShader == 0) None
 
-    val fragmentCode = Resource.using(Resource(fragmentFileName))(getShaderCode)
+    val fragmentCode = Resource.using(Resource(SHADER_DIR+fragmentFileName))(getShaderCode)
     val fragmentShader = loadShader(fragmentCode, GL_FRAGMENT_SHADER)
     if (fragmentShader == 0) None
 

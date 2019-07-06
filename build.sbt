@@ -4,9 +4,6 @@ version := "0.1"
 
 scalaVersion := "2.13.0"
 
-// https://mvnrepository.com/artifact/org.scala-lang/scala-reflect
-libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
-
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
 
 // https://mvnrepository.com/artifact/org.l33tlabs.twl/pngdecoder
@@ -17,6 +14,8 @@ libraryDependencies += "org.joml" % "joml" % "1.9.15"
 
 // https://mvnrepository.com/artifact/com.badlogicgames.ashley/ashley
 libraryDependencies += "com.badlogicgames.ashley" % "ashley" % "1.7.3"
+
+libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
 
 libraryDependencies ++= {
   val version = "3.2.0"

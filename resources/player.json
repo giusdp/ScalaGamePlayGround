@@ -9,7 +9,8 @@
     },
     "direction" : true,
     "renderable" :  {
-      "sprite" : "resources/playerimg.png"
-    }
+      "sprite" : "playerimg.png"
+    },
+    "camera_center": true
   }
 }

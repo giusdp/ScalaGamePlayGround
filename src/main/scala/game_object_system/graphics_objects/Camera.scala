@@ -4,23 +4,25 @@ import org.joml.{Matrix4f, Vector3f}
 
 object Camera {
 
-  val position : Vector3f = new Vector3f(0,0,0)
-  val scale = new Vector3f(1,1,1)
+  var aspectRatio : Float = _
 
-  var proj : Matrix4f = new Matrix4f()
+  val position : Vector3f = new Vector3f(0,0,10)
+  var scaleFactor :Float = 2f
+  var proj : Matrix4f = _
 
-  def setViewSize(w : Float, h: Float): Unit =
-    proj = new Matrix4f().setOrtho2D(-w / 2, w / 2, -h / 2, h / 2)
+  def setViewSize(w : Float, h: Float): Unit = proj = new Matrix4f().setOrtho(-w/2, w/2, -h/2, h/2, -100, 100)
 
-  def setPosition(x : Float, y : Float, z : Float): Unit = position.set(x, y, z)
+  def setPosition(x : Float, y : Float): Unit = {
+    position.x = -x * scaleFactor
+    position.y = -y * scaleFactor
+  }
 
-  def addPosition(x : Float, y : Float, z : Float): Unit = position.add(x, y, z)
+  def getProjection: Matrix4f = {
+    val view = new Matrix4f().setTranslation(position).scale(scaleFactor)
+    proj.mul(view, new Matrix4f())
+  }
 
-  def viewProjMat: Matrix4f =
-    proj.mulOrthoAffine(new Matrix4f().setTranslation(position).scaling(scale), new Matrix4f())
-
-  def zoomIn(): Vector3f = scale.add(0.2f, 0.2f, 0)
-  def zoomOut(): Vector3f = scale.add(-0.2f, -0.2f, 0)
-
+  def zoomIn(): Unit = scaleFactor += 1f
+  def zoomOut(): Unit = if (scaleFactor > 0) scaleFactor -= 1f
 
 }

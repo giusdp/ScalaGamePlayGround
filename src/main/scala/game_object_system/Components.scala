@@ -1,7 +1,7 @@
 package game_object_system
 
 import com.badlogic.ashley.core.Component
-import game_object_system.graphics_objects.Sprite
+import game_object_system.graphics_objects.{Sprite, TileMap}
 
 case class EmptyCom() extends Component
 
@@ -19,3 +19,5 @@ case class DirectionCom(var dir : (Float, Float) = (0,0)) extends Component
 case class RenderableCom(sprite : Sprite) extends Component
 
 case class CameraCenterCom() extends Component
+
+case class TileMapCom(map : TileMap) extends Component
