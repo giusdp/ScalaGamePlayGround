@@ -12,8 +12,10 @@ class Model(val vao : Int, vbos : List[Int], val vCount : Int){
   def scale(x : Float, y: Float, z : Float):Unit = model_matrix.identity().scale(x, y, z)
   def rotate(angle : Float, x : Float, y: Float, z : Float):Unit = model_matrix.identity().rotate(angle, x, y, z)
 
-  def dispose(): Unit = {
+  def bindModel(): Unit = GL30.glBindVertexArray(vao)
+  def unBindModel(): Unit = GL30.glBindVertexArray(0)
 
+  def dispose(): Unit = {
     // Delete the VBO
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
     GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0)

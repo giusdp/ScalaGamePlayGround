@@ -19,18 +19,14 @@ class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSy
     val sprite = ECEngine.renderableMapper.get(e).sprite
 
     shader.use()
-
-    GL30.glBindVertexArray(sprite.model.vao)
-    GL13.glActiveTexture(1)
-
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, sprite.texture.id)
+    sprite.model.bindModel()
+    sprite.texture.bind(0)
 
     val mvp = Camera.getProjection.mulOrthoAffine(sprite.getModelMatrix)
     shader.setMVP(mvp.get(fb))
-
     GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 
-    GL30.glBindVertexArray(0)
+    sprite.model.unBindModel()
     shader.stop()
   }
 
@@ -38,7 +34,6 @@ class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSy
     if (shader != null)shader.dispose()
   }
 
-//  implicit def sf2jf[T,R](f:(T) => R):java.util.function.Function[T, R] = (t: T) => f(t)
 }
 
 object Comp {
