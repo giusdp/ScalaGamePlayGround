@@ -5,8 +5,9 @@ import datamanager.{EntityLoader, ShaderLoader, TMXLoader}
 import game_engine.graphics.{RenderingSystem, TileMapRenderer, Window}
 import game_engine.movement.MovementSystem
 import game_engine.utils.Timer
+import game_object_system.graphics_objects.Camera
+import game_object_system.graphics_objects.shaders.TileMapShader
 import game_object_system.{ECEngine, TileMapCom}
-import game_object_system.graphics_objects.{Camera, TileMap}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
 import org.lwjgl.glfw._
@@ -44,30 +45,24 @@ object Game {
 
     Input.registerInput(player)
 
-    val optionShader = ShaderLoader.loadShaderProgram("sprite_shaders/vs.glsl", "sprite_shaders/fs.glsl")
+    val optionSpriteShader = ShaderLoader.loadShaderProgram("sprite_shaders/vs.glsl",
+      "sprite_shaders/fs.glsl")
+    val optionTileMapShader = ShaderLoader.loadShaderProgram("tilemap_shaders/vs.glsl",
+      "tilemap_shaders/gs.glsl", "tilemap_shaders/fs.glsl")
 
     try {
-//      val textureAtlas = TextureLoader.loadTilesTextureAtlas("tiles_dungeon.png", 16, 16)
-//      val ts = DungeonTileSet(textureAtlas)
-//      val dungeon = DungeonGenerator.generateDungeon(ts)
-//
-//      val sprite = Sprite(dungeon, textureAtlas.texture)
-//      val e = new Entity
-//      e.add(PositionCom(0,0,0))
-//      e.add(RenderableCom(sprite))
-//      ECEngine.engine.addEntity(e)
-
       val tmxMap = TMXLoader.parseTMX("s1.tmx")
       tmxMap.translateMap(-200,200,0)
       val mapEntity = new Entity()
       mapEntity.add(TileMapCom(tmxMap))
       ECEngine.engine.addEntity(mapEntity)
 
-      val shader = optionShader.getOrElse(throw new RuntimeException("Failed to create shader, abort."))
+      val spriteShader = optionSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort."))
+      val tileMapShader = TileMapShader(optionTileMapShader.getOrElse(throw new RuntimeException("Failed to create tilemap shader, abort.")))
+      tileMapShader.loadTileSize(tmxMap.tileWidth)
 
-      val mapRenderer = new TileMapRenderer(shader, 1)
-
-      val renderer = new RenderingSystem(shader, 2)
+      val mapRenderer = new TileMapRenderer(tileMapShader, 1)
+      val renderer = new RenderingSystem(spriteShader, 2)
       val movement = new MovementSystem(0)
 
       ECEngine.engine.addSystem(movement)
