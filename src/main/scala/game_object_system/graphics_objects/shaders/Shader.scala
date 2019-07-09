@@ -20,17 +20,11 @@ case class Shader(program : Int) extends ShaderBase {
 
   def stop(): Unit = GL20.glUseProgram(0)
 
-  def dispose(): Unit = {
-    GL20.glDeleteProgram(program)
-  }
+  def dispose(): Unit = GL20.glDeleteProgram(program)
 
 }
 
 case class TileMapShader(shader: Shader) extends ShaderBase {
-
-  val tileSizeLocation: Int = GL20.glGetUniformLocation(shader.program, "tile_size")
-
-  def loadTileSize(size : Float): Unit = GL20.glUniform1f(shader.program, size)
 
   override def use(): Unit = shader.use()
 
