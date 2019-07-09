@@ -30,6 +30,16 @@ object ModelLoader {
     Model(vao, vbos, indices.length)
   }
 
+  def loadPoints(vertices : Array[Float]): Model = {
+    val vao = GL30.glGenVertexArrays()
+    GL30.glBindVertexArray(vao)
+
+    val vbos = List(bindVertexBuffer(vertices))
+
+    GL30.glBindVertexArray(0)
+    Model(vao, vbos, vertices.length/3)
+  }
+
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)
   private def bindTexCoordBuffer(data: Array[Float]) = bindAttributeBuffer(TEXTURE_LOCATION, 2, data)
 
