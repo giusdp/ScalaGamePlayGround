@@ -19,20 +19,25 @@ class TileMapRenderer(shader: TileMapShader, priority : Int) extends IteratingSy
     val map = ECEngine.tileMapMapper.get(entity).map
 
     shader.use()
+    map.pointsArrayModel.bindModel()
     map.tileSet.bindTextureAtlas(0)
-
-    map.tileLayers.foreach(layer  => {
-      layer.tiles.foreach(tile => {
-        GL30.glBindVertexArray(tile.vao)
-
-        shader.loadMVP(Camera.getProjection.mulOrthoAffine(tile.model_matrix).get(fb))
-
-        GL11.glDrawElements(GL11.GL_TRIANGLES, tile.vCount, GL11.GL_UNSIGNED_INT, 0)
-
-        GL30.glBindVertexArray(0)
-      })
-    })
+    val mvp = Camera.getProjection.get(fb)
+    shader.loadMVP(mvp)
+    GL11.glDrawArrays(GL11.GL_POINTS, 0, map.pointsArrayModel.vCount)
+    map.pointsArrayModel.unBindModel()
     shader.stop()
+    //
+    //    map.tileLayers.foreach(layer  => {
+    //      layer.tiles.foreach(tile => {
+    //        GL30.glBindVertexArray(tile.vao)
+    //
+    //        shader.loadMVP(Camera.getProjection.mulOrthoAffine(tile.model_matrix).get(fb))
+    //
+    //        GL11.glDrawElements(GL11.GL_TRIANGLES, tile.vCount, GL11.GL_UNSIGNED_INT, 0)
+    //
+    //        GL30.glBindVertexArray(0)
+    //      })
+    //    })
   }
 }
 

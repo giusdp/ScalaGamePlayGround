@@ -52,14 +52,12 @@ object Game {
 
     try {
       val tmxMap = TMXLoader.parseTMX("s1.tmx")
-      tmxMap.translateMap(-200,200,0)
       val mapEntity = new Entity()
       mapEntity.add(TileMapCom(tmxMap))
       ECEngine.engine.addEntity(mapEntity)
 
       val spriteShader = optionSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort."))
       val tileMapShader = TileMapShader(optionTileMapShader.getOrElse(throw new RuntimeException("Failed to create tilemap shader, abort.")))
-      tileMapShader.loadTileSize(tmxMap.tileWidth)
 
       val mapRenderer = new TileMapRenderer(tileMapShader, 1)
       val renderer = new RenderingSystem(spriteShader, 2)
