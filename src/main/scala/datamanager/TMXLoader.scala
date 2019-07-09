@@ -33,7 +33,7 @@ object TMXLoader {
     val th: Int = getInt((xml \ TILE_HEIGHT).text)
     val tc: Int = getInt((xml \ TILE_COUNT).text)
     val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tw, th)
-    val tiles: Map[Int, Tile] = (0 until tc).map(i => i -> Tile(ta.extractRegion(i))).toMap
+    val tiles: Map[Int, Array[Float]] = (0 until tc).map(i => i -> ta.extractRegion(i)).toMap
     TileSet(tiles, ta)
   }
 
@@ -48,7 +48,7 @@ object TMXLoader {
 
     val tileSet: TileSet = ((xml \ TILE_SET) collectFirst {case ts: Node => parseTSX((ts \ SOURCE).text)}).get
 
-    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileWidth, tileHeight, tileSet.textureAtlas)
+    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileSet.textureAtlas)
 
     val objectLayers: Seq[ObjectLayer] = prepareObjectLayers(xml \ OBJECT_GROUP)
 
@@ -57,23 +57,17 @@ object TMXLoader {
 
   private val getInt: String => Int = (s: String) => if (s.nonEmpty) s.toFloat.toInt else -1
 
-  private def prepareTileLayers(layers : NodeSeq, tileWidth : Float, tileHeight: Float, atlas: TextureAtlas) : Seq[TileLayer] = layers collect {
+  private def prepareTileLayers(layers : NodeSeq, atlas: TextureAtlas) : Seq[TileLayer] = layers collect {
     case layer: Node =>
       val layerWidth = getInt((layer \ WIDTH).text)
       val layerHeight = getInt((layer \ HEIGHT).text)
       val data: Array[Int] = (layer \ DATA).text.split(",").map(_.trim.toInt)
 
-      var tiles : List[Model]= List()
+      var tiles : List[Tile]= List()
       for(y <-0 until layerHeight) for (x <- 0 until layerWidth){
-        if (data(x + (y*layerHeight)) != 0)
-          tiles = buildTile(x*tileWidth, -y*tileHeight, tileWidth, tileHeight, data(x + (y*layerHeight)), atlas) :: tiles
+        if (data(x + (y*layerHeight)) != 0) tiles = Tile(x, y, atlas.extractRegion(data(x + (y*layerHeight)))) :: tiles
       }
       TileLayer((layer \ NAME).text, layerWidth, layerHeight, tiles.toArray)
-  }
-
-  private def buildTile(x : Float, y : Float, tw: Float, th: Float, id: Int, atlas: TextureAtlas): Model = {
-    val tcs = atlas.extractRegion(id)
-    ModelLoader.loadModel(CustomTextureRect(x, y, tw, th, tcs))
   }
 
   private def prepareObjectLayers(groups : NodeSeq) : Seq[ObjectLayer] = groups collect {
