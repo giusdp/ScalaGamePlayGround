@@ -17,10 +17,9 @@ class TileMapRenderer(shader: Shader, priority : Int) extends IteratingSystem(
 
   override def processEntity(entity: Entity, deltaTime: Float): Unit = {
     val map = ECEngine.tileMapMapper.get(entity).map
-    shader.use()
-    GL13.glActiveTexture(0)
 
-    GL11.glBindTexture(GL11.GL_TEXTURE_2D, map.tileSet.texture.id)
+    shader.use()
+    map.tileSet.bindTextureAtlas(0)
 
     map.tileLayers.foreach(layer  => {
       layer.tiles.foreach(tile => {

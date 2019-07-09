@@ -2,7 +2,7 @@ package datamanager
 
 import java.awt.Rectangle
 
-import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, TextureAtlas, TileLayer, TileMap}
+import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, TextureAtlas, Tile, TileLayer, TileMap, TileSet}
 
 import scala.xml.{Node, NodeSeq, XML}
 
@@ -13,8 +13,8 @@ object TMXLoader {
   private val OBJECT = "object"
   private val OBJECT_GROUP = "objectgroup"
   private val TILE_SET = "tileset"
-  private val TILE = "tile"
-  private val FIRST_GID = "@firstgid"
+//  private val TILE = "tile"
+//  private val FIRST_GID = "@firstgid"
   private val GID = "@gid"
   private val NAME = "@name"
   private val SOURCE = "@source"
@@ -24,45 +24,36 @@ object TMXLoader {
   private val HEIGHT = "@height"
   private val TILE_WIDTH = "@tilewidth"
   private val TILE_HEIGHT = "@tileheight"
+  private val TILE_COUNT = "@tilecount"
 
-  private def parseTSX(fileName: String): TextureAtlas = {
+  private def parseTSX(fileName: String): TileSet = {
     val xml = XML.loadFile(Resource.RES_DIR+fileName)
-    val imageFileName = (xml \ IMAGE \ SOURCE).text
-    val tw = getInt((xml \ TILE_WIDTH).text)
-    val th = getInt((xml \ TILE_HEIGHT).text)
-    TextureLoader.loadTextureAtlas(imageFileName, tw, th)
+    val imageFileName: String = (xml \ IMAGE \ SOURCE).text
+    val tw: Int = getInt((xml \ TILE_WIDTH).text)
+    val th: Int = getInt((xml \ TILE_HEIGHT).text)
+    val tc: Int = getInt((xml \ TILE_COUNT).text)
+    val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tw, th)
+    val tiles: Map[Int, Tile] = (0 until tc).map(i => i -> Tile(ta.extractRegion(i))).toMap
+    TileSet(tiles, ta)
   }
 
   def parseTMX(fileName: String): TileMap = {
 //    println("Parsing " + fileName)
     val xml = XML.loadFile(Resource.RES_DIR+fileName)
-//    println("XML loaded")
 
     val width: Int = getInt((xml \ WIDTH).text)
     val height: Int = getInt((xml \ HEIGHT).text)
     val tileWidth: Int = getInt((xml \ TILE_WIDTH).text)
     val tileHeight: Int = getInt((xml \ TILE_HEIGHT).text)
 
-//    println("Loaded attributes: width " + width + ", height " + height+", tileWidth " + tileWidth+", tileHeight "+tileHeight)
+    val tileSet: TileSet = ((xml \ TILE_SET) collectFirst {case ts: Node => parseTSX((ts \ SOURCE).text)}).get
 
-    val tileSet: TextureAtlas = ((xml \ TILE_SET) collectFirst {case ts: Node => parseTSX((ts \ SOURCE).text)}).get
-//    println("TileSet (textureAtlas) loaded: tW " +tileSet.imageWidth + ", tH " + tileSet.imageHeight )
-
-    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileWidth, tileHeight, tileSet)
-//    println("Layers loaded: nl " + tileLayers.length + ", numberTiles each layer: " + tileLayers.head.tiles.length)
+    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileWidth, tileHeight, tileSet.textureAtlas)
 
     val objectLayers: Seq[ObjectLayer] = prepareObjectLayers(xml \ OBJECT_GROUP)
-//    println("Objects (rectangles) loaded: nr " + objectLayers.head.objects.length)
 
-//    println("TileMap loaded")
     TileMap(width, height, tileWidth, tileHeight, tileSet, tileLayers, objectLayers)
   }
-
-
-
-
-
-
 
   private val getInt: String => Int = (s: String) => if (s.nonEmpty) s.toFloat.toInt else -1
 
