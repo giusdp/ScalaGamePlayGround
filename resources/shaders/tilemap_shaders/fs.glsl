@@ -1,10 +1,7 @@
 #version 330 core
 
-in vec2 tex_coords;
+in vec3 final_color;
 out vec4 out_Color;
-
-uniform sampler2D sampler;
-
 void main(void){
-    out_Color = texture(sampler, tex_coords);
+    out_Color = vec4(final_color, 1.0);
 }
