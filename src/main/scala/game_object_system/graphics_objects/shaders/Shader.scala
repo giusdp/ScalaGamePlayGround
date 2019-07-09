@@ -1,4 +1,4 @@
-package game_object_system.graphics_objects
+package game_object_system.graphics_objects.shaders
 
 import java.nio.FloatBuffer
 
