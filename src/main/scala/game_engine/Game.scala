@@ -44,7 +44,7 @@ object Game {
 
     Input.registerInput(player)
 
-    val optionShader = ShaderLoader.loadShaderProgram("vs.glsl", "fs.glsl")
+    val optionShader = ShaderLoader.loadShaderProgram("sprite_shaders/vs.glsl", "sprite_shaders/fs.glsl")
 
     try {
 //      val textureAtlas = TextureLoader.loadTilesTextureAtlas("tiles_dungeon.png", 16, 16)
