@@ -41,12 +41,14 @@ object ShaderLoader {
     shader
   }
 
-  def link(program : Int): Some[Shader] = {
+  def link(program : Int): Option[Shader] = {
     GL20.glLinkProgram(program)
     if (areThereErrors(program, GL20.GL_LINK_STATUS)) None
-    GL20.glValidateProgram(program)
-    if (areThereErrors(program, GL20.GL_VALIDATE_STATUS)) None
-    Some(Shader(program))
+    else {
+      GL20.glValidateProgram(program)
+      if (areThereErrors(program, GL20.GL_VALIDATE_STATUS)) None
+      else Some(Shader(program))
+    }
   }
 
   private def areThereErrors(program : Int, flag : Int ):Boolean = {
