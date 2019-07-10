@@ -27,8 +27,8 @@ case class TileMap(
 //    val tilePoints: Seq[Float] = tileLayers.zipWithIndex.flatMap(l=> l._1.tiles.map(tile => Array(tile.x.toFloat, tile.y, l._2))).flatten
 //    ModelLoader.loadVerticesOnlyModel(tilePoints.toArray)
 //  }
-//  def scaleMap(x: Float, y: Float, z : Float): Unit = tileLayers.foreach(_.tiles.foreach(_.scale(x, y, z))) // not working?
-//
-//
-//  def translateMap(x: Float, y: Float, z : Float) : Unit = tileLayers.foreach(_.tiles.foreach(_.translate(x,y,z)))
+  def scaleMap(scaleFactor : Float): Unit = tileLayers.foreach(_.tmModel.scale(scaleFactor)) // not working?
+
+
+  def translateMap(x: Float, y: Float, z : Float) : Unit = tileLayers.foreach(_.tmModel.translate(x,y,z))
 }
