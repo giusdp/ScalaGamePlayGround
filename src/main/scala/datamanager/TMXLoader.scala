@@ -4,6 +4,7 @@ import java.awt.Rectangle
 
 import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, TextureAtlas, Tile, TileLayer, TileMap, TileSet}
 
+import scala.collection.mutable.ArrayBuffer
 import scala.xml.{Node, NodeSeq, XML}
 
 object TMXLoader {
@@ -48,7 +49,7 @@ object TMXLoader {
 
     val tileSet: TileSet = ((xml \ TILE_SET) collectFirst {case ts: Node => parseTSX((ts \ SOURCE).text)}).get
 
-    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileSet.textureAtlas)
+    val tileLayers: Seq[TileLayer] = prepareTileLayers(xml \ LAYER, tileSet)
 
     val objectLayers: Seq[ObjectLayer] = prepareObjectLayers(xml \ OBJECT_GROUP)
 
@@ -57,17 +58,22 @@ object TMXLoader {
 
   private val getInt: String => Int = (s: String) => if (s.nonEmpty) s.toFloat.toInt else -1
 
-  private def prepareTileLayers(layers : NodeSeq, atlas: TextureAtlas) : Seq[TileLayer] = layers collect {
+  private def prepareTileLayers(layers : NodeSeq, ts: TileSet) : Seq[TileLayer] = layers collect {
     case layer: Node =>
       val layerWidth = getInt((layer \ WIDTH).text)
       val layerHeight = getInt((layer \ HEIGHT).text)
       val data: Array[Int] = (layer \ DATA).text.split(",").map(_.trim.toInt)
 
-      var tiles : List[Tile]= List()
+      val offsets: ArrayBuffer[Float] = ArrayBuffer()
       for(y <-0 until layerHeight) for (x <- 0 until layerWidth){
-        if (data(x + (y*layerHeight)) != 0) tiles = Tile(x, y, atlas.extractRegion(data(x + (y*layerHeight)))) :: tiles
+        val id = data(x + (y*layerHeight))
+        if (id != 0) {
+          offsets.addOne(x)
+          offsets.addOne(y)
+          offsets.addOne(0)
+        }
       }
-      TileLayer((layer \ NAME).text, layerWidth, layerHeight, tiles.toArray)
+      TileLayer((layer \ NAME).text, layerWidth, layerHeight, ModelLoader.loadTileMapModel(offsets.toArray), offsets.length/3)
   }
 
   private def prepareObjectLayers(groups : NodeSeq) : Seq[ObjectLayer] = groups collect {

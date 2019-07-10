@@ -41,14 +41,21 @@ object ModelLoader {
     Model(vao, vbos, vertices.length/3)
   }
 
-  def loadTileMapModel(vertices : Array[Float], offsets : Array[Float]): Model = {
+  def loadTileMapModel(offsets : Array[Float]): Model = {
+    val quad: Array[Float] = Array(
+      -0.05f,  0.05f,0f,
+      0.05f, -0.05f,  0f,
+      -0.05f, -0.05f,0f,
+
+      -0.05f,  0.05f,0f,
+      0.05f, -0.05f, 0f,
+      0.05f,  0.05f,0f,
+    )
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
-
-    val vbos = List(bindVertexBuffer(vertices), bindOffsetsBuffer(offsets))
-
+    val vbos = List(bindVertexBuffer(quad), bindOffsetsBuffer(offsets))
     GL30.glBindVertexArray(0)
-    Model(vao, vbos, vertices.length/3)
+    Model(vao, vbos, quad.length/3)
   }
 
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)
