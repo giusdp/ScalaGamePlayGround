@@ -27,7 +27,7 @@ case class TileMap(
   val pointsArrayModel: Model = buildPoints()
   private def buildPoints(): Model = {
     val tilePoints: Seq[Float] = tileLayers.zipWithIndex.flatMap(l=> l._1.tiles.map(tile => Array(tile.x.toFloat, tile.y, l._2))).flatten
-    ModelLoader.loadPoints(tilePoints.toArray)
+    ModelLoader.loadVerticesOnlyModel(tilePoints.toArray)
   }
 //  def scaleMap(x: Float, y: Float, z : Float): Unit = tileLayers.foreach(_.tiles.foreach(_.scale(x, y, z))) // not working?
 //

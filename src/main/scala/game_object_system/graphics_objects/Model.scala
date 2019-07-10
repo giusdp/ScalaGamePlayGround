@@ -29,7 +29,5 @@ class Model(val vao : Int, vbos : List[Int], val vCount : Int){
 }
 
 object Model {
-
   def apply(vao: Int, vbos: List[Int], vCount: Int): Model = new Model(vao, vbos, vCount)
-
 }

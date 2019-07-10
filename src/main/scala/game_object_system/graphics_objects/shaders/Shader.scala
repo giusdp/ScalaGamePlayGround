@@ -4,13 +4,7 @@ import java.nio.FloatBuffer
 
 import org.lwjgl.opengl.GL20
 
-trait ShaderBase {
-  def use()
-  def stop()
-  def loadMVP(fb : FloatBuffer)
-}
-
-case class Shader(program : Int) extends ShaderBase {
+case class Shader(program : Int){
 
   val mvpLocation: Int = GL20.glGetUniformLocation(program, "mvp")
 
@@ -24,11 +18,11 @@ case class Shader(program : Int) extends ShaderBase {
 
 }
 
-case class TileMapShader(shader: Shader) extends ShaderBase {
+case class TileMapShader(shader: Shader) {
 
-  override def use(): Unit = shader.use()
+  def use(): Unit = shader.use()
 
-  override def stop(): Unit = shader.stop()
+  def stop(): Unit = shader.stop()
 
-  override def loadMVP(fb: FloatBuffer): Unit = shader.loadMVP(fb)
+  def loadMVP(fb: FloatBuffer): Unit = shader.loadMVP(fb)
 }

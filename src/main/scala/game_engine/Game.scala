@@ -48,7 +48,7 @@ object Game {
     val optionSpriteShader = ShaderLoader.loadShaderProgram("sprite_shaders/vs.glsl",
       "sprite_shaders/fs.glsl")
     val optionTileMapShader = ShaderLoader.loadShaderProgram("tilemap_shaders/vs.glsl",
-      "tilemap_shaders/gs.glsl", "tilemap_shaders/fs.glsl")
+      "tilemap_shaders/fs.glsl")
 
     try {
       val tmxMap = TMXLoader.parseTMX("s1.tmx")

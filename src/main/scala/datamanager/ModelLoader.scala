@@ -4,11 +4,12 @@ import java.nio.{FloatBuffer, IntBuffer}
 
 import game_object_system.graphics_objects.{Model, ModelPrimitive}
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
+import org.lwjgl.opengl.{GL11, GL15, GL20, GL30, GL33}
 
 object ModelLoader {
   val VERTEX_LOCATION = 0
   val TEXTURE_LOCATION = 1
+  val OFFSETS_LOCATION = 2
 
   def loadModel(s : ModelPrimitive): Model = {
     val vao = GL30.glGenVertexArrays()
@@ -30,7 +31,7 @@ object ModelLoader {
     Model(vao, vbos, indices.length)
   }
 
-  def loadPoints(vertices : Array[Float]): Model = {
+  def loadVerticesOnlyModel(vertices : Array[Float]): Model = {
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
 
@@ -40,8 +41,23 @@ object ModelLoader {
     Model(vao, vbos, vertices.length/3)
   }
 
+  def loadTileMapModel(vertices : Array[Float], offsets : Array[Float]): Model = {
+    val vao = GL30.glGenVertexArrays()
+    GL30.glBindVertexArray(vao)
+
+    val vbos = List(bindVertexBuffer(vertices), bindOffsetsBuffer(offsets))
+
+    GL30.glBindVertexArray(0)
+    Model(vao, vbos, vertices.length/3)
+  }
+
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)
   private def bindTexCoordBuffer(data: Array[Float]) = bindAttributeBuffer(TEXTURE_LOCATION, 2, data)
+  private def bindOffsetsBuffer(data: Array[Float]) = {
+    val vbo = bindAttributeBuffer(OFFSETS_LOCATION, 3, data)
+    GL33.glVertexAttribDivisor(OFFSETS_LOCATION,1)
+    vbo
+  }
 
   private def bindAttributeBuffer(index : Int, coordSize : Int, data : Array[Float]) = {
     val vbo = GL15.glGenBuffers()
