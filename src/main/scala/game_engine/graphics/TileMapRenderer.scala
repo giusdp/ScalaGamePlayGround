@@ -18,15 +18,14 @@ class TileMapRenderer(shader: TileMapShader, priority : Int) extends IteratingSy
   override def processEntity(entity: Entity, deltaTime: Float): Unit = {
     val map = ECEngine.tileMapMapper.get(entity).map
     shader.use()
-    shader.loadTextureTileWidth(map.tileSet.textureAtlas.regionWidth)
-    shader.loadTextureTileHeight(map.tileSet.textureAtlas.regionHeight)
+    shader.loadTextureTileWidth(map.tileSet.getRegionWidth)
+    shader.loadTextureTileHeight(map.tileSet.getRegionHeight)
     map.tileSet.bindTextureAtlas(1)
 
     map.tileLayers.foreach(l => {
       l.tmModel.bindModel()
       val mvp = Camera.getProjection.mulOrthoAffine(l.tmModel.model_matrix).get(fb)
       shader.loadMVP(mvp)
-//      GL31.glDrawArraysInstanced(GL11.GL_TRIANGLES, 0, 6, l.nTiles) //l.nTiles)
       GL31.glDrawElementsInstanced(GL11.GL_TRIANGLES, l.tmModel.vCount, GL11.GL_UNSIGNED_INT, 0, l.nTiles)
       l.tmModel.unBindModel()
     })
