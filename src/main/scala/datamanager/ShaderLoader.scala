@@ -37,7 +37,6 @@ object ShaderLoader {
 
     val shader = link(program)
     cleanUp(program, vertexShader, geometryShader, fragmentShader)
-
     shader
   }
 
