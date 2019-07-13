@@ -43,7 +43,7 @@ object Window {
   def shouldClose() : Boolean = glfwWindowShouldClose(window)
 
   def clearWindow(): Unit = {
-    glClearColor(1.0f, 0.5f, 0.0f, 0.0f)
+    glClearColor(0.03f, 0, 0.1f, 0.5f)
     glClear(GL_COLOR_BUFFER_BIT); // clear the framebuffer
   }
 
