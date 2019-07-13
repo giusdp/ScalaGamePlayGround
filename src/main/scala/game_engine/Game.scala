@@ -51,9 +51,9 @@ object Game {
       "tilemap_shaders/fs.glsl")
 
     try {
-      val tmxMap = TMXLoader.parseTMX("untitled.tmx")
+      val tmxMap = TMXLoader.parseTMX("s1.tmx")
 //      tmxMap.scaleMap(128)
-      tmxMap.translateMap(-100, -100, 0)
+      tmxMap.translateMap(-300, 500, 0)
       tmxMap.scaleMap(10)
 
       val mapEntity = new Entity()
