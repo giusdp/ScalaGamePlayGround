@@ -52,7 +52,7 @@ object TMXLoader {
     val tc: Int = getInt((xml \ TILE_COUNT).text)
     val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tc, tw, th)
     val v: Texture = TextureLoader.loadArrayTexture(imageFileName, tc, tw, th).get
-    val tiles: Map[Int, Array[Float]] = (0 until tc).map(i => i -> ta.extractRegion(i)).toMap
+    val tiles: Map[Int, Array[Float]] = (0 until tc).map(i => i -> ta.startingPointOfRegion(i)).toMap
     TileSet(tiles, ta)
   }
 
@@ -65,36 +65,19 @@ object TMXLoader {
       val data: Array[Int] = (layer \ DATA).text.split(",").map(_.trim.toInt)
 
       val offsets: ArrayBuffer[Float] = ArrayBuffer()
-      val texCoords : Array[Float] =
-        Array(
-          0.1f,  0.041666668f,  // 00
-          0.1f, 0.083333336f, // 01
-          0.15f, 0.041666668f,  // 10
-
-          0.15f,  0.083333336f,  // 11
-          0.15f, 0.041666668f, // 10
-          0.1f, 0.083333336f, // 01
-        )
+      val texCoords : ArrayBuffer[Float] = ArrayBuffer()
 
       for(y <-0 until layerHeight) for (x <- 0 until layerWidth){
         val id = data(x + (y*layerHeight))
         if (id != 0) {
-          offsets.addOne(x*2)
-          offsets.addOne(y*2)
+          offsets.addOne(x*2f)
+          offsets.addOne(-y * 2f)
           offsets.addOne(0)
 
-//          val texco: Array[Float] = ts.indexedTiles(id)
-          //          println("TEXOFF = " + texco.toList)
-//          // Aggiungere both
-//          val texOffsets = ts.indexedTiles(id)
-////          println(texCoords.toList)
-//          println(texOffsets.toList)
-
-//          println("TEXCOROFF = " + texCoords.drop(texCoords.length-8).toList)
-
+         texCoords.addAll(ts.indexedTiles(id))
         } else {}
       }
-      TileLayer(layerWidth, layerHeight, ModelLoader.loadTileMapModel(offsets.toArray, texCoords), offsets.length/3)
+      TileLayer(layerWidth, layerHeight, ModelLoader.loadTileMapModel(offsets.toArray, texCoords.toArray), offsets.length/3)
   }
 
   private def prepareObjectLayers(groups : NodeSeq) : Seq[ObjectLayer] = groups collect {
