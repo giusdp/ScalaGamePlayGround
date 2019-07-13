@@ -19,10 +19,10 @@ case class Shader(program : Int){
 }
 
 case class TileMapShader(shader: Shader) {
-
   def use(): Unit = shader.use()
 
   def stop(): Unit = shader.stop()
 
   def loadMVP(fb: FloatBuffer): Unit = shader.loadMVP(fb)
+
 }

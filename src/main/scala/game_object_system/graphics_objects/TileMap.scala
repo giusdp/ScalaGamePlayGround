@@ -7,7 +7,7 @@ case class TileSet(indexedTiles : Map[Int, Array[Float]], textureAtlas: TextureA
 }
 
 case class Tile(x : Int, y : Int,texCoords : Array[Float])
-case class TileLayer(name: String, width: Int, height: Int, tmModel : Model, nTiles : Int)
+case class TileLayer(width: Int, height: Int, tmModel : Model, nTiles : Int)
 
 case class ObjectShape(gid:Int, rect:Rectangle)
 case class ObjectLayer(name:String, width:Int, height:Int, objects: List[ObjectShape])
