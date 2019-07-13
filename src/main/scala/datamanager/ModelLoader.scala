@@ -2,7 +2,7 @@ package datamanager
 
 import java.nio.{FloatBuffer, IntBuffer}
 
-import game_object_system.graphics_objects.{Model, ModelPrimitive}
+import game_object_system.graphics_objects.{Model, ModelPrimitive, RectModel}
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.{GL11, GL15, GL20, GL30, GL33}
 
@@ -43,30 +43,13 @@ object ModelLoader {
   }
 
   def loadTileMapModel(vertexOffsets : Array[Float], textureOffsets : Array[Float]): Model = {
-    val quad: Array[Float] = Array(
-      -1f, 1f,  0f,
-      -1f, -1f, 0f,
-      1f,  1f,  0f,
-
-      1f, -1f,  0f,
-      1f,  1f,  0f,
-      -1f, -1f, 0f,
-    )
-    val texs : Array[Float] = Array(
-      0,0,
-      0,1,
-      1,0,
-
-      1,1,
-      1,0,
-      0,1,
-    )
-    println(textureOffsets.toList)
+    val tile = RectModel(0,0,2,2)
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
-    val vbos = List(bindVertexBuffer(quad), bindTexCoordBuffer(texs), bindVertexOffsetsBuffer(vertexOffsets), bindTextureOffsetsBuffer(textureOffsets))
+    val vbos = List(bindIndicesBuffer(tile.indices), bindVertexBuffer(tile.vertices), bindTexCoordBuffer(tile.texCoords),
+      bindVertexOffsetsBuffer(vertexOffsets), bindTextureOffsetsBuffer(textureOffsets))
     GL30.glBindVertexArray(0)
-    Model(vao, vbos, quad.length/3)
+    Model(vao, vbos, tile.vertices.length)
   }
 
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)
@@ -84,11 +67,9 @@ object ModelLoader {
 
   private def bindAttributeBuffer(index : Int, coordSize : Int, data : Array[Float]) = {
     val vbo = GL15.glGenBuffers()
-    val buffer = mkFloatBuffer(data)
     GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo)
-    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW)
+    GL15.glBufferData(GL15.GL_ARRAY_BUFFER, mkFloatBuffer(data), GL15.GL_STATIC_DRAW)
     GL20.glVertexAttribPointer(index, coordSize, GL11.GL_FLOAT, false, 0, 0)
-    if (index == TEXTURE_LOCATION || index == TEXTURE_OFFSETS_LOCATION) GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0,buffer )
     GL20.glEnableVertexAttribArray(index)
     vbo
   }
