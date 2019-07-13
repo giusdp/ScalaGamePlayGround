@@ -17,23 +17,19 @@ case class TextureAtlas(texture : Texture, cellWidth : Float, cellHeight : Float
 //    Tile(tc)
 //  }
 
-  def extractRegion(index : Int) : Array[Float] = {
+  def startingPointOfRegion(index : Int) : Array[Float] = {
     val i: Int = index - 1
-    val regionWidth : Float = cellWidth/imageWidth
-    val regionHeight: Float = cellHeight/imageHeight
     val columns: Float = imageWidth/cellWidth
     val u: Float = (i % columns) * regionWidth
     val v: Float = Math.floor(i / columns).toFloat * regionHeight
-    Array(
-      u,                v,
-      u,                v + regionHeight,
-      u + regionWidth,  v + regionHeight,
-      u + regionWidth,  v,
-    )
+    Array(u, v)
   }
 
   val imageWidth: Float = texture.w
   val imageHeight: Float = texture.h
+  val regionWidth : Float = cellWidth/imageWidth
+  val regionHeight: Float = cellHeight/imageHeight
+
 
   def dispose(): Unit = texture.dispose()
 

@@ -2,13 +2,15 @@ package datamanager
 
 import java.nio.{FloatBuffer, IntBuffer}
 
-import game_object_system.graphics_objects.{Model, ModelPrimitive}
+import game_object_system.graphics_objects.{Model, ModelPrimitive, RectModel}
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.{GL11, GL15, GL20, GL30}
+import org.lwjgl.opengl.{GL11, GL15, GL20, GL30, GL33}
 
 object ModelLoader {
   val VERTEX_LOCATION = 0
   val TEXTURE_LOCATION = 1
+  val VERTEX_OFFSETS_LOCATION = 2
+  val TEXTURE_OFFSETS_LOCATION = 3
 
   def loadModel(s : ModelPrimitive): Model = {
     val vao = GL30.glGenVertexArrays()
@@ -30,8 +32,38 @@ object ModelLoader {
     Model(vao, vbos, indices.length)
   }
 
+  def loadVerticesOnlyModel(vertices : Array[Float]): Model = {
+    val vao = GL30.glGenVertexArrays()
+    GL30.glBindVertexArray(vao)
+
+    val vbos = List(bindVertexBuffer(vertices))
+
+    GL30.glBindVertexArray(0)
+    Model(vao, vbos, vertices.length/3)
+  }
+
+  def loadTileMapModel(vertexOffsets : Array[Float], textureOffsets : Array[Float]): Model = {
+    val tile = RectModel(0,0,2,2)
+    val vao = GL30.glGenVertexArrays()
+    GL30.glBindVertexArray(vao)
+    val vbos = List(bindIndicesBuffer(tile.indices), bindVertexBuffer(tile.vertices), bindTexCoordBuffer(tile.texCoords),
+      bindVertexOffsetsBuffer(vertexOffsets), bindTextureOffsetsBuffer(textureOffsets))
+    GL30.glBindVertexArray(0)
+    Model(vao, vbos, tile.vertices.length)
+  }
+
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)
   private def bindTexCoordBuffer(data: Array[Float]) = bindAttributeBuffer(TEXTURE_LOCATION, 2, data)
+  private def bindVertexOffsetsBuffer(data: Array[Float]) = {
+    val vbo = bindAttributeBuffer(VERTEX_OFFSETS_LOCATION, 3, data)
+    GL33.glVertexAttribDivisor(VERTEX_OFFSETS_LOCATION,1)
+    vbo
+  }
+  private def bindTextureOffsetsBuffer(data: Array[Float]) = {
+    val vbo = bindAttributeBuffer(TEXTURE_OFFSETS_LOCATION, 2, data)
+    GL33.glVertexAttribDivisor(TEXTURE_OFFSETS_LOCATION,1)
+    vbo
+  }
 
   private def bindAttributeBuffer(index : Int, coordSize : Int, data : Array[Float]) = {
     val vbo = GL15.glGenBuffers()
