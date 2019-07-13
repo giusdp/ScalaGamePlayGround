@@ -7,7 +7,7 @@ object Camera {
   var aspectRatio : Float = _
 
   val position : Vector3f = new Vector3f(0,0,10)
-  var scaleFactor :Float = 2f
+  var scaleFactor :Float = 3f
   var proj : Matrix4f = _
 
   def setViewSize(w : Float, h: Float): Unit = proj = new Matrix4f().setOrtho(-w/2, w/2, -h/2, h/2, -100, 100)
