@@ -16,8 +16,8 @@ import org.lwjgl.opengl.{GL, GL11}
 import scala.annotation.tailrec
 
 object Game {
-  var SCREEN_WIDTH = 800
-  var SCREEN_HEIGHT = 480
+  var SCREEN_WIDTH = 1024
+  var SCREEN_HEIGHT = 720
 
   def run(): Unit = {
 
@@ -51,7 +51,11 @@ object Game {
       "tilemap_shaders/fs.glsl")
 
     try {
-      val tmxMap = TMXLoader.parseTMX("s1.tmx")
+      val tmxMap = TMXLoader.parseTMX("untitled.tmx")
+//      tmxMap.scaleMap(128)
+      tmxMap.translateMap(-100, -100, 0)
+      tmxMap.scaleMap(10)
+
       val mapEntity = new Entity()
       mapEntity.add(TileMapCom(tmxMap))
       ECEngine.engine.addEntity(mapEntity)
