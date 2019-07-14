@@ -46,7 +46,7 @@ object ModelLoader {
     val tile = RectModel(0,0,2,2)
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
-    val vbos = List(bindIndicesBuffer(tile.indices), bindVertexBuffer(tile.vertices), bindTexCoordBuffer(tile.texCoords),
+    val vbos = List(bindIndicesBuffer(tile.indices), bindVertexBuffer(tile.vertices),
       bindVertexOffsetsBuffer(vertexOffsets), bindTextureOffsetsBuffer(textureOffsets))
     GL30.glBindVertexArray(0)
     Model(vao, vbos, tile.vertices.length)
