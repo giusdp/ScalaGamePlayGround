@@ -8,9 +8,9 @@ import game_object_system.graphics_objects.Camera
 import game_object_system.graphics_objects.shaders.Shader
 import game_object_system.{ECEngine, PositionCom, RenderableCom}
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.{GL11, GL13, GL30}
+import org.lwjgl.opengl.GL11
 
-class RenderingSystem(shader : Shader, priority : Int) extends SortedIteratingSystem(
+class SpriteRenderer(shader : Shader, priority : Int) extends SortedIteratingSystem(
   Family.all(classOf[PositionCom], classOf[RenderableCom]).get(), Comp.comparator, priority) {
 
   val fb: FloatBuffer = BufferUtils.createFloatBuffer(16)

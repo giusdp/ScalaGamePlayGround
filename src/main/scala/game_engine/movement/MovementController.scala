@@ -6,7 +6,7 @@ import game_object_system.graphics_objects.Camera
 import game_object_system.{DirectionCom, ECEngine, PositionCom, VelocityCom}
 import org.joml.Vector3f
 
-class MovementSystem(priority : Int) extends IteratingSystem(
+class MovementController(priority : Int) extends IteratingSystem(
   Family.all(classOf[PositionCom], classOf[VelocityCom], classOf[DirectionCom]).get(),
   priority
 )
