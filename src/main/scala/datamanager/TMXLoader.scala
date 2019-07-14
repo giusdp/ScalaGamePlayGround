@@ -2,7 +2,7 @@ package datamanager
 
 import java.awt.Rectangle
 
-import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, Texture, TextureAtlas, Tile, TileLayer, TileMap, TileSet}
+import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, StaticTexture, TextureAtlas, Tile, TileLayer, TileMap, TileSet}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.xml.{Node, NodeSeq, XML}
@@ -51,7 +51,7 @@ object TMXLoader {
     val th: Int = getInt((xml \ TILE_HEIGHT).text)
     val tc: Int = getInt((xml \ TILE_COUNT).text)
     val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tc, tw, th)
-    val v: Texture = TextureLoader.loadArrayTexture(imageFileName, tc, tw, th).get
+    val v: StaticTexture = TextureLoader.loadArrayTexture(imageFileName, tc, tw, th).get
     val tiles: Map[Int, Array[Float]] = (0 until tc).map(i => i -> ta.startingPointOfRegion(i)).toMap
     TileSet(tiles, ta)
   }

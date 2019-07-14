@@ -8,9 +8,6 @@ case class Sprite(model : Model, texture: Texture) {
 
   def moveSprite(x : Float, y : Float, z : Float) : Unit = model.move(x, y, z)
 
-  val width: Float = texture.w
-  val height: Float = texture.h
-
   def dispose(): Unit = {
     model.dispose()
     texture.dispose()

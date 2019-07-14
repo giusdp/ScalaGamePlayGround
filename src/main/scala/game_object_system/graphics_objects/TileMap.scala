@@ -3,7 +3,7 @@ package game_object_system.graphics_objects
 import java.awt.Rectangle
 
 case class TileSet(indexedTiles : Map[Int, Array[Float]], textureAtlas: TextureAtlas) {
-  def bindTextureAtlas(unit : Int): Unit = textureAtlas.texture.bind(unit)
+  def bindTextureAtlas(unit : Int): Unit = textureAtlas.bind(unit)
   def getRegionWidth: Float = textureAtlas.regionWidth
   def getRegionHeight: Float = textureAtlas.regionHeight
 }
