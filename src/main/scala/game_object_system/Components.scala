@@ -17,7 +17,7 @@ case class DirectionCom(var dir : (Float, Float) = (0,0)) extends Component
 // Instead of forcing sprites as the objects to use to render, it could be abstracted away so to
 // allow anything to be rendered by accessing it through this component in the renderer.
 case class RenderableCom(sprite : Sprite) extends Component
-case class AnimationCom(fps : Int) extends Component
+case class AnimationCom(currentAnimation : String, currentFrame : Int, fps : Int, animations : Map[String, Array[Float]]) extends Component
 
 case class CameraCenterCom() extends Component
 
