@@ -11,7 +11,7 @@ import org.lwjgl.opengl.{GL11, GL12, GL30}
 
 object TextureLoader {
 
-  def loadTextureAtlas(filename: String, tileCount : Int, tileWidth: Int, tileHeight : Int): TextureAtlas = {
+  def loadTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
     val t = TextureLoader.loadTexture(filename)
       .getOrElse(throw new RuntimeException("Failed to load texture atlas: " + filename + "."))
     TextureAtlas(t.id, t.w, t.h, tileWidth, tileHeight)
@@ -58,62 +58,6 @@ object TextureLoader {
     }
     catch {
       case _: Exception => Console.err.println("Error while loading texture: " + fileName); None
-    }
-  }
-
-  def loadArrayTexture(fileName: String, imageCount : Int, width : Int, height : Int): Option[StaticTexture] = {
-    try {
-      val byteArray = Files.readAllBytes(Paths.get(RES_DIR + fileName))
-      //load png file
-      val decoder: PNGDecoder = new PNGDecoder(new ByteArrayInputStream(byteArray))
-
-      //create a byte buffer big enough to store RGBA values
-      val buffer: ByteBuffer = ByteBuffer.wrap(new Array(4 * decoder.getWidth * decoder.getHeight))
-
-      //decode
-      decoder.decode(buffer, decoder.getWidth * 4, PNGDecoder.Format.RGBA)
-      //flip the buffer so its ready to read
-      buffer.flip()
-
-//      println(buffer.array().toList)
-
-      //create a texture
-      val id = GL11.glGenTextures()
-//      GL13.glActiveTexture(0)
-
-      //bind the texture
-      GL11.glBindTexture(GL30.GL_TEXTURE_2D_ARRAY, id)
-
-      //tell opengl how to unpack bytes
-      GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1)
-
-      GL11.glTexParameteri(GL30.GL_TEXTURE_2D_ARRAY, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR)
-      GL11.glTexParameteri(GL30.GL_TEXTURE_2D_ARRAY, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR)
-
-      //      GL11.glTexParameteri(GL30.GL_TEXTURE_2D_ARRAY,GL11.GL_TEXTURE_WRAP_S,GL11.GL_REPEAT)
-      //      GL11.glTexParameteri(GL30.GL_TEXTURE_2D_ARRAY,GL11.GL_TEXTURE_WRAP_T,GL11.GL_REPEAT)
-
-      GL12.glTexImage3D(GL30.GL_TEXTURE_2D_ARRAY, 1, GL11.GL_RGBA8, decoder.getWidth, decoder.getHeight, 1, 0, GL11.GL_RGBA8, GL11.GL_UNSIGNED_BYTE, 0)
-      //      GL42.glTexStorage3D(GL30.GL_TEXTURE_2D_ARRAY, 1, GL11.GL_RGBA8, decoder.getWidth, decoder.getHeight, 1)
-      //      GL12.glTexImage3D(GL30.GL_TEXTURE_2D_ARRAY, 0, GL11.GL_RGBA8, decoder.getWidth, decoder.getHeight, 1,
-      //        0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,  0)
-
-      GL12.glTexSubImage3D(GL30.GL_TEXTURE_2D_ARRAY, 0, 0, 0, 0,
-      decoder.getWidth, decoder.getHeight, 1,GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer)
-
-
-      GL30.glGenerateMipmap(GL30.GL_TEXTURE_2D_ARRAY)
-
-      //upload array text
-      // Generate Mip Map
-
-      Some(StaticTexture(id, decoder.getWidth, decoder.getHeight))
-    }
-    catch {
-      case e: Exception =>
-        Console.err.println("Error while loading texture: " + fileName)
-        Console.err.println(e.printStackTrace())
-        None
     }
   }
 }

@@ -42,7 +42,7 @@ object EntityLoader {
   }
 
   private def extractRenderableCom(map : Map[String, Any]): Component =
-    SpriteLoader.loadSprite(map("sprite").toString) match {
+    SpriteLoader.loadStaticSprite(map("sprite").toString) match {
       case Some(s) => RenderableCom(s)
       case _ => EmptyCom()
     }

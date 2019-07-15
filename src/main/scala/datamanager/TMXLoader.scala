@@ -50,8 +50,7 @@ object TMXLoader {
     val tw: Int = getInt((xml \ TILE_WIDTH).text)
     val th: Int = getInt((xml \ TILE_HEIGHT).text)
     val tc: Int = getInt((xml \ TILE_COUNT).text)
-    val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tc, tw, th)
-    val v: StaticTexture = TextureLoader.loadArrayTexture(imageFileName, tc, tw, th).get
+    val ta: TextureAtlas = TextureLoader.loadTextureAtlas(imageFileName, tw, th)
     val tiles: Map[Int, Array[Float]] = (0 until tc).map(i => i -> ta.startingPointOfRegion(i)).toMap
     TileSet(tiles, ta)
   }

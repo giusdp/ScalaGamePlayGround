@@ -4,7 +4,7 @@ import game_object_system.graphics_objects.{RectModel, Sprite, StaticSprite}
 
 object SpriteLoader {
 
-  def loadSprite(imgFileName : String): Option[Sprite] = loadSprite(0,0,imgFileName)
+  def loadStaticSprite(imgFileName : String): Option[Sprite] = loadSprite(0,0,imgFileName)
 
   def loadSprite(x : Int, y : Int, imgFileName : String): Option[Sprite] =
     TextureLoader.loadTexture(imgFileName) match {
@@ -12,4 +12,7 @@ object SpriteLoader {
       case None => None
     }
 
+//  def loadAnimatedSprite(x : Int, y : Int, imgFileName : String): Option[Sprite] = {
+//    TextureLoader.loadTextureAtlas(imgFileName, )
+//  }
 }
