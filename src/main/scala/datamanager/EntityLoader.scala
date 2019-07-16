@@ -11,7 +11,7 @@ object EntityLoader {
 
   private def buildEntity(cs : List[Component]): Entity = {
     val e = new Entity()
-    cs.filter(!_.isInstanceOf[EmptyCom]).foreach(c => e.add(c))
+    cs.filterNot(_.isInstanceOf[EmptyCom]).foreach(c => e.add(c))
     e
   }
 
@@ -41,11 +41,16 @@ object EntityLoader {
     cmap.map(asComponent _).toList
   }
 
-  private def extractRenderableCom(map : Map[String, Any]): Component =
-    SpriteLoader.loadStaticSprite(map("sprite").toString) match {
-      case Some(s) => RenderableCom(s)
-      case _ => EmptyCom()
+  private def extractRenderableCom(map : Map[String, Any]): Component = {
+    if (map.contains("sprite")) SpriteLoader.loadStaticSprite(map("sprite").toString).fold(EmptyCom() : Component)(RenderableCom)
+    else {
+      val data : Map[String, Any] = map("animated_sprite").asInstanceOf[Map[String, Any]]
+      val atlasData = data("atlas").asInstanceOf[Map[String, Any]]
+      val animations = data("animations").asInstanceOf[Map[String, Map[String, Int]]]
+      SpriteLoader.loadAnimatedSprite(atlasData("filename").toString, atlasData("region_width").toString.toInt,
+        atlasData("region_height").toString.toInt, animations).fold(EmptyCom() : Component)(RenderableCom)
     }
+  }
 
   /**  Each described component in the json file is  converted in the associated component.
     * For new components added this method has to be properly extended. */
