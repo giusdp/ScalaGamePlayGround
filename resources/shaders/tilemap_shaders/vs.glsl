@@ -1,4 +1,4 @@
-#version 420 core
+#version 330 core
 layout (location = 0) in vec3 pos;
 layout (location = 2) in vec3 pos_offset;
 layout (location = 3) in vec2 tex_offset;
