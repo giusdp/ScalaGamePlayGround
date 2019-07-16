@@ -11,10 +11,10 @@ import org.lwjgl.opengl.{GL11, GL12, GL30}
 
 object TextureLoader {
 
-  def loadTextureAtlas(filename: String, tileWidth: Int, tileHeight : Int): TextureAtlas = {
+  def loadTextureAtlas(filename: String, regionWidth: Int, regionHeight : Int): TextureAtlas = {
     val t = TextureLoader.loadTexture(filename)
       .getOrElse(throw new RuntimeException("Failed to load texture atlas: " + filename + "."))
-    TextureAtlas(t.id, t.w, t.h, tileWidth, tileHeight)
+    TextureAtlas(t.id, t.w, t.h, regionWidth, regionHeight)
   }
 
   def loadTexture(fileName: String): Option[StaticTexture] = {
