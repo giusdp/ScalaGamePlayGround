@@ -9,7 +9,16 @@
     },
     "direction" : true,
     "renderable" :  {
-      "sprite" : "playerimg.png"
+      "animated_sprite" : {
+        "idle" : {
+          "frames" : 3,
+          "atlas" : "idle.png"
+        },
+        "up": {
+          "frames" : 3,
+          "atlas" : "idle.png"
+        }
+      }
     },
     "camera_center": true
   }
