@@ -1,10 +1,10 @@
 #version 330 core
 
 in vec2 tex_coords;
-out vec4 out_Color;
+out vec4 fragment_color;
 
 uniform sampler2D sampler;
 
 void main(void){
-    out_Color = texture(sampler, tex_coords);
+    fragment_color = texture(sampler,tex_coords);
 }
