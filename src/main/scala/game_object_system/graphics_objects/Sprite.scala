@@ -15,5 +15,9 @@ abstract case class Sprite(model : Model, texture: Texture) {
 
 class StaticSprite(model : Model, texture: StaticTexture) extends Sprite(model, texture)
 
-class AnimatedSprite(model : Model, texture: TextureAtlas, animations : Map[String, Array[Float]],
-                     currentAnimation : String = "idle", currentFrame : Int = 0, fps : Int = 16) extends Sprite(model, texture)
+class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Animation],
+                     currentAnimation : String = "idle", currentFrame : Int = 0, fps : Int = 16) extends Sprite(model, texture){
+
+}
+
+case class Animation(name: String, numFrames : Int, frames : List[Array[Float]])
