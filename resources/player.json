@@ -10,13 +10,20 @@
     "direction" : true,
     "renderable" :  {
       "animated_sprite" : {
-        "idle" : {
-          "frames" : 3,
-          "atlas" : "idle.png"
+        "atlas" : {
+          "filename" : "idle.png",
+          "region_width" : 16,
+          "region_height" : 16
         },
-        "up": {
-          "frames" : 3,
-          "atlas" : "idle.png"
+        "animations" : {
+          "idle" : {
+            "startingAt" : 0,
+            "frames" : 3
+          },
+          "up": {
+            "startingAt" : 0,
+            "frames" : 3
+          }
         }
       }
     },
