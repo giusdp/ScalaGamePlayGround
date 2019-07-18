@@ -21,7 +21,7 @@ object SpriteLoader {
           anims = anims :+ Animation(name, numFrames, frames)
       }
 
-      val sprite: AnimatedSprite = new AnimatedSprite(ModelLoader.loadModel(RectModel(0, 0, width, height)), t, anims)
+      val sprite: AnimatedSprite = new AnimatedSprite(ModelLoader.loadUntexturedModel(RectModel(0, 0, width, height)), t, anims)
       Some(sprite)
     }
     catch {

@@ -12,6 +12,16 @@ object ModelLoader {
   val VERTEX_OFFSETS_LOCATION = 2
   val TEXTURE_OFFSETS_LOCATION = 3
 
+  def loadUntexturedModel(s : ModelPrimitive): Model = {
+    val vao = GL30.glGenVertexArrays()
+    GL30.glBindVertexArray(vao)
+
+    val vbos = List(bindIndicesBuffer(s.indices), bindVertexBuffer(s.vertices))
+
+    GL30.glBindVertexArray(0)
+    Model(vao, vbos, s.indices.length)
+  }
+
   def loadModel(s : ModelPrimitive): Model = {
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
