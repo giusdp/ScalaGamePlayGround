@@ -19,7 +19,17 @@ abstract case class Sprite(model : Model, texture: Texture) {
 class StaticSprite(model : Model, texture: StaticTexture) extends Sprite(model, texture)
 
 class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Animation],
-                     currentAnimation : String = "idle", currentFrame : Int = 0, fps : Int = 16) extends Sprite(model, texture){
+                     currentAnimation : Animation, var currentFrame : Int = 0, fps : Int = 16) extends Sprite(model, texture){
+
+  var frameCoords : Array[Array[Float]] = getFrameCoords
+  def nextFrame(): Unit = {
+    currentFrame += 1
+    if (currentFrame >= currentAnimation.numFrames) currentFrame = 0
+    updateFrameCoords()
+  }
+
+  private def updateFrameCoords(): Unit = frameCoords = getFrameCoords
+  private def getFrameCoords = texture.extractRegion(currentFrame + 1)
 
 }
 
