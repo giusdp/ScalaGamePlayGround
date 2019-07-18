@@ -37,6 +37,17 @@ case class TextureAtlas(id : Int, imageWidth : Float, imageHeight : Float, cellW
     Array(u, v)
   }
 
+  def extractRegion(index : Int): Array[Array[Float]] = {
+    val o = startingPointOfRegion(index)
+    val u = o(0)
+    val v = o(1)
+    Array(
+      Array(u, v),
+      Array(u, v + regionHeight),
+      Array(u + regionWidth, v + regionHeight),
+      Array(u + regionWidth, v))
+  }
+
   val regionWidth : Float = cellWidth/imageWidth
   val regionHeight: Float = cellHeight/imageHeight
 
