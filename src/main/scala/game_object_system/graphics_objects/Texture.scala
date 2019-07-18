@@ -5,6 +5,8 @@ import org.lwjgl.opengl.{GL11, GL13}
 trait Texture {
   def bind(textureUnit : Int): Unit
   def dispose(): Unit
+  def getWidth : Float
+  def getHeight : Float
 }
 
 case class StaticTexture(id : Int, w : Float, h : Float) extends Texture {
@@ -15,6 +17,9 @@ case class StaticTexture(id : Int, w : Float, h : Float) extends Texture {
   }
 
   override def dispose(): Unit = GL11.glDeleteTextures(id)
+
+  override def getWidth: Float = w
+  override def getHeight: Float = h
 }
 
 case class TextureAtlas(id : Int, imageWidth : Float, imageHeight : Float, cellWidth : Float, cellHeight : Float) extends Texture {
@@ -34,6 +39,9 @@ case class TextureAtlas(id : Int, imageWidth : Float, imageHeight : Float, cellW
 
   val regionWidth : Float = cellWidth/imageWidth
   val regionHeight: Float = cellHeight/imageHeight
+
+  override def getWidth: Float = regionWidth
+  override def getHeight: Float = regionHeight
 
   override def dispose(): Unit = GL11.glDeleteTextures(id)
 }
