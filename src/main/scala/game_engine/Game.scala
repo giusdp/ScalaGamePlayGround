@@ -6,7 +6,7 @@ import game_engine.graphics.{SpriteRenderer, TileMapRenderer, Window}
 import game_engine.movement.MovementController
 import game_engine.utils.Timer
 import game_object_system.graphics_objects.Camera
-import game_object_system.graphics_objects.shaders.TileMapShader
+import game_object_system.graphics_objects.shaders.{AnimatedSpriteShader, TileMapShader}
 import game_object_system.{ECEngine, TileMapCom}
 import org.lwjgl.glfw.Callbacks._
 import org.lwjgl.glfw.GLFW._
@@ -47,6 +47,10 @@ object Game {
 
     val optionSpriteShader = ShaderLoader.loadShaderProgram("sprite_shaders/vs.glsl",
       "sprite_shaders/fs.glsl")
+
+    val optionAnimatedSpriteShader = ShaderLoader.loadShaderProgram("animated_sprite_shaders/vs.glsl",
+      "animated_sprite_shaders/fs.glsl")
+
     val optionTileMapShader = ShaderLoader.loadShaderProgram("tilemap_shaders/vs.glsl",
       "tilemap_shaders/fs.glsl")
 
@@ -60,11 +64,12 @@ object Game {
       mapEntity.add(TileMapCom(tmxMap))
       ECEngine.engine.addEntity(mapEntity)
 
-      val spriteShader = optionSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort."))
+      val staticShader = optionSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort."))
+      val animShader = AnimatedSpriteShader(optionAnimatedSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort.")))
       val tileMapShader = TileMapShader(optionTileMapShader.getOrElse(throw new RuntimeException("Failed to create tilemap shader, abort.")))
 
       val mapRenderer = new TileMapRenderer(tileMapShader, 1)
-      val renderer = new SpriteRenderer(spriteShader, 2)
+      val renderer = new SpriteRenderer(staticShader, animShader, 2)
       val movement = new MovementController(0)
 
       ECEngine.engine.addSystem(movement)
