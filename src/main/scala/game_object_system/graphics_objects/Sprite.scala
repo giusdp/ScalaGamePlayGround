@@ -7,6 +7,9 @@ abstract case class Sprite(model : Model, texture: Texture) {
 
   def moveSprite(x : Float, y : Float, z : Float) : Unit = model.move(x, y, z)
 
+  def getWidth: Float = texture.getWidth
+  def getHeight: Float = texture.getHeight
+
   def dispose(): Unit = {
     model.dispose()
     texture.dispose()
