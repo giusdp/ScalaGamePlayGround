@@ -60,6 +60,7 @@ object EntityLoader {
     case "direction" => DirectionCom()
     case "renderable" => extractRenderableCom(c._2)
     case "camera_center" => CameraCenterCom()
+    case "animation" => AnimationCom()
     case _ => EmptyCom()
   }
 }
