@@ -27,6 +27,7 @@
         }
       }
     },
+    "animation" : true,
     "camera_center": true
   }
 }
