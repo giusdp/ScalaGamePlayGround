@@ -2,7 +2,7 @@ package game_engine
 
 import com.badlogic.ashley.core.Entity
 import datamanager.{EntityLoader, ShaderLoader, TMXLoader}
-import game_engine.graphics.{SpriteRenderer, TileMapRenderer, Window}
+import game_engine.graphics.{AnimationController, SpriteRenderer, TileMapRenderer, Window}
 import game_engine.movement.MovementController
 import game_engine.utils.Timer
 import game_object_system.graphics_objects.Camera
@@ -68,11 +68,13 @@ object Game {
       val animShader = AnimatedSpriteShader(optionAnimatedSpriteShader.getOrElse(throw new RuntimeException("Failed to create sprite shader, abort.")))
       val tileMapShader = TileMapShader(optionTileMapShader.getOrElse(throw new RuntimeException("Failed to create tilemap shader, abort.")))
 
-      val mapRenderer = new TileMapRenderer(tileMapShader, 1)
-      val renderer = new SpriteRenderer(staticShader, animShader, 2)
       val movement = new MovementController(0)
+      val animations = new AnimationController(1)
+      val mapRenderer = new TileMapRenderer(tileMapShader, 2)
+      val renderer = new SpriteRenderer(staticShader, animShader, 3)
 
       ECEngine.engine.addSystem(movement)
+      ECEngine.engine.addSystem(animations)
       ECEngine.engine.addSystem(renderer)
       ECEngine.engine.addSystem(mapRenderer)
 
