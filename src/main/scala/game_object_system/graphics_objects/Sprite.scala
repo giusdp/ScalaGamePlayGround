@@ -18,7 +18,7 @@ abstract case class Sprite(model : Model, texture: Texture) {
 
 class StaticSprite(model : Model, texture: StaticTexture) extends Sprite(model, texture)
 
-class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Animation],
+class AnimatedSprite(model : Model, texture: TextureAtlas, animations : Map[String, Animation],
                      var currentAnimation : Animation, var currentFrame : Int = 0) extends Sprite(model, texture){
 
   var textureFrameCoords: Array[Vector2f] = getFrameCoords
@@ -29,9 +29,16 @@ class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Ani
     updateFrameCoords()
   }
 
+  def changeAnimation(name : String): Unit = {
+    currentAnimation = animations(name)
+    currentFrame = 0
+    updateFrameCoords()
+  }
+
   private def updateFrameCoords(): Unit = textureFrameCoords = getFrameCoords
+
   private def getFrameCoords = currentAnimation.frames(currentFrame)
 
 }
 
-case class Animation(name: String, numFrames : Int, frames : Array[Array[Vector2f]], duration : Int = 6)
+case class Animation(numFrames : Int, frames : Array[Array[Vector2f]], duration : Int = 6)

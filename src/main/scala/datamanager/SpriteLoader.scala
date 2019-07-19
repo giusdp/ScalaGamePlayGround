@@ -12,16 +12,16 @@ object SpriteLoader {
   def loadAnimatedSprite(imgFileName : String, width : Int, height: Int, animations : Map[String, Map[String, Int]]): Option[Sprite] = {
     try {
       val t: TextureAtlas = TextureLoader.loadTextureAtlas(imgFileName, width, height)
-      var anims: List[Animation] = List()
+      var anims: Map[String, Animation] = Map()
       animations.foreach {
         case (name, value) =>
           val index = value("startingAt").toString.toInt
           val numFrames = value("frames").toString.toInt
           val frames = (1 to numFrames).map(i => t.extractRegion(index + i)).toArray
-          anims = anims :+ Animation(name, numFrames, frames)
+          anims = anims + (name -> Animation(numFrames, frames))
       }
 
-      val sprite: AnimatedSprite = new AnimatedSprite(ModelLoader.loadUntexturedModel(RectModel(0, 0, width, height)), t, anims, anims.head)
+      val sprite: AnimatedSprite = new AnimatedSprite(ModelLoader.loadUntexturedModel(RectModel(0, 0, width, height)), t, anims, anims("idle"))
       Some(sprite)
     }
     catch {
