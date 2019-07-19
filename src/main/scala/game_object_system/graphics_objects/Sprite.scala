@@ -19,9 +19,10 @@ abstract case class Sprite(model : Model, texture: Texture) {
 class StaticSprite(model : Model, texture: StaticTexture) extends Sprite(model, texture)
 
 class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Animation],
-                     currentAnimation : Animation, var currentFrame : Int = 0, fps : Int = 16) extends Sprite(model, texture){
+                     var currentAnimation : Animation, var currentFrame : Int = 0) extends Sprite(model, texture){
 
   var textureFrameCoords: Array[Vector2f] = getFrameCoords
+  var fps: Float = 1.0f/currentAnimation.duration.toFloat
   def nextFrame(): Unit = {
     currentFrame += 1
     if (currentFrame >= currentAnimation.numFrames) currentFrame = 0
@@ -33,4 +34,4 @@ class AnimatedSprite(model : Model, texture: TextureAtlas, animations : List[Ani
 
 }
 
-case class Animation(name: String, numFrames : Int, frames : Array[Array[Vector2f]])
+case class Animation(name: String, numFrames : Int, frames : Array[Array[Vector2f]], duration : Int = 6)
