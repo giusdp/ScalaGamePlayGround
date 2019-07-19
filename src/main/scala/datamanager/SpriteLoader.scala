@@ -15,9 +15,9 @@ object SpriteLoader {
       var anims: List[Animation] = List()
       animations.foreach {
         case (name, value) =>
-          val startingPoint = value("startingAt").toString.toInt
+          val index = value("startingAt").toString.toInt
           val numFrames = value("frames").toString.toInt
-          val frames: List[Array[Float]] = (0 until numFrames).map(i => t.startingPointOfRegion(startingPoint + i)).toList
+          val frames = (1 to numFrames).map(i => t.extractRegion(index + i)).toArray
           anims = anims :+ Animation(name, numFrames, frames)
       }
 

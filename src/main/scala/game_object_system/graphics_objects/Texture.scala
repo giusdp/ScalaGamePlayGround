@@ -1,5 +1,6 @@
 package game_object_system.graphics_objects
 
+import org.joml.Vector2f
 import org.lwjgl.opengl.{GL11, GL13}
 
 trait Texture {
@@ -37,15 +38,15 @@ case class TextureAtlas(id : Int, imageWidth : Float, imageHeight : Float, cellW
     Array(u, v)
   }
 
-  def extractRegion(index : Int): Array[Array[Float]] = {
+  def extractRegion(index : Int): Array[Vector2f] = {
     val o = startingPointOfRegion(index)
     val u = o(0)
     val v = o(1)
     Array(
-      Array(u, v),
-      Array(u, v + regionHeight),
-      Array(u + regionWidth, v + regionHeight),
-      Array(u + regionWidth, v))
+      new Vector2f(u, v),
+      new Vector2f(u, v + regionHeight),
+      new Vector2f(u + regionWidth, v + regionHeight),
+      new Vector2f(u + regionWidth, v))
   }
 
   val regionWidth : Float = cellWidth/imageWidth

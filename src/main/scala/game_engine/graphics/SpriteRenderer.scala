@@ -34,7 +34,7 @@ class SpriteRenderer(shader : Shader, animShader : AnimatedSpriteShader, priorit
       animShader.loadSpriteWidth(sprite.getWidth)
       animShader.loadSpriteHeight(sprite.getHeight)
 //      animShader.
-      animShader.loadTexCoords(sprite.asInstanceOf[AnimatedSprite].frameCoords)
+      animShader.loadTexCoords(sprite.asInstanceOf[AnimatedSprite].textureFrameCoords)
 
       GL11.glDrawElements(GL11.GL_TRIANGLES, sprite.model.vCount, GL11.GL_UNSIGNED_INT, 0)
 

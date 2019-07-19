@@ -2,6 +2,7 @@ package game_object_system.graphics_objects.shaders
 
 import java.nio.FloatBuffer
 
+import org.joml.Vector2f
 import org.lwjgl.opengl.GL20
 
 case class Shader(program : Int) {
@@ -30,18 +31,18 @@ case class AnimatedSpriteShader(shader: Shader) extends ShaderInterface(shader) 
   def loadSpriteWidth(tw : Float): Unit = GL20.glUniform1f(spriteWidthLocation, tw)
   def loadSpriteHeight(th : Float): Unit = GL20.glUniform1f(spriteHeightLocation, th)
 
-  def loadTexCoords(uvs : Array[Array[Float]]): Unit = loadTexCoords(uvs(0),uvs(1),uvs(2),uvs(3))
+  def loadTexCoords(uvs : Array[Vector2f]): Unit = loadTexCoords(uvs(0),uvs(1),uvs(2),uvs(3))
 
-  def loadTexCoords(tc0 : Array[Float], tc1 : Array[Float], tc2 : Array[Float], tc3 : Array[Float]): Unit = {
+  def loadTexCoords(tc0 : Vector2f, tc1 : Vector2f, tc2 : Vector2f, tc3 : Vector2f): Unit = {
     val loc0: Int = GL20.glGetUniformLocation(shader.program,"tex_offsets[0]")
     val loc1: Int = GL20.glGetUniformLocation(shader.program,"tex_offsets[1]")
     val loc2: Int = GL20.glGetUniformLocation(shader.program,"tex_offsets[2]")
     val loc3: Int = GL20.glGetUniformLocation(shader.program,"tex_offsets[3]")
 
-    GL20.glUniform2fv(loc0, tc0)
-    GL20.glUniform2fv(loc1, tc1)
-    GL20.glUniform2fv(loc2, tc2)
-    GL20.glUniform2fv(loc3, tc3)
+    GL20.glUniform2f(loc0, tc0.x, tc0.y)
+    GL20.glUniform2f(loc1, tc1.x, tc1.y)
+    GL20.glUniform2f(loc2, tc2.x, tc2.y)
+    GL20.glUniform2f(loc3, tc3.x, tc3.y)
   }
 }
 
