@@ -1,6 +1,6 @@
-#version 420 core
-layout (location = 0) in vec3 pos;
-layout (location = 1) in vec2 tex;
+#version 310 es
+layout (location = 0) in highp vec3 pos;
+layout (location = 1) in highp vec2 tex;
 
 out vec2 tex_coords;
 

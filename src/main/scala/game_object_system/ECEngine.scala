@@ -11,5 +11,7 @@ object ECEngine{
   val dirMapper : ComponentMapper[DirectionCom] = ComponentMapper.getFor(classOf[DirectionCom])
   val renderableMapper : ComponentMapper[RenderableCom] = ComponentMapper.getFor(classOf[RenderableCom])
   val cameraCenterMapper : ComponentMapper[CameraCenterCom] = ComponentMapper.getFor(classOf[CameraCenterCom])
+  val tileMapMapper : ComponentMapper[TileMapCom] = ComponentMapper.getFor(classOf[TileMapCom])
+  val animMapper : ComponentMapper[AnimationCom] = ComponentMapper.getFor(classOf[AnimationCom])
 
 }
