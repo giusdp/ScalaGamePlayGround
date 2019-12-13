@@ -1,7 +1,7 @@
 #version 310 es
 
-in vec2 tex_coords;
-out vec4 fragment_color;
+in highp vec2 tex_coords;
+out highp vec4 fragment_color;
 
 uniform sampler2D sampler;
 

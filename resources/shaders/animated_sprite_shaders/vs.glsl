@@ -1,9 +1,9 @@
 #version 310 es
-layout (location = 0) in vec3 pos;
+layout (location = 0) in highp vec3 pos;
 
-uniform mat4 mvp;
+uniform mediump mat4 mvp;
 
-uniform vec2 tex_offsets[4];
+uniform highp vec2 tex_offsets[4];
 
 out vec2 tex_coords;
 

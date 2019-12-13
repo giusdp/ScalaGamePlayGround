@@ -1,9 +1,9 @@
 #version 310 es
-layout (location = 0) in vec3 pos;
-layout (location = 2) in vec3 pos_offset;
-layout (location = 3) in vec2 tex_offset;
+layout (location = 0) in highp vec3 pos;
+layout (location = 2) in highp vec3 pos_offset;
+layout (location = 3) in highp vec2 tex_offset;
 
-uniform mat4 mvp;
+uniform mediump mat4 mvp;
 uniform float tile_width;
 uniform float tile_height;
 

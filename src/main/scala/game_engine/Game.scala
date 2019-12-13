@@ -30,7 +30,7 @@ object Game {
     // Initialize GLFW. Most GLFW functions will not work before doing this.
     if ( !glfwInit() ) throw new IllegalStateException("Unable to initialize GLFW")
 
-    Window.createWindow("SCExp", SCREEN_WIDTH, SCREEN_HEIGHT)
+    Window.createWindow("Scala Game Exps", SCREEN_WIDTH, SCREEN_HEIGHT)
     Camera.setViewSize(Window.width, Window.height)
 
     GL.createCapabilities()
