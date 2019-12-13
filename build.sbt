@@ -2,7 +2,7 @@ name := "SGExp"
 
 version := "0.1"
 
-scalaVersion := "2.13.0"
+scalaVersion := "2.13.1"
 
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
 

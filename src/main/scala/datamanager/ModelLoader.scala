@@ -85,21 +85,23 @@ object ModelLoader {
   }
 
     private def bindIndicesBuffer(indices : Array[Int])  = {
-    val vbo = GL15.glGenBuffers()
-    GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vbo)
-    GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, mkIntBuffer(indices), GL15.GL_STATIC_DRAW)
-    vbo
+      val vbo = GL15.glGenBuffers()
+      GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vbo)
+      GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, mkIntBuffer(indices), GL15.GL_STATIC_DRAW)
+      vbo
   }
 
-    private def mkFloatBuffer(data: Array[Float]): FloatBuffer = {
-    val b = BufferUtils.createFloatBuffer(data.length)
-    b.put(data)
-    b.flip()
+    private def mkFloatBuffer(data: Array[Float]) : FloatBuffer= {
+      val b : FloatBuffer = BufferUtils.createFloatBuffer(data.length)
+      b.put(data)
+      b.flip()
+      b
   }
-    private def mkIntBuffer(data: Array[Int]): IntBuffer = {
-    val b = BufferUtils.createIntBuffer(data.length)
-    b.put(data)
-    b.flip()
+    private def mkIntBuffer(data: Array[Int]) : IntBuffer = {
+      val b = BufferUtils.createIntBuffer(data.length)
+      b.put(data)
+      b.flip()
+      b
   }
 
 }
