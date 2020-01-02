@@ -2,15 +2,16 @@ package datamanager
 
 import java.nio.{FloatBuffer, IntBuffer}
 
-import game_object_system.graphics_objects.{Model, ModelPrimitive, RectModel}
+import game_object_system.graphics_objects.Model
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.{GL11, GL15, GL20, GL30, GL33}
+import org.lwjgl.opengl._
 
 object ModelLoader {
   val VERTEX_LOCATION = 0
   val TEXTURE_LOCATION = 1
   val VERTEX_OFFSETS_LOCATION = 2
   val TEXTURE_OFFSETS_LOCATION = 3
+/*
 
   def loadUntexturedModel(s : ModelPrimitive): Model = {
     val vao = GL30.glGenVertexArrays()
@@ -31,6 +32,7 @@ object ModelLoader {
     GL30.glBindVertexArray(0)
     Model(vao, vbos, s.indices.length)
   }
+*/
 
   def loadModel(indices : Array[Int], vertices : Array[Float], texCoords : Array[Float]): Model = {
     val vao = GL30.glGenVertexArrays()
@@ -53,13 +55,14 @@ object ModelLoader {
   }
 
   def loadTileMapModel(vertexOffsets : Array[Float], textureOffsets : Array[Float]): Model = {
-    val tile = RectModel(0,0,2,2)
+   /* val tile = RectModel(0,0,2,2)
     val vao = GL30.glGenVertexArrays()
     GL30.glBindVertexArray(vao)
     val vbos = List(bindIndicesBuffer(tile.indices), bindVertexBuffer(tile.vertices),
       bindVertexOffsetsBuffer(vertexOffsets), bindTextureOffsetsBuffer(textureOffsets))
     GL30.glBindVertexArray(0)
-    Model(vao, vbos, tile.vertices.length)
+    Model(vao, vbos, tile.vertices.length)*/
+    null
   }
 
   private def bindVertexBuffer(data : Array[Float]) = bindAttributeBuffer(VERTEX_LOCATION, 3, data)

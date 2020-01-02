@@ -41,16 +41,16 @@ object EntityLoader {
     cmap.map(asComponent _).toList
   }
 
-  private def extractRenderableCom(map : Map[String, Any]): Component = {
-    if (map.contains("sprite")) SpriteLoader.loadStaticSprite(map("sprite").toString).fold(EmptyCom() : Component)(RenderableCom)
+  /*private def extractRenderableCom(map : Map[String, Any]): Component = {
+    /*if (map.contains("sprite")) SpriteLoader.loadStaticSprite(map("sprite").toString).fold(EmptyCom() : Component)(RenderableCom)
     else {
       val data : Map[String, Any] = map("animated_sprite").asInstanceOf[Map[String, Any]]
       val atlasData = data("atlas").asInstanceOf[Map[String, Any]]
       val animations = data("animations").asInstanceOf[Map[String, Map[String, Int]]]
       SpriteLoader.loadAnimatedSprite(atlasData("filename").toString, atlasData("region_width").toString.toInt,
         atlasData("region_height").toString.toInt, animations).fold(EmptyCom() : Component)(RenderableCom)
-    }
-  }
+    }*/
+  }*/
 
   /**  Each described component in the json file is  converted in the associated component.
     * For new components added this method has to be properly extended. */
@@ -58,7 +58,7 @@ object EntityLoader {
     case "position" => PositionCom(c._2("x").toString.toFloat, c._2("y").toString.toFloat, 0)
     case "velocity" => VelocityCom(c._2("value").toString.toFloat)
     case "direction" => DirectionCom()
-    case "renderable" => extractRenderableCom(c._2)
+//    case "renderable" => extractRenderableCom(c._2)
     case "camera_center" => CameraCenterCom()
     case "animation" => AnimationCom()
     case _ => EmptyCom()

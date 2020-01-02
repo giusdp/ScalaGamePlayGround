@@ -2,7 +2,7 @@ package datamanager
 
 import java.awt.Rectangle
 
-import game_object_system.graphics_objects.{CustomTextureRect, Model, ObjectLayer, ObjectShape, StaticTexture, TextureAtlas, Tile, TileLayer, TileMap, TileSet}
+import game_object_system.graphics_objects._
 
 import scala.collection.mutable.ArrayBuffer
 import scala.xml.{Node, NodeSeq, XML}

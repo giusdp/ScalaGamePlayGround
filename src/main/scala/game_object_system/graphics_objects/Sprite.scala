@@ -1,6 +1,6 @@
 package game_object_system.graphics_objects
 
-import org.joml.{Matrix4f, Vector2f}
+import org.joml.Matrix4f
 
 abstract case class Sprite(model : Model, texture: Texture) {
   def getModelMatrix: Matrix4f = model.model_matrix
@@ -17,28 +17,3 @@ abstract case class Sprite(model : Model, texture: Texture) {
 }
 
 class StaticSprite(model : Model, texture: StaticTexture) extends Sprite(model, texture)
-
-class AnimatedSprite(model : Model, texture: TextureAtlas, animations : Map[String, Animation],
-                     var currentAnimation : Animation, var currentFrame : Int = 0) extends Sprite(model, texture){
-
-  var textureFrameCoords: Array[Vector2f] = getFrameCoords
-  var fps: Float = 1.0f/currentAnimation.duration.toFloat
-  def nextFrame(): Unit = {
-    currentFrame += 1
-    if (currentFrame >= currentAnimation.numFrames) currentFrame = 0
-    updateFrameCoords()
-  }
-
-  def changeAnimation(name : String): Unit = {
-    currentAnimation = animations(name)
-    currentFrame = 0
-    updateFrameCoords()
-  }
-
-  private def updateFrameCoords(): Unit = textureFrameCoords = getFrameCoords
-
-  private def getFrameCoords = currentAnimation.frames(currentFrame)
-
-}
-
-case class Animation(numFrames : Int, frames : Array[Array[Vector2f]], duration : Int = 6)
