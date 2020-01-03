@@ -4,6 +4,9 @@ version := "0.1"
 
 scalaVersion := "2.13.1"
 
+// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.30" % Test
+
 // https://mvnrepository.com/artifact/org.l33tlabs.twl/pngdecoder
 libraryDependencies += "org.l33tlabs.twl" % "pngdecoder" % "1.0"
 
