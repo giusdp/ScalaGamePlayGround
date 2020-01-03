@@ -4,8 +4,6 @@ version := "0.1"
 
 scalaVersion := "2.13.1"
 
-libraryDependencies += "org.json4s" %% "json4s-native" % "3.6.6"
-
 // https://mvnrepository.com/artifact/org.l33tlabs.twl/pngdecoder
 libraryDependencies += "org.l33tlabs.twl" % "pngdecoder" % "1.0"
 
@@ -18,7 +16,7 @@ libraryDependencies += "com.badlogicgames.ashley" % "ashley" % "1.7.3"
 libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
 
 libraryDependencies ++= {
-  val version = "3.2.0"
+  val version = "3.2.3"
   val os = "linux"
 
   Seq(
